@@ -1,0 +1,62 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Paper Review</title>
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>        
+
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Papers Review Beta</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+            <li><a href="${pageContext.request.contextPath}">Home</a></li>
+            <li><a href="${linkTo[ProjectController].index}">Project</a></li>
+            <li><a href="${linkTo[RepositoryController].index}">Repositories</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+                    
+    <div id="conteudo" class="container-fluid">
+        <fmt:setBundle basename="messages" />
+        <c:if test="${!empty msg}">
+            <c:catch>
+                <p class="message"><fmt:message key="${msg}"/></p>
+            </c:catch>
+        </c:if>
+        <c:if test="${!empty errors}">
+            <div class="error">
+                <ul>
+                    <c:forEach items="${errors}" var="e">
+                        <li>${e.category} ${e.message}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
+            
