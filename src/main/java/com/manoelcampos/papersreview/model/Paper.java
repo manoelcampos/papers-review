@@ -2,6 +2,7 @@ package com.manoelcampos.papersreview.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ public class Paper implements EntityInterface {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 120)
+    @Size(min = 1, max = 240)
     private String title;
     
     @NotNull @NotEmpty
@@ -43,10 +44,10 @@ public class Paper implements EntityInterface {
     @NotNull
     private int publicationYear;
 
-    @Size(max = 50)
+    @Size(max = 120)
     private String doi;
 
-    @Size(max = 200)
+    @Size(max = 300)
     private String url;
 
     @NotNull @NotEmpty
@@ -244,6 +245,23 @@ public class Paper implements EntityInterface {
      */
     public String getDoi() {
         return doi;
+    }
+    
+    public String getDoiLink(){
+        if(doi == null)
+            return "";
+        
+        String link = doi.trim();
+        if(link.toLowerCase(Locale.getDefault()).startsWith("http://"))
+            link = link.substring(7);
+
+        if(!link.toLowerCase(Locale.getDefault()).startsWith("dx.doi.org/"))
+            link = String.format("dx.doi.org/%s", link);
+
+        if(!link.toLowerCase(Locale.getDefault()).startsWith("http://"))
+            link = String.format("http://%s", link);
+        
+        return link;
     }
 
     /**

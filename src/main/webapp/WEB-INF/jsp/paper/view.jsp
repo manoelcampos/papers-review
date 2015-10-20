@@ -1,11 +1,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="/header.jsp" %>
-    <h2><a href="${linkTo[PaperController].edit}?id=${o.id}">Paper: ${o.title}</a></h2>
-    Authors: ${o.authors}<br/>
-    Year: ${o.publicationYear} &nbsp;&nbsp; DOI: ${o.doi} &nbsp;&nbsp; URL: ${o.url}<br/>
-    Type:${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey}<br/>
-    Survey: ${o.survey} &nbsp;&nbsp; Search Section:  ${o.searchSection.id}
+    <h2>Paper: ${o.title}</h2>
+    Year: ${o.publicationYear} &nbsp;&nbsp; Authors: ${o.authors}<br/>
+    
+    <c:if test="${not empty o.doi}">
+        DOI: <a href="${o.getDoiLink()}">${o.doi}</a> <br/> 
+    </c:if>
+    <c:if test="${not empty o.url}">
+        URL: <a href="${o.url}">${o.url}</a> <br/> 
+    </c:if>
 
+    Type:${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey}<br/>
+    Survey: ${o.survey} &nbsp;&nbsp; Search Section:  ${o.searchSection.id}<p/>
+    <a href="${linkTo[PaperController].edit}?id=${o.id}">Edit Paper</a>
+    | <a href="${linkTo[PaperController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the paper ${o.title}?')">Remove Paper</a>
     <hr/>
     
     <table class="table-striped">

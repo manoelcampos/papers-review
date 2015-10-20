@@ -58,7 +58,8 @@ public class PaperService {
     }
 
     public boolean save(final Paper o){
-        o.setPaperType(paperTypeDao.findById(o.getPaperType().getId()));
+        if(o.getPaperType() != null)
+            o.setPaperType(paperTypeDao.findById(o.getPaperType().getId()));
         o.setSearchSection(searchSectionDao.findById(o.getSearchSection().getId()));
         return dao.save(o);
     }
