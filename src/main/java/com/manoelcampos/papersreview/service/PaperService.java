@@ -194,7 +194,7 @@ public class PaperService {
         final List<Field> fields = 
                 fieldDao.listByProject(p.getSearchSection().getProject().getId());
         for(Field f: fields){
-            result.put(f, answerDao.listAnswersByField(f));
+            result.put(f, answerDao.listAnswersByPaperAndField(p, f));
         }
          
         return result;
