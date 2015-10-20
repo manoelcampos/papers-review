@@ -1,6 +1,7 @@
 package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.DAO;
+import com.manoelcampos.papersreview.dao.FieldDAO;
 import com.manoelcampos.papersreview.model.FieldType;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.Project;
@@ -15,7 +16,7 @@ import javax.inject.Inject;
 @Dependent
 public class FieldService {
     @Inject
-    private DAO<Field> dao;
+    private FieldDAO dao;
     
     @Inject
     private DAO<FieldType> fieldTypeDao;
@@ -45,9 +46,11 @@ public class FieldService {
         return dao.findById(id);
     }
     
-    public List<Field> listFieldTypes(){
+    public List<FieldType> listFieldTypes(){
         return fieldTypeDao.list();
     }
     
-    
+    public List<Field> listByProject(final Long projectId){
+        return dao.listByProject(projectId);
+    }
 }

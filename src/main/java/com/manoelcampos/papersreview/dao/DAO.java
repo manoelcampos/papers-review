@@ -12,6 +12,6 @@ import java.util.List;
 public interface DAO<T extends Object> {
     public boolean save(T o);
     public boolean remove(T o);
-    public List list();
+    public List<T> list();
     public T findById(Long id);
 }

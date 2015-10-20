@@ -43,7 +43,7 @@ public class FieldOptionController  {
     public void remove(@NotNull final Long id) {
         FieldOption o = service.remove(id);
         result.include("msg", "form.removed");
-        result.redirectTo(ProjectController.class).view(o.getField().getProject().getId());
+        result.redirectTo(ProjectController.class).fields(o.getField().getProject().getId());
     }
 
     @Get()
@@ -64,6 +64,6 @@ public class FieldOptionController  {
         validator.onErrorRedirectTo(this).form(o.getField().getId(), o.getField().getProject().getId());
         service.save(o);
         result.include("msg", "form.saved");
-        result.redirectTo(ProjectController.class).view(o.getField().getProject().getId());
+        result.redirectTo(ProjectController.class).fields(o.getField().getProject().getId());
     }    
 }

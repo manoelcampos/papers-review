@@ -1,6 +1,5 @@
 package com.manoelcampos.papersreview.model;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +19,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name = "ix_PaperFieldAnswerOption", columnNames = {"paper_id", "field_id", "fieldOption_id"}),
     @UniqueConstraint(name = "ix_PaperFieldAnswerSubjectAnswer", columnNames = {"paper_id", "field_id", "subjectiveAnswer"})
 })
-public class PaperFieldAnswer extends EntityClass {
+public class PaperFieldAnswer implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
@@ -39,6 +38,16 @@ public class PaperFieldAnswer extends EntityClass {
     private FieldOption fieldOption;
 
     public PaperFieldAnswer() {
+    }
+    
+    public PaperFieldAnswer(final Paper paper, final Field field) {
+        this.paper = paper;
+        this.field = field;
+    }
+    
+    public PaperFieldAnswer(final Paper paper, final FieldOption fieldOption) {
+        this(paper, fieldOption.getField());
+        this.fieldOption = fieldOption;
     }
 
     public PaperFieldAnswer(Long id) {
@@ -104,7 +113,20 @@ public class PaperFieldAnswer extends EntityClass {
 
     @Override
     public String toString() {
-        return String.format("%s[id=%d, paper=%s, field=%s]", getClass().getSimpleName(), id, paper.getTitle(), field.getDescription());
+        final String paperTitle = (paper != null ? "paper="+paper.getTitle()+"," : "");
+        final String fieldDesc = (field != null ? "field="+field.getDescription() +"," : "");
+        final String option = (fieldOption != null  ? fieldOption.getId().toString() : "");
+        final String answer = (subjectiveAnswer != null && !subjectiveAnswer.isEmpty() ? subjectiveAnswer : "");
+        return String.format("%s[id=%d, %s %s option=%s answer=%s]", 
+                getClass().getSimpleName(), id, paperTitle, fieldDesc, option, answer);
     }
     
+    /**
+     * Obtém a resposta subjetiva (caso o campo seja subjetivo) ou a opção escolhida (caso o 
+     * campo seja objetivo ou múltipla escolha).
+     * @return 
+     */
+    public String getAnswer(){
+        return (field.isSubjective() ? subjectiveAnswer : fieldOption.getDescription());
+    }
 }

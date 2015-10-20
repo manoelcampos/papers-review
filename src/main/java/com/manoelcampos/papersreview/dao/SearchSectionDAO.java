@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface SearchSectionDAO extends DAO<SearchSection> {
     List<SearchSection> listByProjectAndRepository(final Project p, final Repository r);
+    List<SearchSection> listByProject(final Long projectId);
 }

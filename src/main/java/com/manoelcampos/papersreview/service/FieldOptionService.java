@@ -1,8 +1,7 @@
 package com.manoelcampos.papersreview.service;
 
-import com.manoelcampos.papersreview.dao.DAO;
+import com.manoelcampos.papersreview.dao.FieldDAO;
 import com.manoelcampos.papersreview.dao.FieldOptionDAO;
-import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
 import java.util.List;
 import javax.enterprise.context.Dependent;
@@ -19,7 +18,7 @@ public class FieldOptionService {
     private FieldOptionDAO dao;
     
     @Inject
-    private DAO<Field> fieldDao;
+    private FieldDAO fieldDao;
 
     /**
      * @param fieldId

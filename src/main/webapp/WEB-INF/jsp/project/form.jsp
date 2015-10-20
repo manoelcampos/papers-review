@@ -10,6 +10,9 @@
         </select>
         
         <input type="hidden" name="o.id" value="${o.id}"/>
+        
+        <hr/>
+
         <input type="submit" value="Save" class="btn btn-primary"/>
         <a href="${linkTo[ProjectController].index}" class="btn btn-default">Back</a>
     </form>

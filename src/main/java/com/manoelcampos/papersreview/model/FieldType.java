@@ -1,7 +1,5 @@
 package com.manoelcampos.papersreview.model;
 
-import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldTypeDesc", columnNames = {"description"}),
     @UniqueConstraint(name = "ix_FieldTypeAbbrev", columnNames = {"abbreviation"})
 })
-public class FieldType extends EntityClass {
+public class FieldType implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

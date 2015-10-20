@@ -27,5 +27,16 @@ public class SearchSectionJpaDAO extends JpaDAO<SearchSection> implements Search
         qry.setParameter("p", p);
         return qry.getResultList();
     }
+
+    @Override
+    public List<SearchSection> listByProject(final Long projectId) {
+        final String jpql = 
+                String.format(
+                        "select o from %s o where o.project = :p", 
+                        getGenericClassName());
+        final TypedQuery<SearchSection> qry = createQuery(jpql);
+        qry.setParameter("p", new Project(projectId));
+        return qry.getResultList();
+    }
     
 }

@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Manoel Campos da Silva Filho <manoelcampos at gmail.com>
  */
 @Entity
-public class SearchSection extends EntityClass {
+public class SearchSection implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,6 +45,8 @@ public class SearchSection extends EntityClass {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public SearchSection(){}
     
     public SearchSection(final Long projectId){
         this.project = new Project(projectId);

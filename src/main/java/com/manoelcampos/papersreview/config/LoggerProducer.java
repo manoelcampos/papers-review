@@ -1,4 +1,4 @@
-package com.manoelcampos.papersreview.service;
+package com.manoelcampos.papersreview.config;
 
 import java.util.logging.Logger;
 import javax.enterprise.inject.Produces;
@@ -13,7 +13,7 @@ public class LoggerProducer {
     * @param injectionPoint
     * @return logger
     */
-    @Produces
+    //@Produces
     public Logger produceLogger(InjectionPoint injectionPoint) {
 	return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }

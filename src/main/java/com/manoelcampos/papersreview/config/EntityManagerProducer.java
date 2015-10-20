@@ -1,4 +1,4 @@
-package com.manoelcampos.papersreview.dao;
+package com.manoelcampos.papersreview.config;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

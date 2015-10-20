@@ -1,5 +1,17 @@
-package com.manoelcampos.papersreview.dao;
+package com.manoelcampos.papersreview.config;
 
+import com.manoelcampos.papersreview.dao.DAO;
+import com.manoelcampos.papersreview.dao.FieldDAO;
+import com.manoelcampos.papersreview.dao.FieldJpaDAO;
+import com.manoelcampos.papersreview.dao.FieldOptionDAO;
+import com.manoelcampos.papersreview.dao.FieldOptionJpaDAO;
+import com.manoelcampos.papersreview.dao.JpaDAO;
+import com.manoelcampos.papersreview.dao.PaperDAO;
+import com.manoelcampos.papersreview.dao.PaperFieldAnswerDAO;
+import com.manoelcampos.papersreview.dao.PaperFieldAnswerJpaDAO;
+import com.manoelcampos.papersreview.dao.PaperJpaDAO;
+import com.manoelcampos.papersreview.dao.SearchSectionDAO;
+import com.manoelcampos.papersreview.dao.SearchSectionJpaDAO;
 import java.lang.reflect.ParameterizedType;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -44,6 +56,11 @@ public class DaoProducer {
     }
     
     @Produces
+    public FieldDAO createFieldDAO() {
+        return new FieldJpaDAO(em);
+    }
+    
+    @Produces
     public SearchSectionDAO createSearchSectionDAO() {
         return new SearchSectionJpaDAO(em);
     }
@@ -52,5 +69,11 @@ public class DaoProducer {
     public PaperDAO createPaperDao() {
         return new PaperJpaDAO(em);
     }
+    
+    @Produces
+    public PaperFieldAnswerDAO createPaperFieldAnswerDao() {
+        return new PaperFieldAnswerJpaDAO(em);
+    }
+    
     
 }

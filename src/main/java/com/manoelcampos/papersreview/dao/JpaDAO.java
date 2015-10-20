@@ -1,6 +1,6 @@
 package com.manoelcampos.papersreview.dao;
 
-import com.manoelcampos.papersreview.model.EntityClass;
+import com.manoelcampos.papersreview.model.EntityInterface;
 import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
  */
 @Dependent
 @Transactional() 
-public class JpaDAO<T extends EntityClass> implements DAO<T> {
+public class JpaDAO<T extends EntityInterface> implements DAO<T> {
     @PersistenceContext()
     private EntityManager em;
 
@@ -34,13 +34,18 @@ public class JpaDAO<T extends EntityClass> implements DAO<T> {
     }
 
     @Override
-    public boolean save(T o) { 
-        if(o.getId() == null || o.getId() == 0)
-            em.persist(o);
-        else em.merge(o);
+    public boolean save(T o) {
+        saveWithoutFlush(o);
         em.flush();
         return true;
     }
+
+    protected boolean saveWithoutFlush(T o){
+        if(o.getId() == null || o.getId() == 0)
+            em.persist(o);
+        else em.merge(o);
+        return true;
+    }        
     
     @Override
     public boolean remove(T o) {
@@ -50,8 +55,8 @@ public class JpaDAO<T extends EntityClass> implements DAO<T> {
     }
 
     @Override
-    public List list() {
-        CriteriaQuery query = em.getCriteriaBuilder().createQuery(genericClass);
+    public List<T> list() {
+        CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(genericClass);
         query.from(genericClass);
         return em.createQuery(query).getResultList();
     }
@@ -59,5 +64,9 @@ public class JpaDAO<T extends EntityClass> implements DAO<T> {
     @Override
     public T findById(Long id) {
         return em.find(genericClass,id);
+    }
+    
+    protected void flush(){
+        em.flush();
     }
 }

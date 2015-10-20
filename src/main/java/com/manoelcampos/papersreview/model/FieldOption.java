@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldOptionDesc", columnNames = {"field_id", "description"}),
     @UniqueConstraint(name = "ix_FieldOptionAbbrev", columnNames = {"field_id", "abbreviation"})
 })
-public class FieldOption extends EntityClass {
+public class FieldOption implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

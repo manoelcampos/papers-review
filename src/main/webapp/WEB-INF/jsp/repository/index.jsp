@@ -20,6 +20,8 @@
     </tbody>
 </table>
 
+<hr/>
+
 <a href="${linkTo[RepositoryController].form}" class="btn btn-primary">New</a>
 <a href="${pageContext.request.contextPath}" class="btn btn-default">Back</a>
 

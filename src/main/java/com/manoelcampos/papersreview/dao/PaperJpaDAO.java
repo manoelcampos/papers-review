@@ -25,6 +25,16 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
         qry.setParameter("s", s);
         return qry.getResultList();
     }
+
+    @Override
+    public boolean saveListOfPapers(List<Paper> list) {
+        for(Paper p: list){
+            this.saveWithoutFlush(p);
+        }
+        this.flush();
+        return true;
+    }
+
     
     
 }

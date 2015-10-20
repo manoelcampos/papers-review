@@ -1,6 +1,9 @@
 package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.DAO;
+import com.manoelcampos.papersreview.dao.PaperDAO;
+import com.manoelcampos.papersreview.dao.SearchSectionDAO;
+import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.Repository;
 import com.manoelcampos.papersreview.model.SearchSection;
 import com.manoelcampos.papersreview.model.Project;
@@ -15,7 +18,7 @@ import javax.inject.Inject;
 @Dependent
 public class SearchSectionService {
     @Inject
-    private DAO<SearchSection> dao;
+    private SearchSectionDAO dao;
     
     @Inject
     private DAO<Repository> repositoryDao;
@@ -23,6 +26,8 @@ public class SearchSectionService {
     @Inject
     private DAO<Project> projectDao;
 
+    @Inject
+    private PaperDAO paperDao;
     /**
      * @return the dao
      */
@@ -45,9 +50,19 @@ public class SearchSectionService {
         return dao.findById(id);
     }
     
-    public List<SearchSection> listRepositories(){
+    public List<SearchSection> listByProject(final Long projectId){
+        return dao.listByProject(projectId);
+    }
+    
+    public List<Repository> listRepositories(){
         return repositoryDao.list();
     }
     
+    public Project getProject(final Long projectId){
+        return projectDao.findById(projectId);
+    }
     
+    public boolean saveListOfPapers(List<Paper> list){
+        return paperDao.saveListOfPapers(list);
+    }
 }

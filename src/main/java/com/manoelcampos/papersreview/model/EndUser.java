@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(uniqueConstraints={
     @UniqueConstraint(name = "ix_EnduserEmail", columnNames = {"email"})
 })
-public class EndUser extends EntityClass {
+public class EndUser implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(uniqueConstraints={
     @UniqueConstraint(name = "ix_Repository", columnNames = {"description"})
 })
-public class Repository extends EntityClass {
+public class Repository implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

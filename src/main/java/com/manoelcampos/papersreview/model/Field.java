@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldDescription", columnNames = {"project_id", "description"}),
     @UniqueConstraint(name = "ix_FieldAbbrev", columnNames = {"project_id", "abbreviation"})    
 })
-public class Field extends EntityClass {
+public class Field implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -38,10 +38,10 @@ public class Field extends EntityClass {
     @ManyToOne(optional = false)
     private FieldType fieldType;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "field")
+    @OneToMany(orphanRemoval = true, mappedBy = "field")
     final private List<PaperFieldAnswer> paperFieldAnswers = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "field")
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "field")
     final private List<FieldOption> fieldOptions = new ArrayList<>();
     
     @ManyToOne(optional = false)
@@ -67,7 +67,7 @@ public class Field extends EntityClass {
         this.setProject(new Project(projectId));
         this.description = description;
     }
-
+    
     @Override
     public Long getId() {
         return id;
@@ -135,7 +135,9 @@ public class Field extends EntityClass {
 
     @Override
     public String toString() {
-        return String.format("%s[id=%d, project=%s, description=%s]", getClass().getSimpleName(), id, project.getDescription(), description);
+        String proj = (project != null ? project.getDescription() : "");
+        return String.format("%s[id=%d, project=%s, description=%s]", 
+                getClass().getSimpleName(), id, proj, description);
     }
 
     /**
@@ -152,4 +154,23 @@ public class Field extends EntityClass {
         this.project = project;
     }
     
+    public boolean isNotSubjective(){
+        return !isSubjective();
+    }
+
+    public boolean isSubjective(){
+        return "S".equalsIgnoreCase(fieldType.getAbbreviation());
+    }
+
+    public boolean isMultiple(){
+        return "M".equalsIgnoreCase(fieldType.getAbbreviation());
+    }
+    
+    public boolean isNotMultiple(){
+        return !isMultiple();
+    }
+
+    public boolean isObjective(){
+        return "O".equalsIgnoreCase(fieldType.getAbbreviation());
+    }
 }

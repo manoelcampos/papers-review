@@ -2,13 +2,17 @@ package com.manoelcampos.papersreview.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -24,7 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_PaperTitle", columnNames = {"searchSection_id", "title"}),
     @UniqueConstraint(name = "ix_PaperCitationKey", columnNames = {"searchSection_id", "citationKey"})
 })
-public class Paper extends EntityClass {
+public class Paper implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -36,10 +40,6 @@ public class Paper extends EntityClass {
     @Size(max = 400)
     private String authors;
     
-    @NotNull
-    @ManyToOne(optional = false)
-    private Repository repository;
-
     @NotNull
     private int publicationYear;
 
@@ -53,8 +53,7 @@ public class Paper extends EntityClass {
     @Size(max = 50)
     private String citationKey;
 
-    @NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private PaperType paperType;
     
     @NotNull
@@ -64,21 +63,26 @@ public class Paper extends EntityClass {
     @NotNull
     private boolean survey;
 
+    @Column(nullable = true)
     private boolean acceptedOnSelectionPhase;
+    @Column(nullable = true)
     private boolean acceptedOnExtractionPhase;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paper")
+    @OrderBy(value = "field")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paper", fetch = FetchType.EAGER)
     final private List<PaperFieldAnswer> paperFieldAnswers = new ArrayList<>();
 
     public Paper() {
+        this.searchSection = new SearchSection();
     }
 
     public Paper(Long id) {
+        this();
         this.id = id;
     }
 
     public Paper(Long id, String title, int year, String citationKey, PaperType paperType, boolean survey) {
-        this.id = id;
+        this(id);
         this.title = title;
         this.publicationYear = year;
         this.citationKey = citationKey;
@@ -139,7 +143,17 @@ public class Paper extends EntityClass {
         return paperFieldAnswers;
     }
 
-    public void addPaperFieldAnswer(PaperFieldAnswer paperFieldAnswer) {
+    public void clearPaperFieldAnswers() {
+        paperFieldAnswers.clear();
+    }
+    
+    public PaperFieldAnswer removePaperFieldAnswer(final PaperFieldAnswer paperFieldAnswer) {        
+        this.paperFieldAnswers.remove(paperFieldAnswer);
+        return paperFieldAnswer;
+    }
+    
+    
+    public void addPaperFieldAnswer(final PaperFieldAnswer paperFieldAnswer) {        
         this.paperFieldAnswers.add(paperFieldAnswer);
     }
 
@@ -161,9 +175,12 @@ public class Paper extends EntityClass {
 
     @Override
     public String toString() {
-        return String.format("%s[id=%d, repository=%s, title=%s]", 
+        String s = "";
+        if(searchSection != null)
+            s=searchSection.getId().toString();
+        return String.format("%s[id=%d, searchSection=%s, title=%s]", 
                 getClass().getSimpleName(), id, 
-                searchSection.getRepository().getDescription(), title);
+                s, title);
     }
 
     /**
@@ -178,20 +195,6 @@ public class Paper extends EntityClass {
      */
     public void setAuthors(String authors) {
         this.authors = authors;
-    }
-
-    /**
-     * @return the repository
-     */
-    public Repository getRepository() {
-        return repository;
-    }
-
-    /**
-     * @param repository the repository to set
-     */
-    public void setRepository(Repository repository) {
-        this.repository = repository;
     }
 
     /**
@@ -234,6 +237,41 @@ public class Paper extends EntityClass {
      */
     public void setSearchSection(SearchSection searchSection) {
         this.searchSection = searchSection;
+    }
+
+    /**
+     * @return the doi
+     */
+    public String getDoi() {
+        return doi;
+    }
+
+    /**
+     * @param doi the doi to set
+     */
+    public void setDoi(String doi) {
+        this.doi = doi;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * @return the survey
+     */
+    public boolean isSurvey() {
+        return survey;
     }
     
 }
