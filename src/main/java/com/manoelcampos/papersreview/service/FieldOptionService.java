@@ -2,6 +2,7 @@ package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.FieldDAO;
 import com.manoelcampos.papersreview.dao.FieldOptionDAO;
+import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
 import java.util.List;
 import javax.enterprise.context.Dependent;
@@ -42,4 +43,7 @@ public class FieldOptionService {
         return dao.findById(id);
     }    
     
+    public Field findFieldById(final Long id){
+        return fieldDao.findById(id);
+    }    
 }

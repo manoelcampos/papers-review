@@ -2,13 +2,13 @@
 
 <h3>Project ${o.description} - User: ${o.endUser.name}</h3>
 
-<table class="table-striped">
+<table class="table-striped" width="100%">
     <thead>
       <tr>
         <th>Description</th>
         <th>Abbreviation</th>
         <th>Type</th>
-        <th>Options</th>
+        <th width="30%">Options</th>
         <th>Field Actions</th>
       </tr>
     </thead>
@@ -16,18 +16,18 @@
         <c:if test="${o.fields != null}">
             <c:forEach items="${o.fields}" var="f">
                 <tr>
-                    <td>${f.description}</td>
+                    <td><a href="${linkTo[FieldController].view}?id=${f.id}">${f.description}</a></td>
                     <td>${f.abbreviation}</td>
                     <td>${f.fieldType.description}</td>
                     <td>
-                        <table class="table-striped">
+                        <table class="table-striped"  width="100%">
                         <c:forEach items="${f.fieldOptions}" var="i">
                             <tr>
                                 <td>
-                                    <a href="${linkTo[FieldOptionController].edit}?id=${i.id}">${i.description}</a>
+                                    <a href="${linkTo[FieldOptionController].edit}?id=${i.id}&projectId=${o.id}">${i.description}</a>
                                 </td>
-                                <td>                                    
-                                    <a href="${linkTo[FieldOptionController].remove}?id=${i.id}" onclick="return window.confirm('Are you sure you want to remove the option ${i.description}?')">Remove</a>
+                                <td width="8%">                                    
+                                    <a href="${linkTo[FieldOptionController].remove}?id=${i.id}&projectId=${o.id}" onclick="return window.confirm('Are you sure you want to remove the option ${i.description}?')">Remove</a>
                                 </td>
                             </tr>
                         </c:forEach>

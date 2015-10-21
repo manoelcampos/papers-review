@@ -63,6 +63,11 @@ public class Field implements EntityInterface {
         this.id = id;
     }
 
+    public Field(Long id, Project project) {
+        this.id = id;
+        this.project = project;
+    }
+
     public Field(Long projectId, String description) {
         this.setProject(new Project(projectId));
         this.description = description;

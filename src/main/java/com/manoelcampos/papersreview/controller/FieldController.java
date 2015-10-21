@@ -40,8 +40,8 @@ public class FieldController  {
     private ResourceBundle bundle;    
         
     @Get()
-    public List<Field> index() {
-        return service.list();
+    public void view(@NotNull final Long id) {
+        result.include("o", service.findById(id));
     }
     
     @Get()
@@ -70,6 +70,6 @@ public class FieldController  {
         validator.onErrorRedirectTo(this).form(o.getId());
         service.save(o);
         result.include("msg", "form.saved");
-        result.redirectTo(ProjectController.class).fields(o.getProject().getId());
+        result.redirectTo(FieldController.class).view(o.getId());
     }    
 }

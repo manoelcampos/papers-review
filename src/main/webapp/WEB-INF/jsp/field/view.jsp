@@ -1,50 +1,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="/header.jsp" %>
-    <h2>Paper: ${o.title}</h2>
-    Year: ${o.publicationYear} &nbsp;&nbsp; Authors: ${o.authors}<br/>
+    <h3>Project ${o.project.description} - User: ${o.project.endUser.name}</h3>
     
-    <c:if test="${not empty o.doi}">
-        DOI: <a href="${o.getDoiLink()}">${o.doi}</a> <br/> 
-    </c:if>
-    <c:if test="${not empty o.url}">
-        URL: <a href="${o.url}">${o.url}</a> <br/> 
-    </c:if>
+    <h4>Field: ${o.description} &nbsp;&nbsp; Abbreviation: ${o.abbreviation}&nbsp;&nbsp; 
+    Type: ${o.fieldType.description}</h4>
+    <br/>
 
-    Type:${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey}<br/>
-    Survey: ${o.survey} &nbsp;&nbsp; Search Section:  ${o.searchSection.id}<p/>
-    <a href="${linkTo[PaperController].edit}?id=${o.id}">Edit Paper</a>
-    | <a href="${linkTo[PaperController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the paper ${o.title}?')">Remove Paper</a>
+    <a href="${linkTo[FieldController].edit}?id=${o.id}">Edit Field</a>
+    | <a href="${linkTo[FieldController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the field ${o.description}?')">Remove Field</a>
     <hr/>
     
     <table class="table-striped">
         <thead>
           <tr>
-            <th>Field</th>
-            <th>Answers</th>
+            <th>Option</th>
+            <th>Abbreviation</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>     
-            <c:forEach items="${o.paperFieldAnswers}" var="a">
+            <c:forEach items="${o.fieldOptions}" var="fo">
                 <tr>
-                    <td>${a.field.description}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${a.fieldOption != null && a.fieldOption.id > 0}">
-                                ${a.fieldOption.description}
-                            </c:when>
-                            <c:otherwise>
-                                ${a.subjectiveAnswer}
-                            </c:otherwise>                            
-                        </c:choose>
-                    </td>
-                    <td><a href="${linkTo[PaperController].removeAnswer}?paperFieldAnswerId=${a.id}" onclick="return window.confirm('Are you sure you want to remove the answer ${a.getAnswer()}?')">Remove</a></td>
+                    <td><a href="${linkTo[FieldOptionController].edit}?id=${fo.id}">${fo.description}</a></td>
+                    <td>${fo.abbreviation}</td>
+                    <td><a href="${linkTo[FieldOptionController].remove}?id=${fo.id}" onclick="return window.confirm('Are you sure you want to remove the option ${fo.description}?')">Remove</a></td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>    
     
     <hr/>
-    <a href="${linkTo[PaperController].answers}?paperId=${o.id}" class="btn btn-primary">Edit Fields' Answers</a>
-    <a href="${linkTo[ProjectController].view}?id=${o.searchSection.project.id}" class="btn btn-default">Back</a>
+    <a href="${linkTo[FieldOptionController].form}?fieldId=${o.id}" class="btn btn-primary">New Option</a>
+    <a href="${linkTo[ProjectController].fields}?id=${o.project.id}" class="btn btn-default">Back</a>
 <%@ include file="/footer.jsp" %>

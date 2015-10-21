@@ -4,7 +4,7 @@
 
     <groupId>com.manoelcampos.papersreview</groupId>
     <artifactId>PapersReview</artifactId>
-    <version>0.1</version>
+    <version>0.5</version>
     <packaging>war</packaging>
 
     <name>PapersReview</name>
