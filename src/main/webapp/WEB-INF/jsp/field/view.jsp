@@ -10,7 +10,7 @@
     | <a href="${linkTo[FieldController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the field ${o.description}?')">Remove Field</a>
     <hr/>
     
-    <table class="table-striped">
+    <table class="table-striped table-bordered">
         <thead>
           <tr>
             <th>Option</th>

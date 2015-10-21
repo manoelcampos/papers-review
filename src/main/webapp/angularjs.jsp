@@ -20,7 +20,7 @@
     <body>
         <h1>Repositories</h1>
         <div ng-app="app" ng-controller="ctrl" class="container">
-            <table class="table-striped">
+            <table class="table-striped table-bordered">
                 <thead>
                   <tr>
                     <th>Number</th>

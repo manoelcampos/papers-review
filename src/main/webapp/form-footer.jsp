@@ -1,6 +1,10 @@
 </fieldset>
 <%@ include file="/footer.jsp" %>
 
-<script>focusFirstField();</script>
+<script>
+    $(document).ready(function() {
+        focusFirstField();
+    });  
+</script>
 
 

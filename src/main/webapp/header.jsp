@@ -46,17 +46,24 @@
     <div id="conteudo" class="container-fluid">
         <fmt:setBundle basename="messages" />
         <c:if test="${!empty msg}">
-            <c:catch>
-                <p class="message"><fmt:message key="${msg}"/></p>
-            </c:catch>
+            <div id="info-alert" class="alert alert-info alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <c:catch>
+                    <p class="message"><fmt:message key="${msg}"/></p>
+                </c:catch>
+            </div>
         </c:if>
+        
         <c:if test="${!empty errors}">
-            <div class="error">
-                <ul>
-                    <c:forEach items="${errors}" var="e">
-                        <li>${e.category} ${e.message}</li>
-                    </c:forEach>
-                </ul>
+            <div id="error-alert" class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <div class="error">
+                    <ul>
+                        <c:forEach items="${errors}" var="e">
+                            <li>${e.category} ${e.message}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
             </div>
         </c:if>
             

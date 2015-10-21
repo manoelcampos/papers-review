@@ -10,7 +10,7 @@
         <a href="${linkTo[ProjectController].view}?id=${o.project.id}" class="btn btn-default">Go to Project</a>
     </form>
         
-    <table class="table-striped">
+    <table class="table-striped table-bordered">
         <tr><th>#</th><th>Title</th><th>Search Section</th><th>Year</th><th>Citation Key</th></tr>
         <c:forEach items="${list}" var="p" varStatus="status">
             <tr>

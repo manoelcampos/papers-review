@@ -1,6 +1,6 @@
 <%@ include file="/header.jsp" %>
 
-<table class="table-striped">
+<table class="table-striped table-bordered">
     <thead>
       <tr>
         <th>Description</th>

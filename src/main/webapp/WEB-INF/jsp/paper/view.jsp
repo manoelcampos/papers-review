@@ -16,7 +16,7 @@
     | <a href="${linkTo[PaperController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the paper ${o.title}?')">Remove Paper</a>
     <hr/>
     
-    <table class="table-striped">
+    <table class="table-striped table-bordered">
         <thead>
           <tr>
             <th>Field</th>

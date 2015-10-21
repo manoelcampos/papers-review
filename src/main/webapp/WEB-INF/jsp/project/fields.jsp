@@ -2,7 +2,7 @@
 
 <h3>Project ${o.description} - User: ${o.endUser.name}</h3>
 
-<table class="table-striped" width="100%">
+<table class="table-striped table-bordered" width="100%">
     <thead>
       <tr>
         <th>Description</th>
@@ -20,7 +20,7 @@
                     <td>${f.abbreviation}</td>
                     <td>${f.fieldType.description}</td>
                     <td>
-                        <table class="table-striped"  width="100%">
+                        <table class="table-striped table-bordered"  width="100%">
                         <c:forEach items="${f.fieldOptions}" var="i">
                             <tr>
                                 <td>

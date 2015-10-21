@@ -2,7 +2,7 @@
 
 <h3>Project: ${project.description} - User: ${project.endUser.name}</h3>
 
-<table class="table-striped">
+<table class="table-striped table-bordered">
     <thead>
       <tr>
         <th>Id</th>
