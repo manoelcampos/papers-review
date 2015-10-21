@@ -12,7 +12,7 @@
         Type
         <select name="o.paperType.id">
             <c:forEach items="${paperTypes}" var="t">
-                <option value="${t.id}" <c:if test="${o.paperType.id == t.id}">"selected"</c:if> >${t.description}</option>
+                <option value="${t.id}" <c:if test="${o.paperType.id == t.id}">selected</c:if> >${t.description}</option>
             </c:forEach>
         </select>
 

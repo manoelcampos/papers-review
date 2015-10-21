@@ -6,7 +6,7 @@
         Type
         <select name="o.fieldType.id">
             <c:forEach items="${fieldTypes}" var="t">
-                <option value="${t.id}" <c:if test="${o.fieldType.id == t.id}">"selected"</c:if> >${t.description}</option>
+                <option value="${t.id}" <c:if test="${o.fieldType.id == t.id}">selected</c:if> >${t.description}</option>
             </c:forEach>
         </select>
 

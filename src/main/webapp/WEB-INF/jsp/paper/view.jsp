@@ -10,8 +10,9 @@
         URL: <a href="${o.url}">${o.url}</a> <br/> 
     </c:if>
 
-    Type: ${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey}<br/>
-    Survey: ${o.survey} &nbsp;&nbsp; Search Section:  ${o.searchSection.id}<p/>
+    Type: ${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey} &nbsp;&nbsp;
+    Search Section:  ${o.searchSection.id}<br/>
+    Survey: ${o.survey} &nbsp;&nbsp; 
     Accepted on Selection Phase: ${o.acceptedOnSelectionPhase}&nbsp;&nbsp;
     Accepted on Extraction Phase: ${o.acceptedOnExtractionPhase}<br/> 
     

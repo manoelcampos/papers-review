@@ -5,7 +5,7 @@
         User
         <select name="o.endUser.id">
             <c:forEach items="${endUsers}" var="u">
-                <option value="${u.id}" <c:if test="${o.endUser.id == u.id}">"selected"</c:if> >${u.name}</option>
+                <option value="${u.id}" <c:if test="${o.endUser.id == u.id}">selected</c:if> >${u.name}</option>
             </c:forEach>
         </select>
         

@@ -9,7 +9,7 @@
         Repository
         <select name="o.repository.id">
             <c:forEach items="${repositories}" var="r">
-                <option value="${r.id}" <c:if test="${o.repository.id == r.id}">"selected"</c:if> >${r.description}</option>
+                <option value="${r.id}" <c:if test="${o.repository.id == r.id}">selected</c:if> >${r.description}</option>
             </c:forEach>
         </select>
 
