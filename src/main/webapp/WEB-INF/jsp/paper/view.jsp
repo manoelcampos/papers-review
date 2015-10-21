@@ -10,8 +10,11 @@
         URL: <a href="${o.url}">${o.url}</a> <br/> 
     </c:if>
 
-    Type:${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey}<br/>
+    Type: ${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey}<br/>
     Survey: ${o.survey} &nbsp;&nbsp; Search Section:  ${o.searchSection.id}<p/>
+    Accepted on Selection Phase: ${o.acceptedOnSelectionPhase}&nbsp;&nbsp;
+    Accepted on Extraction Phase: ${o.acceptedOnExtractionPhase}<br/> 
+    
     <a href="${linkTo[PaperController].edit}?id=${o.id}">Edit Paper</a>
     | <a href="${linkTo[PaperController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the paper ${o.title}?')">Remove Paper</a>
     <hr/>

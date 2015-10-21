@@ -3,7 +3,6 @@ package com.manoelcampos.papersreview.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,6 +65,7 @@ public class Paper implements EntityInterface {
 
     @Column(nullable = true)
     private boolean acceptedOnSelectionPhase;
+    
     @Column(nullable = true)
     private boolean acceptedOnExtractionPhase;
 
