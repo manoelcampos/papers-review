@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>     
-        <c:forEach items="${searchSessionList}" var="searchSection">
+        <c:forEach items="${searchSessionList}" var="searchSession">
             <tr>
                 <td>${searchSession.id}</td>
                 <td>${searchSession.searchString}</td>

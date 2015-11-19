@@ -55,12 +55,12 @@ public class SearchSessionController  {
     }
     
     @Get("/searchSection/importPapers/{searchSession.id}")
-    public SearchSession importPapers(@NotNull final SearchSession searchSession) {
+    public SearchSession importPapers(@NotNull @Load final SearchSession searchSession) {
         return searchSession;
     }
     
     @Post()
-    public void saveImportedPapers(@NotNull final SearchSession searchSession, final UploadedFile bibTexFile) {
+    public void saveImportedPapers(@NotNull @Load final SearchSession searchSession, final UploadedFile bibTexFile) {
         List<Paper> paperList = createPaperListFromBibTexFile(searchSession, bibTexFile);
         service.saveListOfPapers(paperList);
         result.include("paperList", paperList);

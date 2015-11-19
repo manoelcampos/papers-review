@@ -17,7 +17,7 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
 
     @Override
     protected boolean saveWithoutFlush(Paper o) {
-        if(o.getPaperType() != null && o.getPaperType().getId()<=0)
+        if(o.getPaperType() != null && (o.getPaperType().getId() == null || o.getPaperType().getId()<=0))
             o.setPaperType(null);
         return super.saveWithoutFlush(o); 
     }

@@ -133,7 +133,7 @@ public class Paper implements EntityInterface {
     }
 
     public void setPaperType(PaperType paperType) {
-        if(paperType.getId()<=0)
+        if(paperType != null && (paperType.getId() == null || paperType.getId()<=0))
             paperType = null;
         this.paperType = paperType;
     }

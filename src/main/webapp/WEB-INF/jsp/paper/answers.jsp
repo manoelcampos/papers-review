@@ -24,7 +24,7 @@
                                     </c:if>>
                                     <option value="0">None</option>
                                     <c:forEach items="${map.key.fieldOptions}" var="fo" varStatus="j">
-                                        <option value="${fpaper.id}"
+                                        <option value="${fo.id}"
                                             <c:forEach items="${map.value}" var="a">
                                                 <c:if test="${a.fieldOption.id == fo.id}">selected</c:if>
                                             </c:forEach>

@@ -78,6 +78,7 @@ public class PaperService {
     }
     
     public boolean removeAnswer(final PaperFieldAnswer answer){
+        answer.getPaper().removePaperFieldAnswer(answer);
         return paperFieldAnswerDao.remove(answer);
     }
     
@@ -174,7 +175,7 @@ public class PaperService {
                 }
             } else {
                for(Long fieldOptionId: dto.getFieldOptions()){
-                   if(fieldOptionId > 0){
+                   if(fieldOptionId!=null && fieldOptionId > 0){
                     FieldOption fieldOption = fieldOptionDao.findById(fieldOptionId);
                     answer = new PaperFieldAnswer(paper, fieldOption);
                     answer = tryToFindExistingAnswerAndPopItToBeUpdated(paper, answer);

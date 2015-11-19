@@ -54,7 +54,7 @@ public class PaperController extends BaseController {
     }
 
     @Get("/paper/removeAnswer/{paperFieldAnswer.id}")
-    public void removeAnswer(@NotNull final PaperFieldAnswer paperFieldAnswer) {
+    public void removeAnswer(@NotNull @Load PaperFieldAnswer paperFieldAnswer) {
         service.removeAnswer(paperFieldAnswer);
         
         result.include("msg", "form.removed");
