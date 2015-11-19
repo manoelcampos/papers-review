@@ -40,6 +40,7 @@
             <li><a href="${pageContext.request.contextPath}">Home</a></li>
             <li><a href="${linkTo[ProjectController].index}">Project</a></li>
             <li><a href="${linkTo[RepositoryController].index}">Repositories</a></li>
+            <li><a href="${linkTo[PaperController].search}">Search Paper</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

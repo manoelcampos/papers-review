@@ -40,11 +40,11 @@ public class Project implements EntityInterface {
     final private List<Field> fields;
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "project")
-    final private List<SearchSection> searchSections;
+    final private List<SearchSession> searchSessions;
 
     public Project() {
         this.fields = new ArrayList<>();
-        this.searchSections = new ArrayList<>();
+        this.searchSessions = new ArrayList<>();
     }
 
     public Project(final Long id) {
@@ -125,14 +125,14 @@ public class Project implements EntityInterface {
     }
 
     /**
-     * @return the searchSections
+     * @return the searchSessions
      */
-    public List<SearchSection> getSearchSections() {
-        return searchSections;
+    public List<SearchSession> getSearchSessions() {
+        return searchSessions;
     }
     
-    public void addSearchSection(final SearchSection searchSection){
-        searchSections.add(searchSection);
+    public void addSearchSession(final SearchSession searchSession){
+        searchSessions.add(searchSession);
     }
     
 }

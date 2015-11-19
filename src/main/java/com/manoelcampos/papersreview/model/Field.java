@@ -3,7 +3,9 @@ package com.manoelcampos.papersreview.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,11 +39,14 @@ public class Field implements EntityInterface {
 
     @ManyToOne(optional = false)
     private FieldType fieldType;
+    
+    @Column(nullable = true)
+    private String notes;        
 
     @OneToMany(orphanRemoval = true, mappedBy = "field")
     final private List<PaperFieldAnswer> paperFieldAnswers = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "field")
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "field", fetch = FetchType.EAGER)
     final private List<FieldOption> fieldOptions = new ArrayList<>();
     
     @ManyToOne(optional = false)
@@ -51,6 +56,7 @@ public class Field implements EntityInterface {
     }
 
     public Field(Long id) {
+        this();
         this.id = id;
     }
 
@@ -58,19 +64,14 @@ public class Field implements EntityInterface {
         this.description = description;
     }
 
-    public Field(Long id, Long projectId) {
-        this(projectId, "");
+    public Field(Long id, final Long projectId) {
+        this(new Project(projectId));
         this.id = id;
     }
 
-    public Field(Long id, Project project) {
-        this.id = id;
-        this.project = project;
-    }
-
-    public Field(Long projectId, String description) {
-        this.setProject(new Project(projectId));
-        this.description = description;
+    public Field(final Project project) {
+        this();
+        this.setProject(project);
     }
     
     @Override
@@ -177,5 +178,19 @@ public class Field implements EntityInterface {
 
     public boolean isObjective(){
         return "O".equalsIgnoreCase(fieldType.getAbbreviation());
+    }
+
+    /**
+     * @return the notes
+     */
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * @param notes the notes to set
+     */
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

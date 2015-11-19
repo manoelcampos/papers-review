@@ -1,5 +1,6 @@
 package com.manoelcampos.papersreview.dao;
 
+import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
 import java.util.List;
 
@@ -8,5 +9,5 @@ import java.util.List;
  * @author Manoel Campos da Silva Filho <manoelcampos at gmail.com>
  */
 public interface FieldOptionDAO extends DAO<FieldOption> {
-    List<FieldOption> listByField(final Long fieldId);
+    List<FieldOption> listByField(final Field field);
 }

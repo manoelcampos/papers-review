@@ -1,5 +1,7 @@
 <%@ include file="/header.jsp" %>
 
+${url}
+
 <table class="table-striped table-bordered">
     <thead>
       <tr>
@@ -9,13 +11,13 @@
       </tr>
     </thead>
     <tbody>     
-        <c:forEach items="${projectList}" var="o">
+        <c:forEach items="${projectList}" var="project">
             <tr>
-                <td><a href="${linkTo[ProjectController].view}?id=${o.id}">${o.description}</a></td>
-                <td>${o.endUser.name}</td>
+                <td><a href="${linkTo[ProjectController].view(project)}">${project.description}</a></td>
+                <td>${project.endUser.name}</td>
                 <td>
-                    <a href="${linkTo[ProjectController].edit}?id=${o.id}">Edit</a>
-                    <a href="${linkTo[ProjectController].remove}?id=${o.id}" onclick="return window.confirm('Are you sure you want to remove the project ${o.description}?')">Remove</a>
+                    <a href="${linkTo[ProjectController].edit(project)}">Edit</a>
+                    <a href="${linkTo[ProjectController].remove(project)}" onclick="return window.confirm('Are you sure you want to remove the project ${project.description}?')">Remove</a>
                 </td>
             </tr>
         </c:forEach>

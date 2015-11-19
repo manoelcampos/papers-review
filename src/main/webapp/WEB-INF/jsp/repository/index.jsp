@@ -8,12 +8,12 @@
       </tr>
     </thead>
     <tbody>     
-        <c:forEach items="${repositoryList}" var="o">
+        <c:forEach items="${repositoryList}" var="repository">
             <tr>
-                <td>${o.description}</td>
+                <td>${repository.description}</td>
                 <td>
-                    <a href="${linkTo[RepositoryController].edit}?id=${o.id}">Edit</a>
-                    <a href="${linkTo[RepositoryController].remove}?id=${o.id}" onclick="return window.confirm('Are you sure you want to remove the repository ${o.description}?')">Remove</a>
+                    <a href="${linkTo[RepositoryController].edit(repository)}">Edit</a>
+                    <a href="${linkTo[RepositoryController].remove(repository)}" onclick="return window.confirm('Are you sure you want to remove the repository ${repository.description}?')">Remove</a>
                 </td>
             </tr>
         </c:forEach>

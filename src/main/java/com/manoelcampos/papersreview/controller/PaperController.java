@@ -3,10 +3,13 @@ package com.manoelcampos.papersreview.controller;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.interceptor.IncludeParameters;
+import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.dto.PaperFieldAnswerDTO;
 import com.manoelcampos.papersreview.model.Paper;
+import com.manoelcampos.papersreview.model.PaperFieldAnswer;
+import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.service.PaperService;
 import java.util.List;
 import java.util.Locale;
@@ -24,13 +27,10 @@ import javax.validation.constraints.NotNull;
 @Controller
 @Stateless
 @Dependent
-public class PaperController  {
+public class PaperController extends BaseController {
     @Inject
     private PaperService service;
-   
-    @Inject 
-    private Result result;
-    
+       
     @Inject
     private Validator validator;
     
@@ -40,46 +40,44 @@ public class PaperController  {
     @Inject
     private ResourceBundle bundle;  
 
-    @Get()
-    public void view(@NotNull final Long id) {
-        Paper o = service.findById(id);
-        result.include("o", o);
+    @Get("/paper/{paper.id}")
+    public Paper view(@NotNull @Load final Paper paper) {
+        includeRequestUrlInView();
+        return paper;
     }
     
-    @Get()
-    public void remove(@NotNull final Long id) {
-        Paper o = service.remove(id);
+    @Get("/paper/remove/{paper.id}")
+    public void remove(@NotNull @Load final Paper paper) {
+        service.remove(paper);
         result.include("msg", "form.removed");
-        result.redirectTo(ProjectController.class).view(o.getSearchSection().getProject().getId());
+        result.redirectTo(ProjectController.class).view(paper.getSearchSession().getProject());
     }
 
-    @Get()
-    public void removeAnswer(@NotNull final Long paperFieldAnswerId) {
-        Paper paper = service.removeAnswer(paperFieldAnswerId);
+    @Get("/paper/removeAnswer/{paperFieldAnswer.id}")
+    public void removeAnswer(@NotNull final PaperFieldAnswer paperFieldAnswer) {
+        service.removeAnswer(paperFieldAnswer);
         
         result.include("msg", "form.removed");
-        result.redirectTo(this).view(paper.getId());
+        result.redirectTo(this).view(paperFieldAnswer.getPaper());
     }
 
-    @Get()
-    public void edit(@NotNull final Long id) {
-        Paper o = service.findById(id);
-        result.include("o", o);
+    @Get("/paper/edit/{paper.id}")
+    @IncludeParameters
+    public void edit(@NotNull @Load final Paper paper) {
         result.redirectTo(this).form();
     }
 
-    @Get()
-    public void answers(@NotNull final Long paperId) {
-        Paper paper = service.findById(paperId);
-        result.include("paper", paper);
+    @Get("/paper/answers/{paper.id}")
+    public Paper answers(@NotNull @Load final Paper paper) {
         result.include("answersMap", service.listAnswersForAllFields(paper));
+        return paper;
     }
     
     @Post()
-    public void saveAnswers(@NotNull final Long paperId, final List<PaperFieldAnswerDTO> answers) {
-        service.saveAnswers(paperId, answers);
+    public void saveAnswers(@NotNull @Load final Paper paper, final List<PaperFieldAnswerDTO> answers) {
+        service.saveAnswers(paper, answers);
         //result.include("msg", answers.toString());
-        result.redirectTo(this).view(paperId);
+        result.redirectTo(this).view(paper);
     }     
 
     @Get()
@@ -88,10 +86,33 @@ public class PaperController  {
     }
 
     @Post()
-    public void save(@Valid Paper o) {
+    public void save(@Valid Paper paper) {
         validator.onErrorRedirectTo(this).form();
-        service.save(o);
+        service.save(paper);
         result.include("msg", "form.saved");
-        result.redirectTo(ProjectController.class).view(o.getSearchSection().getProject().getId());
+        result.redirectTo(PaperController.class).view(paper);
     }    
+    
+    
+    @Post()
+    public void doSearch(final Paper paper) {
+        result.include("list", service.search(paper));
+        result.include("paper", paper);
+        result.redirectTo(this).search(paper.getSearchSession().getProject());
+    }    
+    
+    @Get("/project/{project.id}/paper/search")
+    public void search(@Load Project project) {
+        result.include("paperTypes", service.listPaperTypes());
+        result.include("projects", service.listProjects());
+        result.include("repositories", service.listRepositories());
+        if(project != null && project.getId() > 0)
+            result.include("project", project);
+    }    
+
+    @Get("/paper/search")
+    public void search() {
+        search(null);
+    }    
+    
 }

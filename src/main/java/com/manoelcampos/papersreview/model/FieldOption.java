@@ -1,6 +1,8 @@
 package com.manoelcampos.papersreview.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,19 +36,28 @@ public class FieldOption implements EntityInterface {
     @ManyToOne(optional = false)
     private Field field;
 
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    private FieldOption parentFieldOption;
+    
+    @Column(nullable = true)
+    private String notes;    
+    
     public FieldOption() {
+        this.parentFieldOption = null;
     }
 
     public FieldOption(Long id) {
+        this();
         this.id = id;
     }
 
     public FieldOption(Long id, String description) {
-        this.id = id;
+        this(id);
         this.description = description;
     }
 
     public FieldOption(final Field field) {
+        this();
         this.field = field;
     }
 
@@ -102,6 +113,34 @@ public class FieldOption implements EntityInterface {
     @Override
     public String toString() {
         return String.format("%s[id=%d, field=%s, description=%s]", getClass().getSimpleName(), id, field.getDescription(), description);
+    }
+
+    /**
+     * @return the parentFieldOption
+     */
+    public FieldOption getParentFieldOption() {
+        return parentFieldOption;
+    }
+
+    /**
+     * @param parentFieldOption the parentFieldOption to set
+     */
+    public void setParentFieldOption(FieldOption parentFieldOption) {
+        this.parentFieldOption = parentFieldOption;
+    }
+
+    /**
+     * @return the notes
+     */
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * @param notes the notes to set
+     */
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
     
 }

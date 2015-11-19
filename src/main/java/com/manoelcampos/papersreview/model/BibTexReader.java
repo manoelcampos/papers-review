@@ -1,7 +1,5 @@
 package com.manoelcampos.papersreview.model;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -56,11 +54,6 @@ public class BibTexReader {
     
     public Collection<BibTeXEntry> getEntriesCollection() {
         return database.getEntries().values();
-    }
-
-    public void parseAllPapers() {
-        for (BibTeXEntry bibEntry : getEntriesCollection()) {
-        }
     }
     
     public String  getFieldValue(BibTeXEntry b, Key key){

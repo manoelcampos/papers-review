@@ -2,6 +2,7 @@ package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.DAO;
 import com.manoelcampos.papersreview.dao.FieldDAO;
+import com.manoelcampos.papersreview.dao.ProjectDAO;
 import com.manoelcampos.papersreview.model.FieldType;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.Project;
@@ -22,7 +23,7 @@ public class FieldService {
     private DAO<FieldType> fieldTypeDao;
 
     @Inject
-    private DAO<Project> projectDao;
+    private ProjectDAO projectDao;
 
     /**
      * @return the dao
@@ -31,9 +32,8 @@ public class FieldService {
         return dao.list();
     }
     
-    public Field remove(final Long id){
-        Field f = dao.findById(id);
-        return (dao.remove(f) ? f : null);
+    public boolean remove(final Field field){
+        return dao.remove(field);
     }
 
     public boolean save(final Field o){

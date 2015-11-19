@@ -25,8 +25,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(uniqueConstraints={
-    @UniqueConstraint(name = "ix_PaperTitle", columnNames = {"searchSection_id", "title"}),
-    @UniqueConstraint(name = "ix_PaperCitationKey", columnNames = {"searchSection_id", "citationKey"})
+    @UniqueConstraint(name = "ix_PaperTitle", columnNames = {"searchSession_id", "title"}),
+    @UniqueConstraint(name = "ix_PaperCitationKey", columnNames = {"searchSession_id", "citationKey"})
 })
 public class Paper implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,23 +58,27 @@ public class Paper implements EntityInterface {
     
     @NotNull
     @ManyToOne(optional = false)
-    private SearchSection searchSection;
-
-    @NotNull
-    private boolean survey;
+    private SearchSession searchSession;
 
     @Column(nullable = true)
-    private boolean acceptedOnSelectionPhase;
+    private Integer survey;
+
+    @Column(nullable = true)
+    private Integer acceptedOnSelectionPhase;
     
     @Column(nullable = true)
-    private boolean acceptedOnExtractionPhase;
+    private Integer acceptedOnExtractionPhase;
+    
+    @Column(nullable = true)
+    private String paperAbstract;    
 
     @OrderBy(value = "field")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paper", fetch = FetchType.EAGER)
     final private List<PaperFieldAnswer> paperFieldAnswers = new ArrayList<>();
 
     public Paper() {
-        this.searchSection = new SearchSection();
+        this.searchSession = new SearchSession();
+        this.paperType = new PaperType();
     }
 
     public Paper(Long id) {
@@ -82,7 +86,7 @@ public class Paper implements EntityInterface {
         this.id = id;
     }
 
-    public Paper(Long id, String title, int year, String citationKey, PaperType paperType, boolean survey) {
+    public Paper(Long id, String title, int year, String citationKey, PaperType paperType, Integer survey) {
         this(id);
         this.title = title;
         this.publicationYear = year;
@@ -129,14 +133,18 @@ public class Paper implements EntityInterface {
     }
 
     public void setPaperType(PaperType paperType) {
+        if(paperType.getId()<=0)
+            paperType = null;
         this.paperType = paperType;
     }
 
-    public boolean getSurvey() {
+    public Integer getSurvey() {
         return survey;
     }
 
-    public void setSurvey(boolean survey) {
+    public void setSurvey(Integer survey) {
+        if(survey < 0)
+            survey = null;
         this.survey = survey;
     }
 
@@ -177,9 +185,9 @@ public class Paper implements EntityInterface {
     @Override
     public String toString() {
         String s = "";
-        if(searchSection != null)
-            s=searchSection.getId().toString();
-        return String.format("%s[id=%d, searchSection=%s, title=%s]", 
+        if(searchSession != null && searchSession.getId()!=null)
+            s=searchSession.getId().toString();
+        return String.format("%s[id=%d, searchSession=%s, title=%s]", 
                 getClass().getSimpleName(), id, 
                 s, title);
     }
@@ -201,43 +209,47 @@ public class Paper implements EntityInterface {
     /**
      * @return the acceptedOnSelectionPhase
      */
-    public boolean isAcceptedOnSelectionPhase() {
+    public Integer getAcceptedOnSelectionPhase() {
         return acceptedOnSelectionPhase;
     }
 
     /**
      * @param acceptedOnSelectionPhase the acceptedOnSelectionPhase to set
      */
-    public void setAcceptedOnSelectionPhase(boolean acceptedOnSelectionPhase) {
+    public void setAcceptedOnSelectionPhase(Integer acceptedOnSelectionPhase) {
+        if(acceptedOnSelectionPhase < 0)
+            acceptedOnSelectionPhase = null;
         this.acceptedOnSelectionPhase = acceptedOnSelectionPhase;
     }
 
     /**
      * @return the acceptedOnExtractionPhase
      */
-    public boolean isAcceptedOnExtractionPhase() {
+    public Integer getAcceptedOnExtractionPhase() {
         return acceptedOnExtractionPhase;
     }
 
     /**
      * @param acceptedOnExtractionPhase the acceptedOnExtractionPhase to set
      */
-    public void setAcceptedOnExtractionPhase(boolean acceptedOnExtractionPhase) {
+    public void setAcceptedOnExtractionPhase(Integer acceptedOnExtractionPhase) {
+        if(acceptedOnExtractionPhase < 0)
+            acceptedOnExtractionPhase = null;
         this.acceptedOnExtractionPhase = acceptedOnExtractionPhase;
     }
 
     /**
-     * @return the searchSection
+     * @return the searchSession
      */
-    public SearchSection getSearchSection() {
-        return searchSection;
+    public SearchSession getSearchSession() {
+        return searchSession;
     }
 
     /**
-     * @param searchSection the searchSection to set
+     * @param searchSession the searchSession to set
      */
-    public void setSearchSection(SearchSection searchSection) {
-        this.searchSection = searchSection;
+    public void setSearchSession(SearchSession searchSession) {
+        this.searchSession = searchSession;
     }
 
     /**
@@ -286,10 +298,18 @@ public class Paper implements EntityInterface {
     }
 
     /**
-     * @return the survey
+     * @return the paperAbstract
      */
-    public boolean isSurvey() {
-        return survey;
+    public String getPaperAbstract() {
+        return paperAbstract;
     }
+
+    /**
+     * @param paperAbstract the paperAbstract to set
+     */
+    public void setPaperAbstract(String paperAbstract) {
+        this.paperAbstract = paperAbstract;
+    }
+
     
 }

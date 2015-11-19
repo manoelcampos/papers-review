@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Manoel Campos da Silva Filho <manoelcampos at gmail.com>
  */
 @Entity
-public class SearchSection implements EntityInterface {
+public class SearchSession implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,10 +46,13 @@ public class SearchSection implements EntityInterface {
         this.id = id;
     }
     
-    public SearchSection(){}
+    public SearchSession(){
+        this.project = new Project();
+    }
     
-    public SearchSection(final Long projectId){
-        this.project = new Project(projectId);
+    public SearchSession(final Project project){
+        this();
+        this.project = project;
     }
 
     @Override
@@ -61,10 +64,10 @@ public class SearchSection implements EntityInterface {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof SearchSection)) {
+        if (!(object instanceof SearchSession)) {
             return false;
         }
-        SearchSection other = (SearchSection) object;
+        SearchSession other = (SearchSession) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 

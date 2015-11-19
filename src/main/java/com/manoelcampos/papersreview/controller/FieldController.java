@@ -3,11 +3,11 @@ package com.manoelcampos.papersreview.controller;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
-import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.service.FieldService;
 import com.manoelcampos.papersreview.model.Field;
-import java.util.List;
+import com.manoelcampos.papersreview.model.Project;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.ejb.Stateless;
@@ -15,6 +15,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import br.com.caelum.vraptor.jpa.extra.Load;
 
 /**
  *
@@ -23,13 +24,10 @@ import javax.validation.constraints.NotNull;
 @Controller
 @Stateless
 @Dependent
-public class FieldController  {
+public class FieldController extends BaseController {
     @Inject
     private FieldService service;
-    
-    @Inject 
-    private Result result;
-    
+        
     @Inject
     private Validator validator;
     
@@ -39,37 +37,38 @@ public class FieldController  {
     @Inject
     private ResourceBundle bundle;    
         
-    @Get()
-    public void view(@NotNull final Long id) {
-        result.include("o", service.findById(id));
+    @Get("/field/view/{field.id}")
+    public Field view(@NotNull @Load final Field field) {
+        result.include("project", field.getProject());
+        return field;
     }
     
-    @Get()
-    public void remove(@NotNull final Long id) {
-        Field f = service.remove(id);
+    @Get("/field/remove/{field.id}")
+    public void remove(@NotNull @Load final Field field) {
+        service.remove(field);
         result.include("msg", "form.removed");
-        result.redirectTo(ProjectController.class).fields(f.getProject().getId());
+        result.redirectTo(ProjectController.class).fields(field.getProject()); 
     }
 
-    @Get()
-    public void edit(@NotNull final Long id) {
-        Field field = service.findById(id);
-        result.include("o", field);
-        result.redirectTo(this).form(0L);
+    @Get("/field/edit/{field.id}")
+    @IncludeParameters 
+    public void edit(@NotNull @Load final Field field) {
+        result.redirectTo(this).form(field.getProject());
     }
-
-    @Get()
-    public void form(@NotNull final Long projectId) {
-        if(projectId > 0)
-            result.include("o", new Field(projectId, ""));
+    
+    @Get("/project/{project.id}/field/form/")
+    @IncludeParameters 
+    public void form(@NotNull @Load final Project project) {
         result.include("fieldTypes", service.listFieldTypes());
+        result.include("field", new Field(project));
     }
+    
 
     @Post()
-    public void save(@Valid Field o) {
-        validator.onErrorRedirectTo(this).form(o.getId());
-        service.save(o);
+    public void save(@Valid Field field) {
+        validator.onErrorRedirectTo(this).form(field.getProject());
+        service.save(field);
         result.include("msg", "form.saved");
-        result.redirectTo(FieldController.class).view(o.getId());
+        result.redirectTo(FieldController.class).view(field);
     }    
 }

@@ -1,15 +1,15 @@
 <%@ include file="/form-header.jsp" %>
     <form method="post" action="${linkTo[ProjectController].save}">
-        Description <input type="text" name="o.description" value="${o.description}"/> 
+        Description <input type="text" name="project.description" value="${project.description}"/> 
         
         User
-        <select name="o.endUser.id">
+        <select name="project.endUser.id">
             <c:forEach items="${endUsers}" var="u">
-                <option value="${u.id}" <c:if test="${o.endUser.id == u.id}">selected</c:if> >${u.name}</option>
+                <option value="${u.id}" <c:if test="${project.endUser.id == u.id}">selected</c:if> >${u.name}</option>
             </c:forEach>
         </select>
         
-        <input type="hidden" name="o.id" value="${o.id}"/>
+        <input type="hidden" name="project.id" value="${project.id}"/>
         
         <hr/>
 

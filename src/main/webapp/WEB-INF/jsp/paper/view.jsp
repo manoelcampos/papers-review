@@ -1,23 +1,27 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="/header.jsp" %>
-    <h2>Paper: ${o.title}</h2>
-    Year: ${o.publicationYear} &nbsp;&nbsp; Authors: ${o.authors}<br/>
+    <h2>Paper: ${paper.title}</h2>
+    Year: ${paper.publicationYear} &nbsp;&nbsp; Authors: ${paper.authors}<br/>
     
-    <c:if test="${not empty o.doi}">
-        DOI: <a href="${o.getDoiLink()}">${o.doi}</a> <br/> 
+    <c:if test="${not empty paper.doi}">
+        DOI: <a href="${paper.getDoiLink()}">${paper.doi}</a> <br/> 
     </c:if>
-    <c:if test="${not empty o.url}">
-        URL: <a href="${o.url}">${o.url}</a> <br/> 
+    <c:if test="${not empty paper.url}">
+        URL: <a href="${paper.url}">${paper.url}</a> <br/> 
     </c:if>
 
-    Type: ${o.paperType.description} &nbsp;&nbsp; Citation Key: ${o.citationKey} &nbsp;&nbsp;
-    Search Section:  ${o.searchSection.id}<br/>
-    Survey: ${o.survey} &nbsp;&nbsp; 
-    Accepted on Selection Phase: ${o.acceptedOnSelectionPhase}&nbsp;&nbsp;
-    Accepted on Extraction Phase: ${o.acceptedOnExtractionPhase}<br/> 
+    Type: ${paper.paperType.description} &nbsp;&nbsp; Search Session: ${paper.searchSession.id} &nbsp;&nbsp;
+    Citation Key: ${paper.citationKey}<br/>
+    Survey: ${paper.survey} &nbsp;&nbsp; 
+    Accepted on Selection Phase: ${paper.acceptedOnSelectionPhase}&nbsp;&nbsp;
+    Accepted on Extraction Phase: ${paper.acceptedOnExtractionPhase}
+    <br/> 
+    Abstract:<br/>
+    <div style="width: 100%; border: #cccccc 1px;">${paper.paperAbstract}</div>
+    <br/> 
     
-    <a href="${linkTo[PaperController].edit}?id=${o.id}">Edit Paper</a>
-    | <a href="${linkTo[PaperController].remove}?id=${o.id}"  onclick="return window.confirm('Are you sure you want to remove the paper ${o.title}?')">Remove Paper</a>
+    <a href="${linkTo[PaperController].edit(paper)}">Edit Paper</a>
+    | <a href="${linkTo[PaperController].remove(paper)}"  onclick="return window.confirm('Are you sure you want to remove the paper ${paper.title}?')">Remove Paper</a>
     <hr/>
     
     <table class="table-striped table-bordered">
@@ -29,26 +33,31 @@
           </tr>
         </thead>
         <tbody>     
-            <c:forEach items="${o.paperFieldAnswers}" var="a">
+            <c:forEach items="${paper.paperFieldAnswers}" var="a">
                 <tr>
-                    <td>${a.field.description}</td>
+                    <td><a href="${linkTo[FieldController].view(a.field, paper)}" title="Click to view the field definition">
+                            ${a.field.description}
+                        </a>
+                    </td>
                     <td>
                         <c:choose>
                             <c:when test="${a.fieldOption != null && a.fieldOption.id > 0}">
-                                ${a.fieldOption.description}
+                                <a href="${linkTo[FieldOptionController].edit(a.fieldOption)}" title="Click to edit the field option">
+                                    ${a.fieldOption.description}
+                                </a>
                             </c:when>
                             <c:otherwise>
                                 ${a.subjectiveAnswer}
                             </c:otherwise>                            
                         </c:choose>
                     </td>
-                    <td><a href="${linkTo[PaperController].removeAnswer}?paperFieldAnswerId=${a.id}" onclick="return window.confirm('Are you sure you want to remove the answer ${a.getAnswer()}?')">Remove</a></td>
+                    <td><a href="${linkTo[PaperController].removeAnswer(a)}" onclick="return window.confirm('Are you sure you want to remove the answer ${a.getAnswer()}?')">Remove</a></td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>    
     
     <hr/>
-    <a href="${linkTo[PaperController].answers}?paperId=${o.id}" class="btn btn-primary">Edit Fields' Answers</a>
-    <a href="${linkTo[ProjectController].view}?id=${o.searchSection.project.id}" class="btn btn-default">Back</a>
+    <a href="${linkTo[PaperController].answers(paper)}" class="btn btn-primary">Edit Fields' Answers</a>
+    <a href="${linkTo[ProjectController].view(paper.searchSession.project)}" class="btn btn-default">Back</a>
 <%@ include file="/footer.jsp" %>

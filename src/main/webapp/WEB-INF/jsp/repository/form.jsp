@@ -1,7 +1,7 @@
 <%@ include file="/form-header.jsp" %>
     <form method="post" action="${linkTo[RepositoryController].save}">
-        Description <input type="text" name="o.description" value="${o.description}"/>
-        <input type="hidden" name="o.id" value="${o.id}"/>
+        Description <input type="text" name="repository.description" value="${repository.description}"/>
+        <input type="hidden" name="repository.id" value="${repository.id}"/>
         
         <hr/>
 

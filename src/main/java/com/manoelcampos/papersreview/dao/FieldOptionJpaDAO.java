@@ -17,11 +17,11 @@ public class FieldOptionJpaDAO extends JpaDAO<FieldOption> implements FieldOptio
     }
     
     @Override
-    public List<FieldOption> listByField(final Long fieldId){
+    public List<FieldOption> listByField(final Field field){
         final String jpql = 
                 String.format("select o from %s o where o.field = :field", getGenericClassName());
         final TypedQuery<FieldOption> qry = createQuery(jpql);
-        qry.setParameter("field", new Field(fieldId));
+        qry.setParameter("field", field);
         return qry.getResultList();
     }
     

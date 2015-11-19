@@ -22,20 +22,22 @@ public class FieldOptionService {
     private FieldDAO fieldDao;
 
     /**
-     * @param fieldId
+     * @param field
      * @return 
      */
-    public List<FieldOption> list(final @NotNull Long fieldId) {
-        return dao.listByField(fieldId);
+    public List<FieldOption> list(final @NotNull Field field) {
+        return dao.listByField(field);
     }
     
-    public FieldOption remove(final Long id){
-        FieldOption f = dao.findById(id);
-        return (dao.remove(f) ? f : null);
+    public boolean remove(final FieldOption fieldOption){
+        return dao.remove(fieldOption) ;
     }
 
     public boolean save(final FieldOption o){
         o.setField(fieldDao.findById(o.getField().getId()));
+        if(o.getParentFieldOption().getId() <= 0)
+            o.setParentFieldOption(null);
+        else o.setParentFieldOption(findById(o.getParentFieldOption().getId()));
         return dao.save(o);
     }
     

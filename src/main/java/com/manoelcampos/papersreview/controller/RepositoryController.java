@@ -4,6 +4,8 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.interceptor.IncludeParameters;
+import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.dao.DAO;
 import com.manoelcampos.papersreview.model.Repository;
@@ -41,32 +43,28 @@ public class RepositoryController  {
         //result.use(Results.json()).from(dao.list()).serialize();
     }
     
-    @Get()
-    public void remove(@NotNull final Long id) {
-        dao.remove(dao.findById(id));
+    @Get("/repository/remove/{repository.id}")
+    public void remove(@NotNull @Load final Repository repository) {
+        dao.remove(repository);
         result.include("msg", "form.removed");
         result.redirectTo(this).index();
-        //result.use(Results.json()).withoutRoot().from(dao.remove(dao.findById(id))).serialize();
     }
 
-    @Get()
-    public void edit(@NotNull final Long id) {
-        result.include("o", dao.findById(id));
+    @Get("/repository/edit/{repository.id}")
+    @IncludeParameters
+    public void edit(@NotNull @Load final Repository repository) {
         result.of(this).form();
-        //result.use(Results.json()).withoutRoot().from(dao.findById(id)).serialize();
     }
 
-    @Get()
+    @Get("/repository/form")
     public void form() {}
 
     @Post()
-    public void save(@Valid Repository o) {
+    public void save(@Valid Repository repository) {
         validator.onErrorRedirectTo(this).form();
-        dao.save(o);
+        dao.save(repository);
         //I18nMessage msg = new I18nMessage("success", bundle.getString("form.included"), Severity.INFO, "Repository");
         result.include("msg", "form.saved");
         result.redirectTo(this).index();
-        
-        //result.use(Results.json()).withoutRoot().from(dao.save(o)).serialize();
     }    
 }

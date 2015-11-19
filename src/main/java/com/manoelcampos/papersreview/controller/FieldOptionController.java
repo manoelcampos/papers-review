@@ -4,6 +4,8 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.interceptor.IncludeParameters;
+import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
@@ -40,50 +42,36 @@ public class FieldOptionController  {
     @Inject
     private ResourceBundle bundle;    
     
-    @Get()
-    public void remove(@NotNull final Long id, final Long projectId) {
-        FieldOption o = service.remove(id);
+    @Get("/fieldOption/remove/{fieldOption.id}")
+    public void remove(@NotNull @Load FieldOption fieldOption) {
+        service.remove(fieldOption);
         result.include("msg", "form.removed");
-        if(redirectToProjectView(projectId))
-            result.redirectTo(ProjectController.class).fields(projectId);
-        else result.redirectTo(FieldController.class).view(o.getField().getId());
+        result.redirectTo(ProjectController.class).fields(fieldOption.getField().getProject());
     }
 
-    @Get()
-    public void edit(@NotNull final Long id, final Long projectId) {
-        FieldOption field = service.findById(id);
-        result.include("o", field);
-        result.redirectTo(this).form(0L, projectId);
+    @Get("/fieldOption/edit/{fieldOption.id}")
+    @IncludeParameters
+    public void edit(@NotNull @Load FieldOption fieldOption) {
+        result.redirectTo(this).form(fieldOption.getField());
     }
 
-    @Get()
-    public void form(@NotNull final Long fieldId, final Long projectId) {
-        Project project = new Project();
-        if(redirectToProjectView(projectId)) {
-            project = new Project(projectId);
-            result.include("projectId", projectId);
-        }
-        else if(fieldId > 0) 
-            project = service.findFieldById(fieldId).getProject();
-
-        if(fieldId > 0) 
-            result.include("o", new FieldOption(new Field(fieldId, project)));
+    @Get("/field/{field.id}/fieldOption/form")
+    public void form(@NotNull @Load final Field field) {
+        result.include("fieldOption", new FieldOption(field));
+        result.include("fieldOptions", service.list(field));
     }
 
     @Post()
-    public void save(@Valid FieldOption o) {
-        final boolean redirToProject = redirectToProjectView(o.getField().getProject().getId());
-        if(redirToProject)
-            validator.onErrorRedirectTo(this).form(o.getField().getId(), o.getField().getProject().getId());
-        else validator.onErrorRedirectTo(FieldController.class).view(o.getField().getId());
-        service.save(o);
+    public void save(@Valid FieldOption fieldOption, Project project) {
+        validator.onErrorRedirectTo(this).form(fieldOption.getField());
+        
+        service.save(fieldOption);
         result.include("msg", "form.saved");
-        if(redirToProject)
-            result.redirectTo(ProjectController.class).fields(o.getField().getProject().getId());
-        else result.redirectTo(FieldController.class).view(o.getField().getId());
+        
+        result.redirectTo(FieldController.class).view(fieldOption.getField());
     }    
 
-    private static boolean redirectToProjectView(final Long projectId) {
-        return projectId != null && projectId > 0;
+    private boolean redirectToProjectView(final Project project) {
+        return project != null && project.getId() != null && project.getId() > 0;
     }
 }

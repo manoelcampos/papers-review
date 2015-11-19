@@ -5,13 +5,17 @@ import com.manoelcampos.papersreview.dao.FieldDAO;
 import com.manoelcampos.papersreview.dao.FieldOptionDAO;
 import com.manoelcampos.papersreview.dao.PaperDAO;
 import com.manoelcampos.papersreview.dao.PaperFieldAnswerDAO;
-import com.manoelcampos.papersreview.dao.SearchSectionDAO;
+import com.manoelcampos.papersreview.dao.ProjectDAO;
+import com.manoelcampos.papersreview.dao.SearchSessionDAO;
 import com.manoelcampos.papersreview.dto.PaperFieldAnswerDTO;
+import com.manoelcampos.papersreview.model.EndUser;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
 import com.manoelcampos.papersreview.model.PaperType;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.PaperFieldAnswer;
+import com.manoelcampos.papersreview.model.Project;
+import com.manoelcampos.papersreview.model.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +32,9 @@ public class PaperService {
     private PaperDAO dao;
     
     @Inject
+    private ProjectDAO projectDao;
+
+    @Inject
     private PaperFieldAnswerDAO paperFieldAnswerDao;
     
     @Inject
@@ -40,10 +47,13 @@ public class PaperService {
     private DAO<PaperType> paperTypeDao;
 
     @Inject
+    private DAO<Repository> repositoryDao;
+
+    @Inject
     private PaperFieldAnswerDAO answerDao;
 
     @Inject
-    private SearchSectionDAO searchSectionDao;
+    private SearchSessionDAO searchSessionDao;
 
     /**
      * @return the dao
@@ -52,15 +62,14 @@ public class PaperService {
         return dao.list();
     }
     
-    public Paper remove(final Long id){
-        Paper f = dao.findById(id);
-        return (dao.remove(f) ? f : null);
+    public boolean remove(final Paper paper){
+        return dao.remove(paper);
     }
 
     public boolean save(final Paper o){
         if(o.getPaperType() != null)
             o.setPaperType(paperTypeDao.findById(o.getPaperType().getId()));
-        o.setSearchSection(searchSectionDao.findById(o.getSearchSection().getId()));
+        o.setSearchSession(searchSessionDao.findById(o.getSearchSession().getId()));
         return dao.save(o);
     }
     
@@ -68,13 +77,8 @@ public class PaperService {
         return dao.findById(id);
     }
     
-    public Paper removeAnswer(final Long paperFieldAnswerId){
-        PaperFieldAnswer answer = paperFieldAnswerDao.findById(paperFieldAnswerId);
-        Paper paper = answer.getPaper();
-        paper.removePaperFieldAnswer(answer);
-        paperFieldAnswerDao.remove(answer);
-        
-        return paper;
+    public boolean removeAnswer(final PaperFieldAnswer answer){
+        return paperFieldAnswerDao.remove(answer);
     }
     
     /**
@@ -157,8 +161,7 @@ public class PaperService {
         }
     }
     
-    public void saveAnswers(final Long paperId, final List<PaperFieldAnswerDTO> userAnswers) {
-        final Paper paper = findById(paperId);
+    public void saveAnswers(final Paper paper, final List<PaperFieldAnswerDTO> userAnswers) {
         for(PaperFieldAnswerDTO dto: userAnswers){
             dto.setField(fieldDao.findById(dto.getField().getId()));
             PaperFieldAnswer answer;
@@ -171,28 +174,56 @@ public class PaperService {
                 }
             } else {
                for(Long fieldOptionId: dto.getFieldOptions()){
-                   FieldOption fieldOption = fieldOptionDao.findById(fieldOptionId);
-                   answer = new PaperFieldAnswer(paper, fieldOption);
-                   answer = tryToFindExistingAnswerAndPopItToBeUpdated(paper, answer);
-                   answer.setFieldOption(fieldOption);
-                   paper.addPaperFieldAnswer(answer);
+                   if(fieldOptionId > 0){
+                    FieldOption fieldOption = fieldOptionDao.findById(fieldOptionId);
+                    answer = new PaperFieldAnswer(paper, fieldOption);
+                    answer = tryToFindExistingAnswerAndPopItToBeUpdated(paper, answer);
+                    answer.setFieldOption(fieldOption);
+                    paper.addPaperFieldAnswer(answer);
+                   }
                } 
             }
         }
         popRemovedAnswersFromList(paper, userAnswers);
         save(paper);
     }
-
+    
+    public List<Paper> search(final Paper searchCriteria){
+        if(searchCriteria.getPaperType()!=null)
+            searchCriteria.setPaperType(paperTypeDao.findById(searchCriteria.getPaperType().getId()));
+        if(searchCriteria.getSearchSession()!=null){
+            if(searchCriteria.getSearchSession().getProject()!=null)
+                searchCriteria.getSearchSession().setProject(
+                        projectDao.findById(searchCriteria.getSearchSession().getProject().getId()));
+            if(searchCriteria.getSearchSession().getRepository()!=null)
+                searchCriteria.getSearchSession().setRepository(
+                        repositoryDao.findById(searchCriteria.getSearchSession().getRepository().getId()));
+        }
+        
+        return dao.search(searchCriteria);
+    }
     
     public List<PaperType> listPaperTypes(){
         return paperTypeDao.list();
+    }    
+    
+    public List<Project> listProjects(){
+        return  projectDao.list();
+    }    
+
+    public List<Repository> listRepositories(){
+        return  repositoryDao.list();
+    }    
+
+    public List<Project> listProjects(final EndUser endUser){
+        return projectDao.listByEndUser(endUser);
     }    
     
     public Map<Field, List<PaperFieldAnswer>> listAnswersForAllFields(final Paper p) {
         final Map<Field, List<PaperFieldAnswer>> result = new HashMap<>();
 
         final List<Field> fields = 
-                fieldDao.listByProject(p.getSearchSection().getProject().getId());
+                fieldDao.listByProject(p.getSearchSession().getProject().getId());
         for(Field f: fields){
             result.put(f, answerDao.listAnswersByPaperAndField(p, f));
         }

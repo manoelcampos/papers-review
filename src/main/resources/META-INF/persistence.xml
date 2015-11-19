@@ -11,7 +11,7 @@
     <class>com.manoelcampos.papersreview.model.PaperType</class>
     <class>com.manoelcampos.papersreview.model.Project</class>
     <class>com.manoelcampos.papersreview.model.Repository</class>
-    <class>com.manoelcampos.papersreview.model.SearchSection</class>
+    <class>com.manoelcampos.papersreview.model.SearchSession</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
     </properties>

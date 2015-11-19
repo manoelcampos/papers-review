@@ -1,25 +1,24 @@
 <%@ include file="/form-header.jsp" %>
     <form method="post" action="${linkTo[FieldOptionController].save}">
-        <input type="hidden" name="o.field.id" value="${o.field.id}"/>
-        <c:if test="${not empty projectId}">
-            <input type="hidden" name="o.field.project.id" value="${projectId}"/>
-        </c:if>
-        Description <input type="text" name="o.description" value="${o.description}"/>
-        Abbreviation <input type="text" name="o.abbreviation" value="${o.abbreviation}"/>
-
-        <input type="hidden" name="o.id" value="${o.id}"/>
+        <input type="hidden" name="fieldOption.id" value="${fieldOption.id}"/>
+        <input type="hidden" name="fieldOption.field.id" value="${fieldOption.field.id}"/>
+        Description <input type="text" name="fieldOption.description" value="${fieldOption.description}" size="80"/>
+        Abbreviation <input type="text" name="fieldOption.abbreviation" value="${fieldOption.abbreviation}" size="20"/>
+        Parent Option
+        <select name="fieldOption.parentFieldOption.id">
+            <option value="0">None</option>
+            <c:forEach items="${fieldOptions}" var="i">
+                <option value="${i.id}">${i.description}</option>
+            </c:forEach>
+        </select>
+        <br/>
+        Notes:
+        <textarea name="fieldOption.notes" rows="15" style="width: 100%">${fieldOption.notes}</textarea>
         
         <hr/>
 
         <input type="submit" value="Save" class="btn btn-primary"/>
-        <c:choose>
-            <c:when test="${not empty projectId}">
-                <a href="${linkTo[ProjectController].fields}?id=${projectId}" class="btn btn-default">Back</a>
-            </c:when>
-            <c:otherwise>
-                <a href="${linkTo[FieldController].view}?id=${o.field.id}" class="btn btn-default">Back</a>                
-            </c:otherwise>
-        </c:choose>
-        <a href="${linkTo[ProjectController].view}?id=${o.field.project.id}" class="btn btn-default">Go to Project</a>
+        <a href="${linkTo[FieldController].view(fieldOption.field)}" class="btn btn-default">Back</a>                
+        <a href="${linkTo[ProjectController].view(fieldOption.field.project)}" class="btn btn-default">Go to Project</a>
     </form>
 <%@ include file="/form-footer.jsp" %>

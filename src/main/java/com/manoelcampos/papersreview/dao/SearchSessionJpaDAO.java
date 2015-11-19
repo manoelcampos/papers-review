@@ -1,7 +1,7 @@
 package com.manoelcampos.papersreview.dao;
 
 import com.manoelcampos.papersreview.model.Project;
-import com.manoelcampos.papersreview.model.SearchSection;
+import com.manoelcampos.papersreview.model.SearchSession;
 import com.manoelcampos.papersreview.model.Repository;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,31 +11,31 @@ import javax.persistence.TypedQuery;
  *
  * @author Manoel Campos da Silva Filho <manoelcampos at gmail.com>
  */
-public class SearchSectionJpaDAO extends JpaDAO<SearchSection> implements SearchSectionDAO {
-    public SearchSectionJpaDAO(EntityManager em) {
-        super(SearchSection.class, em);
+public class SearchSessionJpaDAO extends JpaDAO<SearchSession> implements SearchSessionDAO {
+    public SearchSessionJpaDAO(EntityManager em) {
+        super(SearchSession.class, em);
     }
     
     @Override
-    public List<SearchSection> listByProjectAndRepository(final Project p, final Repository r){
+    public List<SearchSession> listByProjectAndRepository(final Project p, final Repository r){
         final String jpql = 
                 String.format(
                         "select o from %s o where o.repository = :r and o.project = :p", 
                         getGenericClassName());
-        final TypedQuery<SearchSection> qry = createQuery(jpql);
+        final TypedQuery<SearchSession> qry = createQuery(jpql);
         qry.setParameter("r", r);
         qry.setParameter("p", p);
         return qry.getResultList();
     }
 
     @Override
-    public List<SearchSection> listByProject(final Long projectId) {
+    public List<SearchSession> listByProject(final Project project) {
         final String jpql = 
                 String.format(
                         "select o from %s o where o.project = :p", 
                         getGenericClassName());
-        final TypedQuery<SearchSection> qry = createQuery(jpql);
-        qry.setParameter("p", new Project(projectId));
+        final TypedQuery<SearchSession> qry = createQuery(jpql);
+        qry.setParameter("p", project);
         return qry.getResultList();
     }
     

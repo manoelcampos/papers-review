@@ -2,12 +2,13 @@ package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.DAO;
 import com.manoelcampos.papersreview.dao.PaperDAO;
-import com.manoelcampos.papersreview.dao.SearchSectionDAO;
+import com.manoelcampos.papersreview.dao.ProjectDAO;
+import com.manoelcampos.papersreview.dao.SearchSessionDAO;
 import com.manoelcampos.papersreview.model.EndUser;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.model.Repository;
-import com.manoelcampos.papersreview.model.SearchSection;
+import com.manoelcampos.papersreview.model.SearchSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import javax.inject.Inject;
 @Dependent
 public class ProjectService {
     @Inject
-    private DAO<Project> dao;
+    private ProjectDAO dao;
     
     @Inject
     private DAO<Repository> repositoriesDao;
@@ -30,7 +31,7 @@ public class ProjectService {
     private PaperDAO paperDao;
 
     @Inject
-    private SearchSectionDAO searchSectionDao;
+    private SearchSessionDAO searchSessionDao;
 
     @Inject
     private DAO<EndUser> endUserDao;
@@ -42,8 +43,8 @@ public class ProjectService {
         return dao.list();
     }
     
-    public boolean remove(final Long id){
-        return dao.remove(dao.findById(id));
+    public boolean remove(final Project project){
+        return dao.remove(project);
     }
 
     public boolean save(final Project o){
@@ -59,15 +60,15 @@ public class ProjectService {
         return endUserDao.list();
     }
     
-    public Map<Repository, Map<SearchSection, List<Paper>>> listPapersGroupedByRepositoryAndSearchSection(final Project p){
-        Map<Repository, Map<SearchSection, List<Paper>>> result = new HashMap<>();
+    public Map<Repository, Map<SearchSession, List<Paper>>> listPapersGroupedByRepositoryAndSearchSession(final Project p){
+        Map<Repository, Map<SearchSession, List<Paper>>> result = new HashMap<>();
         List<Repository> repositories = repositoriesDao.list();
         
         for(Repository r: repositories) {
-            List<SearchSection> searchSections = searchSectionDao.listByProjectAndRepository(p, r);
-            Map<SearchSection, List<Paper>> papersMap = new HashMap<>();
-            for(SearchSection s: searchSections){
-                papersMap.put(s, paperDao.listBySearchSection(s));
+            List<SearchSession> searchSessions = searchSessionDao.listByProjectAndRepository(p, r);
+            Map<SearchSession, List<Paper>> papersMap = new HashMap<>();
+            for(SearchSession s: searchSessions){
+                papersMap.put(s, paperDao.listBySearchSession(s));
             }
             result.put(r, papersMap);
         }
