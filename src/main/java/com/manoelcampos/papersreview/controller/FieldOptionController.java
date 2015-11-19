@@ -56,8 +56,8 @@ public class FieldOptionController  {
     }
 
     @Get("/field/{field.id}/fieldOption/form")
-    public void form(@NotNull @Load final Field field) {
-        result.include("fieldOption", new FieldOption(field));
+    @IncludeParameters 
+    public void form(@NotNull final Field field) {
         result.include("fieldOptions", service.list(field));
     }
 

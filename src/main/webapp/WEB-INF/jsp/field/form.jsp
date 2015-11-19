@@ -1,7 +1,7 @@
 <%@ include file="/form-header.jsp" %>
     <form method="post" action="${linkTo[FieldController].save}">
         <input type="hidden" name="field.id" value="${field.id}"/>
-        <input type="hidden" name="field.project.id" value="${field.project.id}"/>
+        <input type="hidden" name="field.project.id" value="${project.id}"/>
         Description <input type="text" name="field.description" value="${field.description}" size="80"/>
         Abbreviation <input type="text" name="field.abbreviation" value="${field.abbreviation}"  size="20"/>
         Type

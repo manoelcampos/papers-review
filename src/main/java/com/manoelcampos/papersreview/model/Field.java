@@ -53,6 +53,7 @@ public class Field implements EntityInterface {
     private Project project;
 
     public Field() {
+        this.project = new Project();
     }
 
     public Field(Long id) {
@@ -61,6 +62,7 @@ public class Field implements EntityInterface {
     }
 
     public Field(String description) {
+        this();
         this.description = description;
     }
 

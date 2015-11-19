@@ -1,7 +1,7 @@
 <%@ include file="/form-header.jsp" %>
     <form method="post" action="${linkTo[FieldOptionController].save}">
         <input type="hidden" name="fieldOption.id" value="${fieldOption.id}"/>
-        <input type="hidden" name="fieldOption.field.id" value="${fieldOption.field.id}"/>
+        <input type="hidden" name="fieldOption.field.id" value="${field.id}"/>
         Description <input type="text" name="fieldOption.description" value="${fieldOption.description}" size="80"/>
         Abbreviation <input type="text" name="fieldOption.abbreviation" value="${fieldOption.abbreviation}" size="20"/>
         Parent Option

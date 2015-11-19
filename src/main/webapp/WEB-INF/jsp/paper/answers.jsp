@@ -26,10 +26,10 @@
                                     <c:forEach items="${map.key.fieldOptions}" var="fo" varStatus="j">
                                         <option value="${fpaper.id}"
                                             <c:forEach items="${map.value}" var="a">
-                                                <c:if test="${a.fieldOption.id == fpaper.id}">selected</c:if>
+                                                <c:if test="${a.fieldOption.id == fo.id}">selected</c:if>
                                             </c:forEach>
                                         >
-                                            ${fpaper.description}
+                                            ${fo.description}
                                         </option>
                                     </c:forEach>
                                 </select>

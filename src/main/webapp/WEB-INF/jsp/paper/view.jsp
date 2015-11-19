@@ -35,7 +35,7 @@
         <tbody>     
             <c:forEach items="${paper.paperFieldAnswers}" var="a">
                 <tr>
-                    <td><a href="${linkTo[FieldController].view(a.field, paper)}" title="Click to view the field definition">
+                    <td><a href="${linkTo[FieldController].view(a.field)}" title="Click to view the field definition">
                             ${a.field.description}
                         </a>
                     </td>
