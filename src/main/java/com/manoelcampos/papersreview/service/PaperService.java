@@ -14,6 +14,7 @@ import com.manoelcampos.papersreview.model.FieldOption;
 import com.manoelcampos.papersreview.model.PaperType;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.PaperFieldAnswer;
+import com.manoelcampos.papersreview.model.PaperStatus;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.model.Repository;
 import java.util.HashMap;
@@ -31,6 +32,9 @@ public class PaperService {
     @Inject
     private PaperDAO dao;
     
+    @Inject
+    private DAO<PaperStatus> statusDao;
+
     @Inject
     private ProjectDAO projectDao;
 
@@ -67,10 +71,16 @@ public class PaperService {
     }
 
     public boolean save(final Paper o){
+        loadEntityAttibutesFromDB(o);
+        return dao.save(o);
+    }
+
+    private void loadEntityAttibutesFromDB(final Paper o) {
+        if(o.getStatus() != null)
+            o.setStatus(statusDao.findById(o.getStatus().getId()));
         if(o.getPaperType() != null)
             o.setPaperType(paperTypeDao.findById(o.getPaperType().getId()));
         o.setSearchSession(searchSessionDao.findById(o.getSearchSession().getId()));
-        return dao.save(o);
     }
     
     public Paper findById(final Long id){
@@ -204,6 +214,10 @@ public class PaperService {
         return dao.search(searchCriteria);
     }
     
+    public List<PaperStatus> listStatus() {
+        return statusDao.list();
+    }
+    
     public List<PaperType> listPaperTypes(){
         return paperTypeDao.list();
     }    
@@ -231,5 +245,31 @@ public class PaperService {
          
         return result;
     }
+
+    /**
+     * @return the projectDao
+     */
+    public ProjectDAO getProjectDao() {
+        return projectDao;
+    }
+
+    /**
+     * @return the repositoryDao
+     */
+    public DAO<Repository> getRepositoryDao() {
+        return repositoryDao;
+    }
     
+    public boolean saveListOfPapers(List<Paper> list) {
+        for(Paper p: list){
+            saveWithoutFlush(p);
+        }
+        dao.flush();
+        return true;
+    }    
+
+    private void saveWithoutFlush(Paper p) {
+        loadEntityAttibutesFromDB(p);
+        dao.saveWithoutFlush(p);
+    }
 }

@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 @Transactional() 
 public class JpaDAO<T extends EntityInterface> implements DAO<T> {
     @PersistenceContext()
-    private EntityManager em;
+    private final EntityManager em;
 
     private final Class<T> genericClass;
     
@@ -30,43 +30,52 @@ public class JpaDAO<T extends EntityInterface> implements DAO<T> {
     public String getGenericClassName(){ return genericClass.getSimpleName(); }
     
     protected TypedQuery<T> createQuery(final String jpql){ 
-        return em.createQuery(jpql, genericClass);
+        return getEm().createQuery(jpql, genericClass);
     }
 
     @Override
     public boolean save(T o) {
         saveWithoutFlush(o);
-        em.flush();
+        getEm().flush();
         return true;
     }
 
-    protected boolean saveWithoutFlush(T o){
+    @Override
+    public boolean saveWithoutFlush(T o){
         if(o.getId() == null || o.getId() == 0)
-            em.persist(o);
-        else em.merge(o);
+            getEm().persist(o);
+        else getEm().merge(o);
         return true;
     }        
     
     @Override
     public boolean remove(T o) {
-            em.remove(o);
-            em.flush();
+            getEm().remove(o);
+            getEm().flush();
             return true;
     }
 
     @Override
     public List<T> list() {
-        CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(genericClass);
+        CriteriaQuery<T> query = getEm().getCriteriaBuilder().createQuery(genericClass);
         query.from(genericClass);
-        return em.createQuery(query).getResultList();
+        return getEm().createQuery(query).getResultList();
     }
 
     @Override
     public T findById(Long id) {
-        return em.find(genericClass,id);
+        if(id == null || id <= 0)
+            return null;
+        
+        return getEm().find(genericClass,id);
     }
     
-    protected void flush(){
-        em.flush();
+    @Override
+    public void flush(){
+        getEm().flush();
+    }
+
+    protected EntityManager getEm() {
+        return em;
     }
 }

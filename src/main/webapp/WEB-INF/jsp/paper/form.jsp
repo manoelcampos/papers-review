@@ -26,25 +26,23 @@
             <option value="1" <c:if test="${paper.survey==1}">selected</c:if>>Yes</option>
             <option value="0" <c:if test="${paper.survey==0}">selected</c:if>>No</option>
         </select>
-        <br/>
         
-        Accepted on Selection Phase: 
-        <select name="paper.acceptedOnSelectionPhase" id="acceptedOnSelectionPhase">
-            <option value="-1">Not Defined</option>
-            <option value="1" <c:if test="${paper.acceptedOnSelectionPhase==1}">selected</c:if>>Yes</option>
-            <option value="0" <c:if test="${paper.acceptedOnSelectionPhase==0}">selected</c:if>>No</option>
+        Status: 
+        <select name="paper.status.id" id="status">
+            <option value="0">Not Defined</option>
+            <c:forEach items="${status}" var="s">
+                <option value="${s.id}" <c:if test="${paper.status.id == s.id}">selected</c:if> >${s}</option>
+            </c:forEach>
         </select>
         
-        Accepted on Extraction Phase: 
-        <select name="paper.acceptedOnExtractionPhase" id="acceptedOnExtractionPhase">
-            <option value="-1">Not Defined</option>
-            <option value="1" <c:if test="${paper.acceptedOnExtractionPhase==1}">selected</c:if>>Yes</option>
-            <option value="0" <c:if test="${paper.acceptedOnExtractionPhase==0}">selected</c:if>>No</option>
-        </select>
         <br/>
         Abstract:
-        <textarea name="paper.paperAbstract" rows="15" style="width: 100%">${paper.paperAbstract}</textarea>
+        <textarea name="paper.paperAbstract" rows="10" style="width: 100%">${paper.paperAbstract}</textarea>
         
+        <br/>
+        Notes:
+        <textarea name="paper.notes" rows="5" style="width: 100%">${paper.notes}</textarea>
+
         <hr/>
 
         <input type="submit" value="Save" class="btn btn-primary"/>
@@ -52,22 +50,3 @@
         <a href="${linkTo[ProjectController].view(paper.searchSession.project)}" class="btn btn-default">Go to Project</a>
     </form>
 <%@ include file="/form-footer.jsp" %>
-
-<script type="text/javascript">
-    $("document").ready(function(){
-       $("#acceptedOnSelectionPhase").change(function(){
-            disableFields();
-       });
-       
-       disableFields();
-    });
-    
-    function disableFields(){
-           var selected = $("#acceptedOnSelectionPhase").val();
-           var disable = selected!=="1";
-           $("#acceptedOnExtractionPhase").prop('disabled', disable);
-           if(disable){
-               $("#acceptedOnExtractionPhase").val(selected);
-           }        
-    }
-</script>

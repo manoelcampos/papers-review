@@ -12,8 +12,11 @@
     <class>com.manoelcampos.papersreview.model.Project</class>
     <class>com.manoelcampos.papersreview.model.Repository</class>
     <class>com.manoelcampos.papersreview.model.SearchSession</class>
+    <class>com.manoelcampos.papersreview.model.PaperStatus</class>
+    <class>com.manoelcampos.papersreview.model.ReviewPhase</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
     </properties>
   </persistence-unit>
 </persistence>

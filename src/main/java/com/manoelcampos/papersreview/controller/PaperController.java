@@ -42,7 +42,6 @@ public class PaperController extends BaseController {
 
     @Get("/paper/{paper.id}")
     public Paper view(@NotNull @Load final Paper paper) {
-        includeRequestUrlInView();
         return paper;
     }
     
@@ -82,7 +81,12 @@ public class PaperController extends BaseController {
 
     @Get()
     public void form() {
+        includePaperTypeAndStatusLists();
+    }
+
+    private void includePaperTypeAndStatusLists() {
         result.include("paperTypes", service.listPaperTypes());
+        result.include("status", service.listStatus());
     }
 
     @Post()
@@ -103,7 +107,7 @@ public class PaperController extends BaseController {
     
     @Get("/project/{project.id}/paper/search")
     public void search(@Load Project project) {
-        result.include("paperTypes", service.listPaperTypes());
+        includePaperTypeAndStatusLists();
         result.include("projects", service.listProjects());
         result.include("repositories", service.listRepositories());
         if(project != null && project.getId() > 0)

@@ -1,8 +1,5 @@
 package com.manoelcampos.papersreview.service;
 
-import com.manoelcampos.papersreview.dao.DAO;
-import com.manoelcampos.papersreview.dao.PaperDAO;
-import com.manoelcampos.papersreview.dao.ProjectDAO;
 import com.manoelcampos.papersreview.dao.SearchSessionDAO;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.Repository;
@@ -22,13 +19,7 @@ public class SearchSessionService {
     private SearchSessionDAO dao;
     
     @Inject
-    private DAO<Repository> repositoryDao;
-
-    @Inject
-    private ProjectDAO projectDao;
-
-    @Inject
-    private PaperDAO paperDao;
+    private PaperService paperService;
     /**
      * @return the dao
      */
@@ -41,8 +32,8 @@ public class SearchSessionService {
     }
 
     public boolean save(final SearchSession o){
-        o.setRepository(repositoryDao.findById(o.getRepository().getId()));
-        o.setProject(projectDao.findById(o.getProject().getId()));
+        o.setRepository(paperService.getRepositoryDao().findById(o.getRepository().getId()));
+        o.setProject(paperService.getProjectDao().findById(o.getProject().getId()));
         return dao.save(o);
     }
     
@@ -55,14 +46,14 @@ public class SearchSessionService {
     }
     
     public List<Repository> listRepositories(){
-        return repositoryDao.list();
+        return paperService.getRepositoryDao().list();
     }
     
     public Project getProject(final Long projectId){
-        return projectDao.findById(projectId);
+        return paperService.getProjectDao().findById(projectId);
     }
     
     public boolean saveListOfPapers(List<Paper> list){
-        return paperDao.saveListOfPapers(list);
+        return paperService.saveListOfPapers(list);
     }
 }

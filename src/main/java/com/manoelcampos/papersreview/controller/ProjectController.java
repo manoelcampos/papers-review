@@ -6,10 +6,14 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
+import com.manoelcampos.papersreview.model.Paper;
+import com.manoelcampos.papersreview.model.Repository;
+import com.manoelcampos.papersreview.model.SearchSession;
 import com.manoelcampos.papersreview.service.ProjectService;
 import com.manoelcampos.papersreview.model.Project;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -63,8 +67,10 @@ public class ProjectController extends BaseController  {
 
     @Get("/project/{project.id}")
     public Project view(@NotNull @Load Project project) {
-        includeRequestUrlInView();
-        result.include("repositoriesMap", service.listPapersGroupedByRepositoryAndSearchSession(project));
+        final Map<Repository, Map<SearchSession, List<Paper>>> repositoriesMap =
+                service.listPapersGroupedByRepositoryAndSearchSession(project);
+        result.include("repositoriesMap", repositoriesMap);
+
         return project;
     }
 

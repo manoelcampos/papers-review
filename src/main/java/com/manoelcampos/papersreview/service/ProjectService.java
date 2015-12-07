@@ -4,6 +4,7 @@ import com.manoelcampos.papersreview.dao.DAO;
 import com.manoelcampos.papersreview.dao.PaperDAO;
 import com.manoelcampos.papersreview.dao.ProjectDAO;
 import com.manoelcampos.papersreview.dao.SearchSessionDAO;
+import com.manoelcampos.papersreview.dto.PaperCountByStatusDTO;
 import com.manoelcampos.papersreview.model.EndUser;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.Project;
@@ -12,6 +13,7 @@ import com.manoelcampos.papersreview.model.SearchSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
@@ -74,5 +76,16 @@ public class ProjectService {
         }
         return result;
     }
-    
+
+    public Map<SearchSession, List<PaperCountByStatusDTO>> getPaperCountByStatusForEachSearchSession(final Project p) {
+        final Map<SearchSession, List<PaperCountByStatusDTO>> map = new HashMap<>();
+
+        final List<SearchSession> searchSessions = searchSessionDao.listByProject(p);
+
+        for (SearchSession s : searchSessions) {
+            map.put(s, searchSessionDao.getPaperCountByStatus(s));
+        }
+
+        return map;
+    }
 }

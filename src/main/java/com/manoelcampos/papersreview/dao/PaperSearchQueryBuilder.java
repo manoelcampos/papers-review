@@ -22,8 +22,7 @@ public class PaperSearchQueryBuilder {
     }
 
     private PaperSearchQueryBuilder build(){
-        addBooleanSearchParam("acceptedOnExtractionPhase", searchCriteria.getAcceptedOnExtractionPhase());
-        addBooleanSearchParam("acceptedOnSelectionPhase", searchCriteria.getAcceptedOnSelectionPhase());
+        addEntitySearchParam("status", searchCriteria.getStatus());
         addBooleanSearchParam("survey", searchCriteria.getSurvey());
         
         addStringSearchParam("authors", searchCriteria.getAuthors());

@@ -20,21 +20,21 @@
                         <li>
                             <span 
                                 <c:choose>
-                                    <c:when test="${empty p.acceptedOnSelectionPhase && empty p.acceptedOnExtractionPhase}">
-                                        style="color: #939393;"
+                                    <c:when test="${empty p.status}">
+                                        style="color: #939393;" <!-- cinza -->
                                     </c:when>
-                                    <c:when test="${p.acceptedOnSelectionPhase==0 && p.acceptedOnExtractionPhase==0}">
-                                        style="color: #FF0000;"
+                                    <c:when test="${p.status.acceptedOnExtractionPhase()}">
+                                        style="color: #006B24;" <!-- verde escuro -->
                                     </c:when>
-                                    <c:when test="${p.acceptedOnSelectionPhase==1 && p.acceptedOnExtractionPhase==1}">
-                                        style="color: #006B24;"
+                                    <c:when test="${p.status.acceptedOnSelectionPhase()}">
+                                        style="color: #4DB870;" <!-- verde claro -->
                                     </c:when>
-                                    <c:when test="${p.acceptedOnSelectionPhase==1 && empty p.acceptedOnExtractionPhase}">
-                                        style="color: #4DB870;"
+                                    <c:when test="${p.status.rejectedOnSelectionPhase()}">
+                                        style="color: #FF4747;"  <!-- vermelho claro -->
                                     </c:when>
-                                    <c:otherwise>
-                                        style="color: #FF4747;"
-                                    </c:otherwise>
+                                    <c:when test="${p.status.rejectedOnExtractionPhase()}">
+                                        style="color: #FF0000;" <!-- vermelho escuro -->
+                                    </c:when>
                                 </c:choose>
                             >
                                 <a href="${linkTo[PaperController].view(p)}" alt="Click to View">

@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -63,14 +64,14 @@ public class Paper implements EntityInterface {
     @Column(nullable = true)
     private Integer survey;
 
-    @Column(nullable = true)
-    private Integer acceptedOnSelectionPhase;
+    @ManyToOne(optional = true)
+    private PaperStatus status;
     
     @Column(nullable = true)
-    private Integer acceptedOnExtractionPhase;
+    private String paperAbstract;   
     
     @Column(nullable = true)
-    private String paperAbstract;    
+    private String notes;
 
     @OrderBy(value = "field")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paper", fetch = FetchType.EAGER)
@@ -79,6 +80,7 @@ public class Paper implements EntityInterface {
     public Paper() {
         this.searchSession = new SearchSession();
         this.paperType = new PaperType();
+        this.status = new PaperStatus();
     }
 
     public Paper(Long id) {
@@ -207,38 +209,6 @@ public class Paper implements EntityInterface {
     }
 
     /**
-     * @return the acceptedOnSelectionPhase
-     */
-    public Integer getAcceptedOnSelectionPhase() {
-        return acceptedOnSelectionPhase;
-    }
-
-    /**
-     * @param acceptedOnSelectionPhase the acceptedOnSelectionPhase to set
-     */
-    public void setAcceptedOnSelectionPhase(Integer acceptedOnSelectionPhase) {
-        if(acceptedOnSelectionPhase < 0)
-            acceptedOnSelectionPhase = null;
-        this.acceptedOnSelectionPhase = acceptedOnSelectionPhase;
-    }
-
-    /**
-     * @return the acceptedOnExtractionPhase
-     */
-    public Integer getAcceptedOnExtractionPhase() {
-        return acceptedOnExtractionPhase;
-    }
-
-    /**
-     * @param acceptedOnExtractionPhase the acceptedOnExtractionPhase to set
-     */
-    public void setAcceptedOnExtractionPhase(Integer acceptedOnExtractionPhase) {
-        if(acceptedOnExtractionPhase < 0)
-            acceptedOnExtractionPhase = null;
-        this.acceptedOnExtractionPhase = acceptedOnExtractionPhase;
-    }
-
-    /**
      * @return the searchSession
      */
     public SearchSession getSearchSession() {
@@ -310,6 +280,35 @@ public class Paper implements EntityInterface {
     public void setPaperAbstract(String paperAbstract) {
         this.paperAbstract = paperAbstract;
     }
+
+    /**
+     * @return the status
+     */
+    public PaperStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(PaperStatus status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the notes
+     */
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * @param notes the notes to set
+     */
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+    
 
     
 }

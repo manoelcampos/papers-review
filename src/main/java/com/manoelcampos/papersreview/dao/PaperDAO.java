@@ -10,6 +10,5 @@ import java.util.List;
  */
 public interface PaperDAO extends DAO<Paper> {
     List<Paper> listBySearchSession(final SearchSession s);
-    boolean saveListOfPapers(final List<Paper> list);
     List<Paper> search(final Paper searchCriteria);
 }

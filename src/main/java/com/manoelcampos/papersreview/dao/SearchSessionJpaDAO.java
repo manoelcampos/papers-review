@@ -1,5 +1,6 @@
 package com.manoelcampos.papersreview.dao;
 
+import com.manoelcampos.papersreview.dto.PaperCountByStatusDTO;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.model.SearchSession;
 import com.manoelcampos.papersreview.model.Repository;
@@ -38,5 +39,20 @@ public class SearchSessionJpaDAO extends JpaDAO<SearchSession> implements Search
         qry.setParameter("p", project);
         return qry.getResultList();
     }
-    
+
+    @Override
+    public List<PaperCountByStatusDTO> getPaperCountByStatus(SearchSession s) {
+        final String jpql = "select case when p.status.id in (1,3) then 'Rejected' " +
+                "  when p.status.id = 2 then 'Accepted on Selection' " +
+                "  when p.status.id = 4 then 'Accepted on Extraction' " +
+                "  else 'Not Classified' " +
+                " end, count(p) " +
+                " from Paper p where p.searchSession = :searchSession group by 1";
+
+        return
+                getEm().createQuery(jpql, PaperCountByStatusDTO.class)
+                    .setParameter("searchSession", s)
+                    .getResultList();
+    }
+
 }

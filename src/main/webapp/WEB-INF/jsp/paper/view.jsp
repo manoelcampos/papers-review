@@ -13,12 +13,20 @@
     Type: ${paper.paperType.description} &nbsp;&nbsp; Search Session: ${paper.searchSession.id} &nbsp;&nbsp;
     Citation Key: ${paper.citationKey}<br/>
     Survey: ${paper.survey} &nbsp;&nbsp; 
-    Accepted on Selection Phase: ${paper.acceptedOnSelectionPhase}&nbsp;&nbsp;
-    Accepted on Extraction Phase: ${paper.acceptedOnExtractionPhase}
+    Status: ${paper.status}
+
+    <c:if test="${not empty paper.paperAbstract}">
     <br/> 
     Abstract:<br/>
     <div style="width: 100%; border: #cccccc 1px;">${paper.paperAbstract}</div>
     <br/> 
+    </c:if>
+
+    <c:if test="${not empty paper.notes}">
+    Notes:<br/>
+    <div style="width: 100%; border: #cccccc 1px;">${paper.notes}</div>
+    <br/> 
+    </c:if>
     
     <a href="${linkTo[PaperController].edit(paper)}">Edit Paper</a>
     | <a href="${linkTo[PaperController].remove(paper)}"  onclick="return window.confirm('Are you sure you want to remove the paper ${paper.title}?')">Remove Paper</a>

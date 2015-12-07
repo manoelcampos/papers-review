@@ -41,21 +41,15 @@
             <option value="1" <c:if test="${paper.survey==1}">selected</c:if>>Yes</option>
             <option value="0" <c:if test="${paper.survey==0}">selected</c:if>>No</option>
         </select>
-        <br/>
         
-        Accepted on Selection Phase: 
-        <select name="paper.acceptedOnSelectionPhase">
-            <option value="-1">All</option>
-            <option value="1" <c:if test="${paper.acceptedOnSelectionPhase==1}">selected</c:if>>Yes</option>
-            <option value="0" <c:if test="${paper.acceptedOnSelectionPhase==0}">selected</c:if>>No</option>
+        Status: 
+        <select name="paper.status.id" id="status">
+            <option value="0">Not Defined</option>
+            <c:forEach items="${status}" var="s">
+                <option value="${s.id}" <c:if test="${paper.status.id == s.id}">selected</c:if> >${s}</option>
+            </c:forEach>
         </select>
-        
-        Accepted on Extraction Phase: 
-        <select name="paper.acceptedOnExtractionPhase">
-            <option value="-1">All</option>
-            <option value="1" <c:if test="${paper.acceptedOnExtractionPhase==1}">selected</c:if>>Yes</option>
-            <option value="0" <c:if test="${paper.acceptedOnExtractionPhase==0}">selected</c:if>>No</option>
-        </select>
+
         
         <hr/>
 

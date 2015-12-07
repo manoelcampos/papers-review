@@ -96,13 +96,21 @@ public class SearchSessionController  {
     @Get("/searchSection/edit/{searchSession.id}")
     @IncludeParameters
     public void edit(@NotNull @Load final SearchSession searchSession) {
-        result.redirectTo(this).form(searchSession.getProject());
+        result.redirectTo(this).form(searchSession);
     }
 
     @Get("/project/{project.id}/searchSection/form")
     public void form(@NotNull final Project project) {
-        if(project.getId() > 0)
-            result.include("searchSession", new SearchSession(project));
+        includeSearchSessionAndRepositoriesInResult(new SearchSession(project));
+    }
+
+    @Get("/project/{searchSession.project.id}/searchSection/form/{searchSession.id}")
+    public void form(@NotNull final SearchSession searchSession) {
+        includeSearchSessionAndRepositoriesInResult(searchSession);
+    }
+
+    private void includeSearchSessionAndRepositoriesInResult(final SearchSession searchSession) {
+        result.include("searchSession", searchSession);
         result.include("repositories", service.listRepositories());
     }
 

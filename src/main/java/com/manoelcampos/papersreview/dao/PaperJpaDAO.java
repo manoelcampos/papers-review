@@ -16,9 +16,7 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
     }
 
     @Override
-    protected boolean saveWithoutFlush(Paper o) {
-        if(o.getPaperType() != null && (o.getPaperType().getId() == null || o.getPaperType().getId()<=0))
-            o.setPaperType(null);
+    public boolean saveWithoutFlush(Paper o) {
         return super.saveWithoutFlush(o); 
     }
 
@@ -32,16 +30,6 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
         qry.setParameter("s", s);
         return qry.getResultList();
     }
-
-    @Override
-    public boolean saveListOfPapers(List<Paper> list) {
-        for(Paper p: list){
-            this.saveWithoutFlush(p);
-        }
-        this.flush();
-        return true;
-    }
-    
 
     @Override
     public List<Paper> search(final Paper searchCriteria) {

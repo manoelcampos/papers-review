@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="PapersReview:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="PapersReview-0.5.war">
+      <element id="artifact" artifact-name="PapersReview:war exploded" />
+    </root>
+  </artifact>
+</component>
