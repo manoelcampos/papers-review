@@ -15,12 +15,28 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
+    <repositories>
+        <repository>
+            <!--
+            https://devcenter.heroku.com/articles/local-maven-dependencies
+            Repositório local para dependências que não estejam em repositório online e público.
+            Primeiro é preciso instalar a dependência do repositório local do manven
+            para o repositório local do projeto.
+            Entrando na pasta do projeto pela linha de comando execute:
+            mvn install:install-file -DlocalRepositoryPath=/Users/manoelcampos/NetBeansProjects/PapersReview/repo/ -Dfile=/Users/manoelcampos/.m2/repository/org/jbibtex/jbibtex/1.0.16/jbibtex-1.0.16.jar -DgroupId=org.jbibtex -DartifactId=jbibtex -Dpackaging=jar -Dversion=1.0.16 
+            -->
+            <id>project.local</id>
+            <name>project</name>
+            <url>file:${project.basedir}/repo</url>
+        </repository>        
+    </repositories>    
+    
     <dependencies>
         <dependency>
             <groupId>org.jbibtex</groupId>
             <artifactId>jbibtex</artifactId>
             <version>1.0.16</version>
-        </dependency>        
+        </dependency>                
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
@@ -126,19 +142,5 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <!--
-            https://devcenter.heroku.com/articles/local-maven-dependencies
-            Repositório local para dependências que não estejam em repositório online e público.
-            Primeiro é preciso instalar a dependência do repositório local do manven
-            para o repositório local do projeto.
-            Entrando na pasta do projeto pela linha de comando execute:
-            mvn install:install-file -DlocalRepositoryPath=/Users/manoelcampos/NetBeansProjects/PapersReview/repo/ -Dfile=/Users/manoelcampos/.m2/repository/org/jbibtex/jbibtex/1.0.16/jbibtex-1.0.16.jar -DgroupId=org.jbibtex -DartifactId=jbibtex -Dpackaging=jar -Dversion=1.0.16 
-            -->
-            <id>project.local</id>
-            <name>project</name>
-            <url>file:${project.basedir}/repo</url>
-        </repository>        
-    </repositories>
+
 </project>
