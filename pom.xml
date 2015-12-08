@@ -20,7 +20,6 @@
             <groupId>org.jbibtex</groupId>
             <artifactId>jbibtex</artifactId>
             <version>1.0.16</version>
-            <type>jar</type>
         </dependency>        
         <dependency>
             <groupId>commons-fileupload</groupId>
