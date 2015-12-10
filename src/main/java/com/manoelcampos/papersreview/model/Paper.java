@@ -3,6 +3,7 @@ package com.manoelcampos.papersreview.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -152,6 +153,24 @@ public class Paper implements EntityInterface {
 
     public List<PaperFieldAnswer> getPaperFieldAnswers() {
         return paperFieldAnswers;
+    }
+
+    private List<PaperFieldAnswer> getPaperFieldAnswersInternal(final Field field) {
+        return paperFieldAnswers.stream().filter(
+                a -> a.getField().getId().equals(field.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getPaperFieldAnswers(final Field field) {
+        List<String> result = new ArrayList<>();
+        getPaperFieldAnswersInternal(field).forEach(answer -> result.add(answer.getAnswer()));
+        return result;
+    }
+
+    public List<String> getPaperFieldAbbreviatedAnswers(final Field field) {
+        List<String> result = new ArrayList<>();
+        getPaperFieldAnswersInternal(field).forEach(answer -> result.add(answer.getAbbreviatedAnswer()));
+        return result;
     }
 
     public void clearPaperFieldAnswers() {

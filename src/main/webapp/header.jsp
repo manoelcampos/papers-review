@@ -6,6 +6,7 @@
 <head>
     <title>Paper Review</title>
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/papers-review.css">
 
     <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
 

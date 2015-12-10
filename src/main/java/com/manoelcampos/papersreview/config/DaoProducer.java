@@ -1,19 +1,7 @@
 package com.manoelcampos.papersreview.config;
 
-import com.manoelcampos.papersreview.dao.DAO;
-import com.manoelcampos.papersreview.dao.FieldDAO;
-import com.manoelcampos.papersreview.dao.FieldJpaDAO;
-import com.manoelcampos.papersreview.dao.FieldOptionDAO;
-import com.manoelcampos.papersreview.dao.FieldOptionJpaDAO;
-import com.manoelcampos.papersreview.dao.JpaDAO;
-import com.manoelcampos.papersreview.dao.PaperDAO;
-import com.manoelcampos.papersreview.dao.PaperFieldAnswerDAO;
-import com.manoelcampos.papersreview.dao.PaperFieldAnswerJpaDAO;
-import com.manoelcampos.papersreview.dao.PaperJpaDAO;
-import com.manoelcampos.papersreview.dao.ProjectDAO;
-import com.manoelcampos.papersreview.dao.ProjectJpaDAO;
-import com.manoelcampos.papersreview.dao.SearchSessionDAO;
-import com.manoelcampos.papersreview.dao.SearchSessionJpaDAO;
+import com.manoelcampos.papersreview.dao.*;
+
 import java.lang.reflect.ParameterizedType;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -81,5 +69,9 @@ public class DaoProducer {
     public ProjectDAO createProjectDao() {
         return new ProjectJpaDAO(em);
     }
-    
+
+    @Produces
+    public PaperSummaryTableDAO createPaperSummaryTableDAO(){
+        return new PaperSummaryTableJpaDAO(em);
+    }
 }

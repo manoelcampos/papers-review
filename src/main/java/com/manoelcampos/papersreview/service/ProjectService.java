@@ -13,7 +13,6 @@ import com.manoelcampos.papersreview.model.SearchSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 

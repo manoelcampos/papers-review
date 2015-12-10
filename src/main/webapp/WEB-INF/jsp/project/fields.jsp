@@ -1,10 +1,12 @@
 <%@ include file="/header.jsp" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <h3>Project ${project.description} - User: ${project.endUser.name}</h3>
-
 <table class="table-striped table-bordered" width="100%">
+    <caption>Number of Fields: ${fn:length(project.fields)}</caption>
     <thead>
       <tr>
+        <th>#</th>
         <th>Description</th>
         <th>Abbreviation</th>
         <th>Type</th>
@@ -14,8 +16,9 @@
     </thead>
     <tbody>  
         <c:if test="${project.fields != null}">
-            <c:forEach items="${project.fields}" var="f">
+            <c:forEach items="${project.fields}" var="f" varStatus="status">
                 <tr>
+                    <td>${status.index+1}</td>
                     <td><a href="${linkTo[FieldController].view(f)}">${f.description}</a></td>
                     <td>${f.abbreviation}</td>
                     <td>${f.fieldType.description}</td>

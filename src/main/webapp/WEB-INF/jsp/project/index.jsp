@@ -1,6 +1,5 @@
 <%@ include file="/header.jsp" %>
 
-${url}
 
 <table class="table-striped table-bordered">
     <thead>
@@ -16,6 +15,7 @@ ${url}
                 <td><a href="${linkTo[ProjectController].view(project)}">${project.description}</a></td>
                 <td>${project.endUser.name}</td>
                 <td>
+                    <a href="${linkTo[ProjectReportsController].index(project)}">Reports</a>
                     <a href="${linkTo[ProjectController].edit(project)}">Edit</a>
                     <a href="${linkTo[ProjectController].remove(project)}" onclick="return window.confirm('Are you sure you want to remove the project ${project.description}?')">Remove</a>
                 </td>

@@ -1,5 +1,7 @@
 package com.manoelcampos.papersreview.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -129,4 +131,11 @@ public class PaperFieldAnswer implements EntityInterface {
     public String getAnswer(){
         return (field.isSubjective() ? subjectiveAnswer : fieldOption.getDescription());
     }
+
+    public String getAbbreviatedAnswer(){
+        return (field.isSubjective() ? subjectiveAnswer :
+                (StringUtils.isNotEmpty(fieldOption.getAbbreviation()) ?
+                    fieldOption.getAbbreviation() : fieldOption.getDescription()));
+    }
+
 }

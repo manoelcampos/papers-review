@@ -6,6 +6,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
+import com.manoelcampos.papersreview.dto.PaperCountByStatusDTO;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.Repository;
 import com.manoelcampos.papersreview.model.SearchSession;
