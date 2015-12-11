@@ -1,5 +1,6 @@
 package com.manoelcampos.papersreview.dao;
 
+import com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.PaperFieldAnswer;
@@ -21,5 +22,17 @@ public class PaperFieldAnswerJpaDAO extends JpaDAO<PaperFieldAnswer> implements 
                 String.format(
                         "select o from %s o where o.paper = :p and o.field = :f", getGenericClassName());
         return createQuery(jpql).setParameter("p", paper).setParameter("f", field).getResultList();
+    }
+
+    @Override
+    public List<PaperCountByFieldOptionDTO> listAnswersCountForFieldOptionByField(final Field field) {
+        final String jpql =
+                "select new com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO(fo, count(a)) " +
+                " from PaperFieldAnswer a join a.fieldOption fo " +
+                " where a.field.showInReports=true and a.field = :field group by fo";
+
+        return getEm().createQuery(jpql, PaperCountByFieldOptionDTO.class)
+                .setParameter("field", field)
+                .getResultList();
     }
 }

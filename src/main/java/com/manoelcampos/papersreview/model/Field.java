@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -36,6 +38,8 @@ public class Field implements EntityInterface {
 
     @Size(max = 10)
     private String abbreviation;
+
+    private boolean showInReports = true;
 
     @ManyToOne(optional = false)
     private FieldType fieldType;
@@ -194,5 +198,21 @@ public class Field implements EntityInterface {
      */
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public boolean isShowInReports() {
+        return showInReports;
+    }
+
+    public void setShowInReports(boolean showInReports) {
+        this.showInReports = showInReports;
+    }
+
+    public List<String> getFieldOptionsThatHaveAbbreviation() {
+        final List<String> list = new ArrayList<>();
+        fieldOptions.stream()
+                .filter(o -> StringUtils.isNotEmpty(o.getAbbreviation()))
+                .forEach(o -> list.add(String.format("%s = %s", o.getAbbreviation(), o.getDescription())));
+        return list;
     }
 }

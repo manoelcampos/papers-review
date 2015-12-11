@@ -1,12 +1,6 @@
 package com.manoelcampos.papersreview.service;
 
-import com.manoelcampos.papersreview.dao.DAO;
-import com.manoelcampos.papersreview.dao.FieldDAO;
-import com.manoelcampos.papersreview.dao.FieldOptionDAO;
-import com.manoelcampos.papersreview.dao.PaperDAO;
-import com.manoelcampos.papersreview.dao.PaperFieldAnswerDAO;
-import com.manoelcampos.papersreview.dao.ProjectDAO;
-import com.manoelcampos.papersreview.dao.SearchSessionDAO;
+import com.manoelcampos.papersreview.dao.*;
 import com.manoelcampos.papersreview.dto.PaperFieldAnswerDTO;
 import com.manoelcampos.papersreview.model.EndUser;
 import com.manoelcampos.papersreview.model.Field;
@@ -48,7 +42,7 @@ public class PaperService {
     private FieldOptionDAO fieldOptionDao;
 
     @Inject
-    private DAO<PaperType> paperTypeDao;
+    private PaperTypeDAO paperTypeDao;
 
     @Inject
     private DAO<Repository> repositoryDao;
@@ -135,10 +129,9 @@ public class PaperService {
      * Caso não tenha sido, indica que o usuário desmarcou tal opção e a mesma
      * deve ser removida da lista de respostas para o Field
      * 
-     * @param paper
+     * @param existingAnswer
      * @param userAnswers
-     * @param fieldOption
-     * @return 
+     * @return
      */
     private boolean findExistingAnswerInUserAnswerListForMultipleChoiceFields(
             final PaperFieldAnswer existingAnswer, 
@@ -238,7 +231,7 @@ public class PaperService {
         final Map<Field, List<PaperFieldAnswer>> result = new HashMap<>();
 
         final List<Field> fields = 
-                fieldDao.listByProject(p.getSearchSession().getProject().getId());
+                fieldDao.listByProject(p.getSearchSession().getProject());
         for(Field f: fields){
             result.put(f, answerDao.listAnswersByPaperAndField(p, f));
         }

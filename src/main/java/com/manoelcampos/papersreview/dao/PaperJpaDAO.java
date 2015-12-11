@@ -1,6 +1,7 @@
 package com.manoelcampos.papersreview.dao;
 
 import com.manoelcampos.papersreview.model.Paper;
+import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.model.SearchSession;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -41,6 +42,14 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
         return qry.getResultList();
     }
 
-    
-    
+    @Override
+    public List<Paper> listPapersWithDefinedTypeByProject(final Project project) {
+        final String jpql =
+                " select p from Paper p join p.paperType " +
+                " where p.searchSession.project = :project";
+
+        return createQuery(jpql).setParameter("project", project).getResultList();
+    }
+
+
 }

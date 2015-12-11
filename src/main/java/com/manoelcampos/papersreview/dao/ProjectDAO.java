@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ProjectDAO extends DAO<Project> {
     List<Project> listByEndUser(final EndUser endUser);
-    List<PaperCountByStatusDTO> getPaperCountByStatus(Project p);
+    List<PaperCountByStatusDTO> getPaperCountByStatus(final Project p);
     List<PaperCountByRepositoryDTO> getPaperCountByRepository(final Project p);
     List<PaperCountByTypeDTO> getPaperCountByType(final Project p);
 }

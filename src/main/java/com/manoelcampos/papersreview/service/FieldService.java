@@ -50,7 +50,7 @@ public class FieldService {
         return fieldTypeDao.list();
     }
     
-    public List<Field> listByProject(final Long projectId){
-        return dao.listByProject(projectId);
+    public List<Field> listByProject(final Project project){
+        return dao.listByProject(project);
     }
 }

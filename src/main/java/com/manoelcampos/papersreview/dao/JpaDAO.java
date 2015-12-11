@@ -14,14 +14,14 @@ import javax.transaction.Transactional;
  * @author manoelcampos
  * @param <T>
  */
-@Dependent
-@Transactional() 
+
+@Transactional()
 public class JpaDAO<T extends EntityInterface> implements DAO<T> {
     @PersistenceContext()
     private final EntityManager em;
 
     private final Class<T> genericClass;
-    
+
     public JpaDAO(Class<T> genericClass, EntityManager em){
         this.genericClass = genericClass;
         this.em = em;

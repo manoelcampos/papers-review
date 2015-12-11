@@ -1,6 +1,7 @@
 package com.manoelcampos.papersreview.dao;
 
 import com.manoelcampos.papersreview.model.Paper;
+import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.model.SearchSession;
 import java.util.List;
 
@@ -11,4 +12,5 @@ import java.util.List;
 public interface PaperDAO extends DAO<Paper> {
     List<Paper> listBySearchSession(final SearchSession s);
     List<Paper> search(final Paper searchCriteria);
+    List<Paper> listPapersWithDefinedTypeByProject(final Project project);
 }

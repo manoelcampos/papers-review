@@ -17,12 +17,30 @@ public class FieldJpaDAO extends JpaDAO<Field> implements FieldDAO {
     }
     
     @Override
-    public List<Field> listByProject(final Long projectId){
+    public List<Field> listByProject(final Project project){
         final String jpql = 
                 String.format("select o from %s o where o.project = :project", getGenericClassName());
         final TypedQuery<Field> qry = createQuery(jpql);
-        qry.setParameter("project", new Project(projectId));
+        qry.setParameter("project", project);
         return qry.getResultList();
     }
-    
+
+
+    @Override
+    public List<Field> getFieldsToBeShownInReports(final Project project) {
+        final String jpql =
+                "select f from Field f where f.project = :project and f.showInReports=true order by f.description";
+        return createQuery(jpql).setParameter("project", project).getResultList();
+    }
+
+
+    @Override
+    public List<Field> getNonSubjectiveFieldsToBeShownInReports(final Project project) {
+        final String jpql =
+                " select f from Field f where f.project = :project and " +
+                        " f.fieldType.abbreviation <> 'S' and " +
+                        " f.showInReports=true order by f.description ";
+        return createQuery(jpql).setParameter("project", project).getResultList();
+    }
+
 }

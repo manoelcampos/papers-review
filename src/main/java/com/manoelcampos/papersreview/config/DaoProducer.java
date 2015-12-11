@@ -71,7 +71,8 @@ public class DaoProducer {
     }
 
     @Produces
-    public PaperSummaryTableDAO createPaperSummaryTableDAO(){
-        return new PaperSummaryTableJpaDAO(em);
+    public PaperTypeDAO createPaperTypeDAO(){
+        return new PaperTypeJpaDAO(em);
     }
+
 }

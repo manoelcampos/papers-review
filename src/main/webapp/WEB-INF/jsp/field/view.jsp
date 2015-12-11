@@ -4,6 +4,8 @@
     
     <h4>Field: ${field.description} &nbsp;&nbsp; Abbreviation: ${field.abbreviation}&nbsp;&nbsp; 
     Type: ${field.fieldType.description}</h4>
+    Show in Reports: ${field.showInReports}<br/>
+
     Notes:<br/>
     <div style="width: 100%; border: #cccccc 1px;">${field.notes}</div>
     

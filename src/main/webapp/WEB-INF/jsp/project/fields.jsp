@@ -19,7 +19,10 @@
             <c:forEach items="${project.fields}" var="f" varStatus="status">
                 <tr>
                     <td>${status.index+1}</td>
-                    <td><a href="${linkTo[FieldController].view(f)}">${f.description}</a></td>
+                    <td><a href="${linkTo[FieldController].view(f)}">
+                        ${f.description}</a>
+                        <c:if test="${not f.showInReports}"><br/>Set to not to be shown in reports</c:if>
+                    </td>
                     <td>${f.abbreviation}</td>
                     <td>${f.fieldType.description}</td>
                     <td>
