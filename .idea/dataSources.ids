@@ -6,7 +6,7 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
-    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
       <schema id="1" name="papers_review"/>
       <table id="2" parent="1" name="EndUser"/>
       <table id="3" parent="1" name="Field"/>
@@ -14,449 +14,572 @@
       <table id="5" parent="1" name="FieldType"/>
       <table id="6" parent="1" name="Paper"/>
       <table id="7" parent="1" name="PaperFieldAnswer"/>
-      <table id="8" parent="1" name="PaperType"/>
-      <table id="9" parent="1" name="Project"/>
-      <table id="10" parent="1" name="Repository"/>
-      <table id="11" parent="1" name="SearchSession"/>
-      <column id="12" parent="2" name="id">
+      <table id="8" parent="1" name="PaperStatus"/>
+      <table id="9" parent="1" name="PaperType"/>
+      <table id="10" parent="1" name="Project"/>
+      <table id="11" parent="1" name="Repository"/>
+      <table id="12" parent="1" name="ReviewPhase"/>
+      <table id="13" parent="1" name="SearchSession"/>
+      <column id="14" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="13" parent="2" name="active">
+      <column id="15" parent="2" name="active">
         <mandatory>1</mandatory>
         <data-type>bit(1)</data-type>
       </column>
-      <column id="14" parent="2" name="email">
+      <column id="16" parent="2" name="email">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="15" parent="2" name="password">
+      <column id="17" parent="2" name="password">
         <mandatory>1</mandatory>
         <data-type>varchar(100)</data-type>
       </column>
-      <column id="16" parent="2" name="name">
+      <column id="18" parent="2" name="name">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <index id="17" parent="2" name="ix_EnduserEmail">
+      <index id="19" parent="2" name="ix_EnduserEmail">
         <columns>email</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="18" parent="2" name="ix_EnduserEmail">
+      <key id="20" parent="2" name="ix_EnduserEmail">
         <columns>email</columns>
         <underlying-index>ix_EnduserEmail</underlying-index>
       </key>
-      <key id="19" parent="2" name="PRIMARY">
+      <key id="21" parent="2" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="20" parent="3" name="id">
+      <column id="22" parent="3" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="21" parent="3" name="abbreviation">
+      <column id="23" parent="3" name="abbreviation">
         <data-type>varchar(10)</data-type>
       </column>
-      <column id="22" parent="3" name="description">
+      <column id="24" parent="3" name="description">
         <mandatory>1</mandatory>
         <data-type>varchar(120)</data-type>
       </column>
-      <column id="23" parent="3" name="fieldType_id">
+      <column id="25" parent="3" name="fieldType_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="24" parent="3" name="project_id">
+      <column id="26" parent="3" name="project_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="25" parent="3" name="notes">
+      <column id="27" parent="3" name="notes">
         <data-type>text</data-type>
       </column>
-      <index id="26" parent="3" name="ix_FieldAbbrev">
+      <column id="28" parent="3" name="showInReports">
+        <mandatory>1</mandatory>
+        <data-type>bit(1)</data-type>
+      </column>
+      <index id="29" parent="3" name="FK_eqa0btcqnvbtclctkjf0tvsw">
+        <columns>fieldType_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="30" parent="3" name="ix_FieldAbbrev">
         <columns>project_id
 abbreviation</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="27" parent="3" name="ix_FieldDescription">
+      <index id="31" parent="3" name="ix_FieldDescription">
         <columns>project_id
 description</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="28" parent="3" name="ix_FieldAbbrev">
+      <key id="32" parent="3" name="ix_FieldAbbrev">
         <columns>project_id
 abbreviation</columns>
         <underlying-index>ix_FieldAbbrev</underlying-index>
       </key>
-      <key id="29" parent="3" name="ix_FieldDescription">
+      <key id="33" parent="3" name="ix_FieldDescription">
         <columns>project_id
 description</columns>
         <underlying-index>ix_FieldDescription</underlying-index>
       </key>
-      <key id="30" parent="3" name="PRIMARY">
+      <key id="34" parent="3" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="31" parent="3" name="FK_eqa0btcqnvbtclctkjf0tvsw">
+      <foreign-key id="35" parent="3" name="FK_eqa0btcqnvbtclctkjf0tvsw">
         <columns>fieldType_id</columns>
-        <ref-key>FieldType.PRIMARY</ref-key>
+        <ref-key>~.FieldType.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="32" parent="3" name="FK_q22a785cb1yeqrwdoftnxnwbj">
+      <foreign-key id="36" parent="3" name="FK_q22a785cb1yeqrwdoftnxnwbj">
         <columns>project_id</columns>
-        <ref-key>Project.PRIMARY</ref-key>
+        <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="33" parent="4" name="id">
+      <column id="37" parent="4" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="34" parent="4" name="abbreviation">
+      <column id="38" parent="4" name="abbreviation">
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="35" parent="4" name="description">
+      <column id="39" parent="4" name="description">
         <mandatory>1</mandatory>
         <data-type>varchar(120)</data-type>
       </column>
-      <column id="36" parent="4" name="field_id">
+      <column id="40" parent="4" name="field_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="37" parent="4" name="parentFieldOption_id">
+      <column id="41" parent="4" name="parentFieldOption_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="38" parent="4" name="notes">
+      <column id="42" parent="4" name="notes">
         <data-type>text</data-type>
       </column>
-      <index id="39" parent="4" name="ix_FieldOptionAbbrev">
+      <index id="43" parent="4" name="fk_FieldOption_ParentFieldOption">
+        <columns>parentFieldOption_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="44" parent="4" name="ix_FieldOptionAbbrev">
         <columns>field_id
 abbreviation</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="40" parent="4" name="ix_FieldOptionDesc">
+      <index id="45" parent="4" name="ix_FieldOptionDesc">
         <columns>field_id
 description</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="41" parent="4" name="ix_FieldOptionAbbrev">
+      <key id="46" parent="4" name="ix_FieldOptionAbbrev">
         <columns>field_id
 abbreviation</columns>
         <underlying-index>ix_FieldOptionAbbrev</underlying-index>
       </key>
-      <key id="42" parent="4" name="ix_FieldOptionDesc">
+      <key id="47" parent="4" name="ix_FieldOptionDesc">
         <columns>field_id
 description</columns>
         <underlying-index>ix_FieldOptionDesc</underlying-index>
       </key>
-      <key id="43" parent="4" name="PRIMARY">
+      <key id="48" parent="4" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="44" parent="4" name="FK_cfcpp5ek6yt9i9qja3muymgwm">
+      <foreign-key id="49" parent="4" name="FK_cfcpp5ek6yt9i9qja3muymgwm">
         <columns>field_id</columns>
-        <ref-key>Field.PRIMARY</ref-key>
+        <ref-key>~.Field.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="45" parent="4" name="fk_FieldOption_ParentFieldOption">
+      <foreign-key id="50" parent="4" name="fk_FieldOption_ParentFieldOption">
         <columns>parentFieldOption_id</columns>
         <ref-key>PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="46" parent="5" name="id">
+      <column id="51" parent="5" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="47" parent="5" name="abbreviation">
+      <column id="52" parent="5" name="abbreviation">
         <data-type>varchar(2)</data-type>
       </column>
-      <column id="48" parent="5" name="description">
+      <column id="53" parent="5" name="description">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <index id="49" parent="5" name="ix_FieldTypeAbbrev">
+      <index id="54" parent="5" name="ix_FieldTypeAbbrev">
         <columns>abbreviation</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="50" parent="5" name="ix_FieldTypeDesc">
+      <index id="55" parent="5" name="ix_FieldTypeDesc">
         <columns>description</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="51" parent="5" name="ix_FieldTypeAbbrev">
+      <key id="56" parent="5" name="ix_FieldTypeAbbrev">
         <columns>abbreviation</columns>
         <underlying-index>ix_FieldTypeAbbrev</underlying-index>
       </key>
-      <key id="52" parent="5" name="ix_FieldTypeDesc">
+      <key id="57" parent="5" name="ix_FieldTypeDesc">
         <columns>description</columns>
         <underlying-index>ix_FieldTypeDesc</underlying-index>
       </key>
-      <key id="53" parent="5" name="PRIMARY">
+      <key id="58" parent="5" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="54" parent="6" name="id">
+      <column id="59" parent="6" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="55" parent="6" name="acceptedOnExtractionPhase">
+      <column id="60" parent="6" name="acceptedOnExtractionPhase">
         <data-type>int(11)</data-type>
       </column>
-      <column id="56" parent="6" name="acceptedOnSelectionPhase">
+      <column id="61" parent="6" name="acceptedOnSelectionPhase">
         <data-type>int(11)</data-type>
       </column>
-      <column id="57" parent="6" name="authors">
+      <column id="62" parent="6" name="authors">
         <mandatory>1</mandatory>
         <data-type>varchar(400)</data-type>
       </column>
-      <column id="58" parent="6" name="citationKey">
+      <column id="63" parent="6" name="citationKey">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="59" parent="6" name="doi">
+      <column id="64" parent="6" name="doi">
         <data-type>varchar(120)</data-type>
       </column>
-      <column id="60" parent="6" name="publicationYear">
+      <column id="65" parent="6" name="publicationYear">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="61" parent="6" name="survey">
+      <column id="66" parent="6" name="survey">
         <data-type>int(11)</data-type>
       </column>
-      <column id="62" parent="6" name="title">
+      <column id="67" parent="6" name="title">
         <mandatory>1</mandatory>
         <data-type>varchar(240)</data-type>
       </column>
-      <column id="63" parent="6" name="url">
+      <column id="68" parent="6" name="url">
         <data-type>varchar(300)</data-type>
       </column>
-      <column id="64" parent="6" name="paperType_id">
+      <column id="69" parent="6" name="paperType_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="65" parent="6" name="searchSession_id">
+      <column id="70" parent="6" name="searchSession_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="66" parent="6" name="paperAbstract">
+      <column id="71" parent="6" name="paperAbstract">
         <data-type>text</data-type>
       </column>
-      <index id="67" parent="6" name="ix_PaperCitationKey">
+      <column id="72" parent="6" name="status_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="73" parent="6" name="notes">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="74" parent="6" name="FK_7u2qcmsxhgco373offjfe7njc">
+        <columns>paperType_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="75" parent="6" name="FK_okfbrsmswx0067gdqhkmb9wlx">
+        <columns>status_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="76" parent="6" name="ix_PaperCitationKey">
         <columns>searchSession_id
 citationKey</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="68" parent="6" name="ix_PaperTitle">
+      <index id="77" parent="6" name="ix_PaperTitle">
         <columns>searchSession_id
 title</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="69" parent="6" name="ix_PaperCitationKey">
+      <key id="78" parent="6" name="ix_PaperCitationKey">
         <columns>searchSession_id
 citationKey</columns>
         <underlying-index>ix_PaperCitationKey</underlying-index>
       </key>
-      <key id="70" parent="6" name="ix_PaperTitle">
+      <key id="79" parent="6" name="ix_PaperTitle">
         <columns>searchSession_id
 title</columns>
         <underlying-index>ix_PaperTitle</underlying-index>
       </key>
-      <key id="71" parent="6" name="PRIMARY">
+      <key id="80" parent="6" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="72" parent="6" name="FK_7u2qcmsxhgco373offjfe7njc">
+      <foreign-key id="81" parent="6" name="FK_7u2qcmsxhgco373offjfe7njc">
         <columns>paperType_id</columns>
-        <ref-key>PaperType.PRIMARY</ref-key>
+        <ref-key>~.PaperType.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="73" parent="6" name="FK_nqs4kycnvfs948k2x0alhs130">
+      <foreign-key id="82" parent="6" name="FK_nqs4kycnvfs948k2x0alhs130">
         <columns>searchSession_id</columns>
-        <ref-key>SearchSession.PRIMARY</ref-key>
+        <ref-key>~.SearchSession.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="74" parent="7" name="id">
+      <foreign-key id="83" parent="6" name="FK_okfbrsmswx0067gdqhkmb9wlx">
+        <columns>status_id</columns>
+        <ref-key>~.PaperStatus.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="84" parent="7" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="75" parent="7" name="subjectiveAnswer">
+      <column id="85" parent="7" name="subjectiveAnswer">
         <data-type>varchar(120)</data-type>
       </column>
-      <column id="76" parent="7" name="field_id">
+      <column id="86" parent="7" name="field_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="77" parent="7" name="fieldOption_id">
+      <column id="87" parent="7" name="fieldOption_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="78" parent="7" name="paper_id">
+      <column id="88" parent="7" name="paper_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="79" parent="7" name="ix_PaperFieldAnswerOption">
+      <index id="89" parent="7" name="FK_8xlwvrk8tihndn9epybfb77fp">
+        <columns>fieldOption_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="90" parent="7" name="FK_m47ib0wu9msyhqd3v5ncuaduo">
+        <columns>field_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="91" parent="7" name="ix_PaperFieldAnswerOption">
         <columns>paper_id
 field_id
 fieldOption_id</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="80" parent="7" name="ix_PaperFieldAnswerSubjectAnswer">
+      <index id="92" parent="7" name="ix_PaperFieldAnswerSubjectAnswer">
         <columns>paper_id
 field_id
 subjectiveAnswer</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="81" parent="7" name="ix_PaperFieldAnswerOption">
+      <key id="93" parent="7" name="ix_PaperFieldAnswerOption">
         <columns>paper_id
 field_id
 fieldOption_id</columns>
         <underlying-index>ix_PaperFieldAnswerOption</underlying-index>
       </key>
-      <key id="82" parent="7" name="ix_PaperFieldAnswerSubjectAnswer">
+      <key id="94" parent="7" name="ix_PaperFieldAnswerSubjectAnswer">
         <columns>paper_id
 field_id
 subjectiveAnswer</columns>
         <underlying-index>ix_PaperFieldAnswerSubjectAnswer</underlying-index>
       </key>
-      <key id="83" parent="7" name="PRIMARY">
+      <key id="95" parent="7" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="84" parent="7" name="FK_8xlwvrk8tihndn9epybfb77fp">
+      <foreign-key id="96" parent="7" name="FK_8xlwvrk8tihndn9epybfb77fp">
         <columns>fieldOption_id</columns>
-        <ref-key>FieldOption.PRIMARY</ref-key>
+        <ref-key>~.FieldOption.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="85" parent="7" name="FK_m47ib0wu9msyhqd3v5ncuaduo">
+      <foreign-key id="97" parent="7" name="FK_m47ib0wu9msyhqd3v5ncuaduo">
         <columns>field_id</columns>
-        <ref-key>Field.PRIMARY</ref-key>
+        <ref-key>~.Field.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="86" parent="7" name="FK_of08j19jard0x2ly1y5yko0d2">
+      <foreign-key id="98" parent="7" name="FK_of08j19jard0x2ly1y5yko0d2">
         <columns>paper_id</columns>
-        <ref-key>Paper.PRIMARY</ref-key>
+        <ref-key>~.Paper.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="87" parent="8" name="id">
+      <column id="99" parent="8" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="88" parent="8" name="abbreviation">
+      <column id="100" parent="8" name="accepted">
+        <mandatory>1</mandatory>
+        <data-type>bit(1)</data-type>
+      </column>
+      <column id="101" parent="8" name="reviewPhase_id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="102" parent="8" name="ix_PaperStatus">
+        <columns>reviewPhase_id
+accepted</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="103" parent="8" name="ix_PaperStatus">
+        <columns>reviewPhase_id
+accepted</columns>
+        <underlying-index>ix_PaperStatus</underlying-index>
+      </key>
+      <key id="104" parent="8" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="105" parent="8" name="FK_4o8y0i1ee48csrwax7n2rdgmf">
+        <columns>reviewPhase_id</columns>
+        <ref-key>~.ReviewPhase.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="106" parent="9" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="107" parent="9" name="abbreviation">
         <data-type>varchar(2)</data-type>
       </column>
-      <column id="89" parent="8" name="description">
+      <column id="108" parent="9" name="description">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <index id="90" parent="8" name="ix_PaperTypeAbbrev">
+      <index id="109" parent="9" name="ix_PaperTypeAbbrev">
         <columns>abbreviation</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="91" parent="8" name="ix_PaperTypeDesc">
+      <index id="110" parent="9" name="ix_PaperTypeDesc">
         <columns>description</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="92" parent="8" name="ix_PaperTypeAbbrev">
+      <key id="111" parent="9" name="ix_PaperTypeAbbrev">
         <columns>abbreviation</columns>
         <underlying-index>ix_PaperTypeAbbrev</underlying-index>
       </key>
-      <key id="93" parent="8" name="ix_PaperTypeDesc">
+      <key id="112" parent="9" name="ix_PaperTypeDesc">
         <columns>description</columns>
         <underlying-index>ix_PaperTypeDesc</underlying-index>
       </key>
-      <key id="94" parent="8" name="PRIMARY">
+      <key id="113" parent="9" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="95" parent="9" name="id">
+      <column id="114" parent="10" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="96" parent="9" name="description">
+      <column id="115" parent="10" name="description">
         <mandatory>1</mandatory>
         <data-type>varchar(100)</data-type>
       </column>
-      <column id="97" parent="9" name="endUser_id">
+      <column id="116" parent="10" name="endUser_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="98" parent="9" name="ix_Project">
+      <index id="117" parent="10" name="FK_k9bsjyft5u30r2qd88aqdvepy">
+        <columns>endUser_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="118" parent="10" name="ix_Project">
         <columns>description
 endUser_id</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="99" parent="9" name="ix_Project">
+      <key id="119" parent="10" name="ix_Project">
         <columns>description
 endUser_id</columns>
         <underlying-index>ix_Project</underlying-index>
       </key>
-      <key id="100" parent="9" name="PRIMARY">
+      <key id="120" parent="10" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="101" parent="9" name="FK_k9bsjyft5u30r2qd88aqdvepy">
+      <foreign-key id="121" parent="10" name="FK_k9bsjyft5u30r2qd88aqdvepy">
         <columns>endUser_id</columns>
-        <ref-key>papers_review.Enduser|id</ref-key>
+        <ref-key>~.EndUser.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="102" parent="10" name="id">
+      <column id="122" parent="11" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="103" parent="10" name="description">
+      <column id="123" parent="11" name="description">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <index id="104" parent="10" name="ix_Repository">
+      <index id="124" parent="11" name="ix_Repository">
         <columns>description</columns>
+        <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="105" parent="10" name="ix_Repository">
+      <key id="125" parent="11" name="ix_Repository">
         <columns>description</columns>
         <underlying-index>ix_Repository</underlying-index>
       </key>
-      <key id="106" parent="10" name="PRIMARY">
+      <key id="126" parent="11" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="107" parent="11" name="id">
+      <column id="127" parent="12" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="108" parent="11" name="searchDate">
+      <column id="128" parent="12" name="description">
+        <mandatory>1</mandatory>
+        <data-type>varchar(60)</data-type>
+      </column>
+      <index id="129" parent="12" name="ix_ReviewPhaseDesc">
+        <columns>description</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="130" parent="12" name="ix_ReviewPhaseDesc">
+        <columns>description</columns>
+        <underlying-index>ix_ReviewPhaseDesc</underlying-index>
+      </key>
+      <key id="131" parent="12" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="132" parent="13" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="133" parent="13" name="searchDate">
         <mandatory>1</mandatory>
         <data-type>date</data-type>
       </column>
-      <column id="109" parent="11" name="searchString">
+      <column id="134" parent="13" name="searchString">
         <mandatory>1</mandatory>
         <data-type>varchar(200)</data-type>
       </column>
-      <column id="110" parent="11" name="project_id">
+      <column id="135" parent="13" name="project_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="111" parent="11" name="repository_id">
+      <column id="136" parent="13" name="repository_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <key id="112" parent="11" name="PRIMARY">
+      <index id="137" parent="13" name="FK_bi55ltuuk0infwje3ksdxvf2u">
+        <columns>repository_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="138" parent="13" name="FK_cqlhnwhxhftlnnueuac7hb122">
+        <columns>project_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="139" parent="13" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="113" parent="11" name="FK_bi55ltuuk0infwje3ksdxvf2u">
+      <foreign-key id="140" parent="13" name="FK_bi55ltuuk0infwje3ksdxvf2u">
         <columns>repository_id</columns>
-        <ref-key>Repository.PRIMARY</ref-key>
+        <ref-key>~.Repository.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="114" parent="11" name="FK_cqlhnwhxhftlnnueuac7hb122">
+      <foreign-key id="141" parent="13" name="FK_cqlhnwhxhftlnnueuac7hb122">
         <columns>project_id</columns>
-        <ref-key>Project.PRIMARY</ref-key>
+        <ref-key>~.Project.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
