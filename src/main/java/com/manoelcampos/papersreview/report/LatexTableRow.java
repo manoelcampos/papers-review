@@ -25,6 +25,12 @@ public final class LatexTableRow implements TableRow {
     }
 
     @Override
+    public TableRow addColumnUnescaped(String data) {
+        this.columns.add(data);
+        return this;
+    }
+
+    @Override
     public TableRow addColumn(final List<String> data) {
         StringBuilder sb = new StringBuilder(data.size());
         String s;

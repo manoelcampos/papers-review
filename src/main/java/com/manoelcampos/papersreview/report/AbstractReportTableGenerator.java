@@ -31,14 +31,6 @@ public abstract class AbstractReportTableGenerator implements ReportTableGenerat
         return tableId;
     }
 
-    public String escape(String data){
-        data = StringUtils.replace(data, "$", "\\$");
-        data = StringUtils.replace(data, "#", "\\#");
-        data = StringUtils.replace(data, "_", "\\_");
-        data = StringUtils.replace(data, "\\", "\\\\");
-        return data.replaceAll("&", "\\&");
-    }
-
     protected List<String> getColumnHeaders(){
         return columnHeaders;
     }

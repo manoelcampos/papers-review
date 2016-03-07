@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
  * @author Manoel Campos da Silva Filho <manoelcampos at gmail.com>
  */
 public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
+
     public PaperJpaDAO(EntityManager em) {
         super(Paper.class, em);
     }
@@ -43,10 +44,12 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
     }
 
     @Override
-    public List<Paper> listPapersWithDefinedTypeByProject(final Project project) {
+    public List<Paper> listApprovedPapersInFinalPhaseWithDefinedTypeByProject(final Project project) {
         final String jpql =
-                " select p from Paper p join p.paperType " +
-                " where p.searchSession.project = :project";
+            String.format(
+            " select p from Paper p join p.paperType " +
+            " where p.searchSession.project = :project" +
+            " and p.status = (%s)", PaperStatusJpaDAO.LAST_ACCEPTED_STATUS_PHASE_JPQL);
 
         return createQuery(jpql).setParameter("project", project).getResultList();
     }

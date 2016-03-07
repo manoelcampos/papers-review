@@ -51,4 +51,16 @@ public final class LatexReportTableGenerator extends AbstractReportTableGenerato
         getRows().forEach(row -> appendLine(row.toString()));
     }
 
+    @Override
+    public String escape(String data){
+        data = StringUtils.replace(data, "\\", "\\\\");
+
+        data = StringUtils.replace(data, "$", "\\$");
+        data = StringUtils.replace(data, "#", "\\#");
+        data = StringUtils.replace(data, "_", "\\_");
+        return data.replaceAll("&", "\\&");
+    }
+
+
+
 }

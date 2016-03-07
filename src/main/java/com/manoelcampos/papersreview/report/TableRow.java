@@ -8,6 +8,7 @@ import java.util.List;
  */
 public interface TableRow {
     TableRow addColumn(final String data);
+    TableRow addColumnUnescaped(final String data);
     TableRow addColumn(final List<String> data);
     List<String> getColumns();
 }

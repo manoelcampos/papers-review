@@ -18,4 +18,5 @@ public interface ReportTableGenerator {
     String buildAndClear();
     List<TableRow> getRows();
     void clear();
+    String escape(String data);
 }

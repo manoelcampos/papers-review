@@ -31,7 +31,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" generated="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target/PapersReview" />
       <excludeFolder url="file://$MODULE_DIR$/target/PapersReview-0.5" />
+      <excludeFolder url="file://$MODULE_DIR$/target/PapersReview.war" />
       <excludeFolder url="file://$MODULE_DIR$/target/endorsed" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-status" />
@@ -45,7 +47,6 @@
     <orderEntry type="library" name="Maven: br.com.caelum:vraptor:4.1.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
     <orderEntry type="library" name="Maven: br.com.caelum:iogi:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.5" level="project" />
     <orderEntry type="library" name="Maven: net.vidageek:mirror:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: com.thoughtworks.paranamer:paranamer:2.7" level="project" />
@@ -59,6 +60,7 @@
     <orderEntry type="library" name="Maven: javax.transaction:javax.transaction-api:1.2" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: br.com.caelum.vraptor:vraptor-jpa:4.0.4" level="project" />
+    <orderEntry type="library" name="Maven: br.com.caelum.vraptor:vraptor-java8:4.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator-cdi:5.1.1.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator:5.1.1.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.0.0" level="project" />
@@ -79,5 +81,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-web-api:7.0" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
   </component>
 </module>

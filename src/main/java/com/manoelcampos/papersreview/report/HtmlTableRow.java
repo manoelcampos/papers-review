@@ -8,14 +8,22 @@ import java.util.List;
  * @author <a href="https://about.me/manoelcampos">Manoel Campos da Silva Filho</a>
  */
 public final class HtmlTableRow implements TableRow {
+    private final HtmlReportTableGenerator generator;
     private List<String> columns;
 
-    public HtmlTableRow(){
+    public HtmlTableRow(final HtmlReportTableGenerator generator){
+        this.generator = generator;
         this.columns = new ArrayList<String>();
     }
 
     @Override
     public TableRow addColumn(final String data) {
+        this.columns.add(generator.escape(data.toString()));
+        return this;
+    }
+
+    @Override
+    public TableRow addColumnUnescaped(String data) {
         this.columns.add(data.toString());
         return this;
     }

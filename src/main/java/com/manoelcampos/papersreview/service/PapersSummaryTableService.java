@@ -49,13 +49,12 @@ public class PapersSummaryTableService {
         return this;
     }
 
-    public String papersSummaryTable(final String tableId) {
+    public String approvedPapersInFinalPhaseSummaryTable(final String tableId) {
         generator
             .setCaption("Papers Summary Table")
             .setTableId(tableId)
-            .addColumnHeader("#")
+            //.addColumnHeader("#").addColumnHeader("Paper")
             .addColumnHeader("Paper")
-            .addColumnHeader("Key")
             .addColumnHeader("Type");
 
         for (Field f : fieldDao.getFieldsToBeShownInReports(project))
@@ -63,12 +62,11 @@ public class PapersSummaryTableService {
 
 
         Integer i = 0;
-        for (Paper p : paperDao.listPapersWithDefinedTypeByProject(project)) {
+        for (Paper p : paperDao.listApprovedPapersInFinalPhaseWithDefinedTypeByProject(project)) {
             TableRow row = generator.newRow();
             row
-                .addColumn((++i).toString())
-                .addColumn(p.getTitle())
-                .addColumn(String.format("\\cite{%s}", p.getCitationKey()))
+                //.addColumn((++i).toString()).addColumn(p.getTitle())
+                .addColumnUnescaped(String.format("\\cite{%s}", p.getCitationKey()))
                 .addColumn(p.getPaperType().getAbbreviation());
 
             for(Field f: fieldDao.getFieldsToBeShownInReports(project))
@@ -87,7 +85,7 @@ public class PapersSummaryTableService {
                 .setTableId(tableId)
                 .addColumnHeader("Column")
                 .addColumnHeader("Column Description")
-                .addColumnHeader("Column's Values Descriptions");
+                .addColumnHeader("Values for the Colum");
 
         addPaperTypesRow();
 
@@ -125,16 +123,16 @@ public class PapersSummaryTableService {
         return projectDao.getPaperCountByType(p);
     }
 
-    private Map<Field, List<PaperCountByFieldOptionDTO>> getPaperCountByFieldOption(){
+    private Map<Field, List<PaperCountByFieldOptionDTO>> getApprovedPaperCountByFieldOption(){
         Map<Field, List<PaperCountByFieldOptionDTO>> map = new HashMap<>();
 
         fieldDao.getNonSubjectiveFieldsToBeShownInReports(project)
-                .forEach(f -> map.put(f, paperFieldAnswerDao.listAnswersCountForFieldOptionByField(f)));
+                .forEach(f -> map.put(f, paperFieldAnswerDao.listAnswersCountOfApprovedPapersGroupedByFieldOption(f)));
 
         return map;
     }
 
-    public String getPaperCountByFieldOptionTable(final String tableId){
+    public String getApprovedPaperCountByFieldOptionTable(final String tableId){
         generator
                 .setCaption("Papers Count by defined Categories")
                 .setTableId(tableId)
@@ -142,7 +140,7 @@ public class PapersSummaryTableService {
                 .addColumnHeader("Value")
                 .addColumnHeader("Number of classified Papers");
 
-        final Map<Field, List<PaperCountByFieldOptionDTO>> map = getPaperCountByFieldOption();
+        final Map<Field, List<PaperCountByFieldOptionDTO>> map = getApprovedPaperCountByFieldOption();
         for(Field f: map.keySet()) {
             List<PaperCountByFieldOptionDTO> answers = map.get(f);
             addRowsToPaperCountByFieldOptionTable(f, answers);

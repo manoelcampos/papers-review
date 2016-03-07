@@ -75,4 +75,8 @@ public class DaoProducer {
         return new PaperTypeJpaDAO(em);
     }
 
+    @Produces
+    public PaperStatusDAO createPaperStatusDAO(){
+        return new PaperStatusJpaDAO(em);
+    }
 }

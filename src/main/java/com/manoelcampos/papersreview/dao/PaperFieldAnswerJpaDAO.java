@@ -25,11 +25,13 @@ public class PaperFieldAnswerJpaDAO extends JpaDAO<PaperFieldAnswer> implements 
     }
 
     @Override
-    public List<PaperCountByFieldOptionDTO> listAnswersCountForFieldOptionByField(final Field field) {
+    public List<PaperCountByFieldOptionDTO> listAnswersCountOfApprovedPapersGroupedByFieldOption(final Field field) {
         final String jpql =
+                String.format(
                 "select new com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO(fo, count(a)) " +
                 " from PaperFieldAnswer a join a.fieldOption fo " +
-                " where a.field.showInReports=true and a.field = :field group by fo";
+                " where a.paper.status = (%s) and a.field.showInReports=true and a.field = :field group by fo",
+                PaperStatusJpaDAO.LAST_ACCEPTED_STATUS_PHASE_JPQL);
 
         return getEm().createQuery(jpql, PaperCountByFieldOptionDTO.class)
                 .setParameter("field", field)

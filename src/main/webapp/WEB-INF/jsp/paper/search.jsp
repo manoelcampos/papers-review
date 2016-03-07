@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="/form-header.jsp" %>
-    <form method="post" action="${linkTo[PaperController].doSearch}">
+    <form method="post" action="${linkTo[PaperController].doSearch(paper)}">
         Title <input type="text" name="paper.title" value="${paper.title}" size="120"/><br/>
         Authors <input type="text" name="paper.authors" value="${paper.authors}" size="100" maxlength="400"/><br/>
         Publication Year 
@@ -34,15 +34,15 @@
 
         Citation Key <input type="text" name="paper.citationKey"  size="30" value="${paper.citationKey}"/>
         <br/>
-        
-        Survey 
+
+        Survey
         <select name="paper.survey" id="survey">
             <option value="-1">All</option>
             <option value="1" <c:if test="${paper.survey==1}">selected</c:if>>Yes</option>
             <option value="0" <c:if test="${paper.survey==0}">selected</c:if>>No</option>
         </select>
-        
-        Status: 
+
+        Status:
         <select name="paper.status.id" id="status">
             <option value="0">Not Defined</option>
             <c:forEach items="${status}" var="s">

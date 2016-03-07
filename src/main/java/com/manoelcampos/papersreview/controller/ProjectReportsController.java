@@ -5,7 +5,6 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
-import com.manoelcampos.papersreview.dao.ProjectDAO;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.report.HtmlReportTableGenerator;
 import com.manoelcampos.papersreview.report.LatexReportTableGenerator;
@@ -51,7 +50,7 @@ public class ProjectReportsController extends BaseController  {
     @IncludeParameters
     public void papersSummaryTableHtml(@NotNull @Load final Project project) {
         service.setGenerator(new HtmlReportTableGenerator()).setProject(project);
-        result.include("summaryTable", service.papersSummaryTable(summaryTableId));
+        result.include("summaryTable", service.approvedPapersInFinalPhaseSummaryTable(summaryTableId));
         result.include("legendTable", service.papersSummaryLegendTable(legendTableId));
         result.of(ProjectReportsController.class).papersSummaryTable(project);
     }
@@ -60,7 +59,7 @@ public class ProjectReportsController extends BaseController  {
     @IncludeParameters
     public void papersSummaryTableLatex(@NotNull @Load final Project project) {
         service.setGenerator(new LatexReportTableGenerator()).setProject(project);
-        result.include("summaryTable", service.papersSummaryTable(summaryTableId));
+        result.include("summaryTable", service.approvedPapersInFinalPhaseSummaryTable(summaryTableId));
         result.include("legendTable", service.papersSummaryLegendTable(legendTableId));
         result.of(ProjectReportsController.class).papersSummaryTable(project);
     }
@@ -75,7 +74,7 @@ public class ProjectReportsController extends BaseController  {
     @IncludeParameters
     public void paperCountByFieldOption(@NotNull @Load final Project project) {
         service.setGenerator(new HtmlReportTableGenerator()).setProject(project);
-        result.include("table", service.getPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
+        result.include("table", service.getApprovedPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
     }
 
     @Get("/project/reports/paper-count-by-user-fields/{project.id}/html")
@@ -89,7 +88,7 @@ public class ProjectReportsController extends BaseController  {
     @IncludeParameters
     public void paperCountByFieldOptionLatex(@NotNull @Load final Project project) {
         service.setGenerator(new LatexReportTableGenerator()).setProject(project);
-        result.include("table", service.getPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
+        result.include("table", service.getApprovedPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
         result.of(ProjectReportsController.class).paperCountByFieldOption(project);
     }
 

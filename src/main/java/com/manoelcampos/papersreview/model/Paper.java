@@ -311,6 +311,9 @@ public class Paper implements EntityInterface {
      * @param status the status to set
      */
     public void setStatus(PaperStatus status) {
+        if(status != null && (status.getId() == null || status.getId()<=0))
+            status = null;
+
         this.status = status;
     }
 

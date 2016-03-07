@@ -1,5 +1,6 @@
 package com.manoelcampos.papersreview.report;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public final class HtmlReportTableGenerator extends AbstractReportTableGenerator
 
     @Override
     public TableRow newRow() {
-        return new HtmlTableRow();
+        return new HtmlTableRow(this);
     }
 
     @Override
@@ -47,6 +48,12 @@ public final class HtmlReportTableGenerator extends AbstractReportTableGenerator
         appendLine("\t<tbody>");
         getRows().forEach(row -> appendLine(String.format("%s", row)));
         appendLine("\t</tbody>");
+    }
+
+
+    @Override
+    public String escape(String data){
+        return StringEscapeUtils.escapeHtml4(data);
     }
 
 }

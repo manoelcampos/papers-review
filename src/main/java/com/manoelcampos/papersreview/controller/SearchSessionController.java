@@ -13,6 +13,8 @@ import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.model.SearchSession;
 import com.manoelcampos.papersreview.service.SearchSessionService;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -61,14 +63,18 @@ public class SearchSessionController  {
     
     @Post()
     public void saveImportedPapers(@NotNull @Load final SearchSession searchSession, final UploadedFile bibTexFile) {
-        List<Paper> paperList = createPaperListFromBibTexFile(searchSession, bibTexFile);
-        service.saveListOfPapers(paperList);
-        result.include("paperList", paperList);
-        result.include("msg", "form.papersIncluded");
+        try {
+            List<Paper> paperList = createPaperListFromBibTexFile(searchSession, bibTexFile);
+            service.saveListOfPapers(paperList);
+            result.include("paperList", paperList);
+            result.include("msg", "form.papersIncluded");
+        } catch (IOException e) {
+            result.include("msg", "form.bibFileAccessError");
+        }
         result.redirectTo(SearchSessionController.class).importPapers(searchSession);
     }
 
-    private List<Paper> createPaperListFromBibTexFile(final SearchSession o, final UploadedFile bibTexFile) throws NumberFormatException {
+    private List<Paper> createPaperListFromBibTexFile(final SearchSession o, final UploadedFile bibTexFile) throws NumberFormatException, IOException {
         BibTexReader bibTexReader = new BibTexReader(bibTexFile.getFile());
         List<Paper> list = new ArrayList<>();
         for(BibTeXEntry b: bibTexReader.getEntriesCollection()){

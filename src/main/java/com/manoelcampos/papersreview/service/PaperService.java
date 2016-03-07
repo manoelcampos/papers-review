@@ -27,7 +27,7 @@ public class PaperService {
     private PaperDAO dao;
     
     @Inject
-    private DAO<PaperStatus> statusDao;
+    private PaperStatusDAO statusDao;
 
     @Inject
     private ProjectDAO projectDao;

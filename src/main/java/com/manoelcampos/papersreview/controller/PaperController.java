@@ -99,11 +99,12 @@ public class PaperController extends BaseController {
     
     
     @Post()
-    public void doSearch(final Paper paper) {
+    public void doSearch(Paper paper) {
         result.include("list", service.search(paper));
         result.include("paper", paper);
-        result.redirectTo(this).search(paper.getSearchSession().getProject());
-    }    
+        Project project = paper.getSearchSession().getProject();
+        result.redirectTo(this).search(project);
+    }
     
     @Get("/project/{project.id}/paper/search")
     public void search(@Load Project project) {
