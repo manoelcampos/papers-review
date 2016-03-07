@@ -160,10 +160,8 @@ public class PapersSummaryTableService {
 
     private void addSingleRowToPaperCountByFieldOptionTable(final String field, final String fieldOption, final Long count) {
         TableRow row = generator.newRow();
-        row
-                .addColumn(field)
-                .addColumn(fieldOption)
-                .addColumn(count.toString());
+        row.addColumn(field).addColumn(fieldOption).addColumn(count.toString());
+
         generator.addRow(row);
 
     }

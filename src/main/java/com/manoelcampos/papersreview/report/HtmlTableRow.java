@@ -7,54 +7,27 @@ import java.util.List;
 /**
  * @author <a href="https://about.me/manoelcampos">Manoel Campos da Silva Filho</a>
  */
-public final class HtmlTableRow implements TableRow {
-    private final HtmlReportTableGenerator generator;
-    private List<String> columns;
-
-    public HtmlTableRow(final HtmlReportTableGenerator generator){
-        this.generator = generator;
-        this.columns = new ArrayList<String>();
+public final class HtmlTableRow extends AbstractTableRow {
+    public HtmlTableRow(ReportTableGenerator generator){
+        super(generator);
     }
 
     @Override
-    public TableRow addColumn(final String data) {
-        this.columns.add(generator.escape(data.toString()));
-        return this;
-    }
+    protected String formatColumn(int index) {
+        String data = getColumns().get(index);
+        if(index < getColumns().size()-1)
+            data = String.format("%s, ", data);
+        if(data.contains(" "))
+            data = data + "<br/>";
 
-    @Override
-    public TableRow addColumnUnescaped(String data) {
-        this.columns.add(data.toString());
-        return this;
-    }
-
-    @Override
-    public TableRow addColumn(final List<String> data) {
-        StringBuilder sb = new StringBuilder(data.size());
-        String s;
-        Iterator<String> i = data.iterator();
-        while(i.hasNext()){
-            s = i.next();
-            sb.append(s);
-            if(i.hasNext())
-                sb.append(", ");
-            if(s.indexOf(" ")!= -1)
-                sb.append("<br/>");
-        }
-
-        addColumn(sb.toString());
-        return this;
-    }
-
-    public List<String> getColumns() {
-        return columns;
+        return data;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(columns.size()+2);
+        StringBuilder sb = new StringBuilder(getColumns().size()+2);
         sb.append("\t\t<tr>\n\t\t\t\t");
-        for(String c: columns)
+        for(String c: getColumns())
             sb.append(String.format("<td>%s</td>", c));
         sb.append("\n\t\t</tr>\n");
 

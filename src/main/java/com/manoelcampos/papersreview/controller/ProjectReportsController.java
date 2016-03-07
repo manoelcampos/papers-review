@@ -6,6 +6,7 @@ import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.model.Project;
+import com.manoelcampos.papersreview.report.CsvReportTableGenerator;
 import com.manoelcampos.papersreview.report.HtmlReportTableGenerator;
 import com.manoelcampos.papersreview.report.LatexReportTableGenerator;
 import com.manoelcampos.papersreview.service.PapersSummaryTableService;
@@ -81,6 +82,14 @@ public class ProjectReportsController extends BaseController  {
     @IncludeParameters
     public void paperCountByFieldOptionHtml(@NotNull @Load final Project project) {
         paperCountByFieldOption(project);
+        result.of(ProjectReportsController.class).paperCountByFieldOption(project);
+    }
+
+    @Get("/project/reports/paper-count-by-user-fields/{project.id}/csv")
+    @IncludeParameters
+    public void paperCountByFieldOptionCsv(@NotNull @Load final Project project) {
+        service.setGenerator(new CsvReportTableGenerator()).setProject(project);
+        result.include("table", service.getApprovedPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
         result.of(ProjectReportsController.class).paperCountByFieldOption(project);
     }
 
