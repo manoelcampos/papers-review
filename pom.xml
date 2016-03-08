@@ -50,7 +50,7 @@
         <dependency>
             <groupId>br.com.caelum</groupId>
             <artifactId>vraptor</artifactId>
-            <version>4.2.0-RC3</version>
+            <version>4.1.4</version>
         </dependency>
         <dependency>
             <groupId>br.com.caelum.vraptor</groupId>

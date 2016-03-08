@@ -239,4 +239,19 @@ public class PapersSummaryTableService {
         return fieldDao.listByProject(project);
     }
 
+    public Field getField(final Field field){
+        if(field == null || field.getId() == null || field.getId() <= 0)
+            return Field.NULL;
+
+        return fieldDao.findById(field.getId());
+    }
+
+    public Project getProject(final Project project){
+        if(project == null || project.getId() == null || project.getId() <= 0)
+            return Project.NULL;
+
+        return projectDao.findById(project.getId());
+    }
+
+
 }
