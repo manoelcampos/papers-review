@@ -49,8 +49,7 @@ public final class HtmlReportTableGenerator extends AbstractReportTableGenerator
         getRows().forEach(row -> appendLine(String.format("%s", row)));
         appendLine("\t</tbody>");
     }
-
-
+    
     @Override
     public String escape(String data){
         return StringEscapeUtils.escapeHtml4(data);

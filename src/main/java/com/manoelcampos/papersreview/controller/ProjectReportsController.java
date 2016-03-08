@@ -2,9 +2,11 @@ package com.manoelcampos.papersreview.controller;
 
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
+import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.report.CsvReportTableGenerator;
 import com.manoelcampos.papersreview.report.HtmlReportTableGenerator;
@@ -71,52 +73,92 @@ public class ProjectReportsController extends BaseController  {
         papersSummaryTableHtml(project);
     }
 
-    @Get("/project/reports/paper-count-by-user-fields/{project.id}")
-    @IncludeParameters
-    public void paperCountByFieldOption(@NotNull @Load final Project project) {
-        service.setGenerator(new HtmlReportTableGenerator()).setProject(project);
-        result.include("table", service.getApprovedPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
-    }
-
-    @Get("/project/reports/paper-count-by-user-fields/{project.id}/html")
-    @IncludeParameters
-    public void paperCountByFieldOptionHtml(@NotNull @Load final Project project) {
-        paperCountByFieldOption(project);
-        result.of(ProjectReportsController.class).paperCountByFieldOption(project);
-    }
-
-    @Get("/project/reports/paper-count-by-user-fields/{project.id}/csv")
-    @IncludeParameters
-    public void paperCountByFieldOptionCsv(@NotNull @Load final Project project) {
-        service.setGenerator(new CsvReportTableGenerator()).setProject(project);
-        result.include("table", service.getApprovedPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
-        result.of(ProjectReportsController.class).paperCountByFieldOption(project);
-    }
-
-    @Get("/project/reports/paper-count-by-user-fields/{project.id}/latex")
-    @IncludeParameters
-    public void paperCountByFieldOptionLatex(@NotNull @Load final Project project) {
-        service.setGenerator(new LatexReportTableGenerator()).setProject(project);
-        result.include("table", service.getApprovedPaperCountByFieldOptionTable(paperCountByFieldOptionTableId));
-        result.of(ProjectReportsController.class).paperCountByFieldOption(project);
-    }
-
-
     @Get("/project/reports/paper-count-by-status/{project.id}")
+    @Post()
     @IncludeParameters
     public void  paperCountByStatus(@NotNull @Load final Project project) {
         result.include("list", service.getPaperCountByStatus(project));
     }
 
     @Get("/project/reports/paper-count-by-type/{project.id}")
+    @Post()
     @IncludeParameters
     public void  paperCountByType(@NotNull @Load final Project project) {
         result.include("list", service.getPaperCountByType(project));
     }
 
     @Get("/project/reports/paper-count-by-repository/{project.id}")
+    @Post()
     @IncludeParameters
     public void  paperCountByRepository(@NotNull @Load final Project project) {
         result.include("list", service.getPaperCountByRepository(project));
+    }
+
+
+    @Get({
+            "/project/reports/paper-count-by-user-fields/{project.id}/{field.id}",
+            "/project/reports/paper-count-by-user-fields/{project.id}/{field.id}/html"
+    })
+    @Post()
+    @IncludeParameters
+    public void paperCountByFieldOption(@NotNull @Load final Project project, @Load final Field field) {
+        service.setGenerator(new HtmlReportTableGenerator()).setProject(project);
+        includeFieldList(project);
+        result.include("table",
+                service.generateApprovedPaperCountByFieldOptionRegularTable(paperCountByFieldOptionTableId, field));
+    }
+
+    private void includeFieldList(@NotNull @Load Project project) {
+        result.include("fields", service.getFields(project));
+    }
+
+    @Get({
+            "/project/reports/paper-count-by-user-fields/{project.id}",
+            "/project/reports/paper-count-by-user-fields/{project.id}/html"
+    })
+    @Post()
+    @IncludeParameters
+    public void paperCountByFieldOption(@NotNull @Load final Project project) {
+        result.include("field", Field.NULL);
+        paperCountByFieldOption(project, Field.NULL);
+        result.of(ProjectReportsController.class).paperCountByFieldOption(project, Field.NULL);
+    }
+
+    @Get("/project/reports/paper-count-by-user-fields/{project.id}/{field.id}/csv")
+    @Post()
+    @IncludeParameters
+    public void paperCountByFieldOptionCsv(@NotNull @Load final Project project, @Load final Field field) {
+        service.setGenerator(new CsvReportTableGenerator()).setProject(project);
+        includeFieldList(project);
+        result.include("table",
+                service.generateApprovedPaperCountByFieldOptionPivotTable(paperCountByFieldOptionTableId, field));
+        result.of(ProjectReportsController.class).paperCountByFieldOption(project, field);
+    }
+
+    @Get("/project/reports/paper-count-by-user-fields/{project.id}/csv")
+    @Post()
+    @IncludeParameters
+    public void paperCountByFieldOptionCsv(@NotNull @Load final Project project) {
+        result.include("field", Field.NULL);
+        paperCountByFieldOptionCsv(project, Field.NULL);
+    }
+
+    @Get("/project/reports/paper-count-by-user-fields/{project.id}/{field.id}/latex")
+    @Post()
+    @IncludeParameters
+    public void paperCountByFieldOptionLatex(@NotNull @Load final Project project, @Load final Field field) {
+        service.setGenerator(new LatexReportTableGenerator()).setProject(project);
+        includeFieldList(project);
+        result.include("table",
+                service.generateApprovedPaperCountByFieldOptionRegularTable(paperCountByFieldOptionTableId, field));
+        result.of(ProjectReportsController.class).paperCountByFieldOption(project, field);
+    }
+
+    @Get("/project/reports/paper-count-by-user-fields/{project.id}/latex")
+    @Post()
+    @IncludeParameters
+    public void paperCountByFieldOptionLatex(@NotNull @Load final Project project) {
+        result.include("field", Field.NULL);
+        paperCountByFieldOptionLatex(project, Field.NULL);
     }
 }

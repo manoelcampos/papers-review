@@ -134,5 +134,6 @@ public class Project implements EntityInterface {
     public void addSearchSession(final SearchSession searchSession){
         searchSessions.add(searchSession);
     }
-    
+
+    public static final Project NULL = new Project(0L);
 }

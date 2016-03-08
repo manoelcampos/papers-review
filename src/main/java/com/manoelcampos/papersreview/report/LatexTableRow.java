@@ -14,14 +14,6 @@ public final class LatexTableRow extends AbstractTableRow {
     }
 
     @Override
-    protected String formatColumn(int index) {
-        if(index < getColumns().size()-1)
-            return String.format("%s, ", getColumns().get(index));
-
-        return getColumns().get(index);
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(getColumns().size()+2);
         sb.append(StringUtils.join(getColumns().toArray(), " &amp; "));

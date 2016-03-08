@@ -16,6 +16,7 @@ public final class CsvReportTableGenerator extends AbstractReportTableGenerator 
     @Override
     protected void insertColumnHeaders() {
         appendLine(getColumnHeadersAsString(";"));
+        appendLine("<br/>");
     }
 
     @Override

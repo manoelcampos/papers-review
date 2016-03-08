@@ -1,6 +1,7 @@
 package com.manoelcampos.papersreview.report;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,18 +28,22 @@ public abstract class AbstractTableRow implements TableRow {
         return this;
     }
 
-    protected abstract String formatColumn(final int index);
 
     @Override
     public TableRow addColumn(List<String> data) {
         StringBuilder sb = new StringBuilder(data.size());
-        for(int i = 0; i < columns.size(); i++){
-            sb.append(formatColumn(i));
+        Iterator<String> i = columns.iterator();
+        while(i.hasNext()){
+            String s = i.next();
+            if(i.hasNext())
+                s = String.format("%s, ", s);
+            if(s.contains(" "))
+                s = s + "<br/>";
+            sb.append(s);
         }
 
         addColumn(sb.toString());
         return this;
-
     }
 
     @Override

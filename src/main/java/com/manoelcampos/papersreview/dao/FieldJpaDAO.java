@@ -35,12 +35,19 @@ public class FieldJpaDAO extends JpaDAO<Field> implements FieldDAO {
 
 
     @Override
-    public List<Field> getNonSubjectiveFieldsToBeShownInReports(final Project project) {
+    public List<Field> getNonSubjectiveFieldsToBeShownInReports(final Project project, final Field field) {
+        String where = "";
+        if(!field.equals(Field.NULL))
+            where = " and f = :field ";
+
         final String jpql =
                 " select f from Field f where f.project = :project and " +
-                        " f.fieldType.abbreviation <> 'S' and " +
-                        " f.showInReports=true order by f.description ";
-        return createQuery(jpql).setParameter("project", project).getResultList();
+                " f.fieldType.abbreviation <> 'S' and f.showInReports=true " +
+                where + " order by f.description ";
+        TypedQuery<Field> query = createQuery(jpql).setParameter("project", project);
+        if(!where.isEmpty())
+            query.setParameter("field", field);
+        return query.getResultList();
     }
 
 }

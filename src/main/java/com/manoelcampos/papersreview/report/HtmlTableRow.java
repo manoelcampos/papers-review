@@ -13,17 +13,6 @@ public final class HtmlTableRow extends AbstractTableRow {
     }
 
     @Override
-    protected String formatColumn(int index) {
-        String data = getColumns().get(index);
-        if(index < getColumns().size()-1)
-            data = String.format("%s, ", data);
-        if(data.contains(" "))
-            data = data + "<br/>";
-
-        return data;
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(getColumns().size()+2);
         sb.append("\t\t<tr>\n\t\t\t\t");

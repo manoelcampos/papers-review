@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface FieldDAO extends DAO<Field> {
     List<Field> listByProject(final Project project);
-    List<Field> getNonSubjectiveFieldsToBeShownInReports(final Project project);
+    List<Field> getNonSubjectiveFieldsToBeShownInReports(final Project project, final Field field);
     List<Field> getFieldsToBeShownInReports(final Project project);
 }

@@ -75,6 +75,11 @@ public class Field implements EntityInterface {
         this.id = id;
     }
 
+    public Field(Long id, final Project project) {
+        this(project);
+        this.id = id;
+    }
+
     public Field(final Project project) {
         this();
         this.setProject(project);
@@ -215,4 +220,6 @@ public class Field implements EntityInterface {
                 .forEach(o -> list.add(String.format("%s = %s", o.getAbbreviation(), o.getDescription())));
         return list;
     }
+
+    public static final Field NULL = new Field(0L, Project.NULL);
 }
