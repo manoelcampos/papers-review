@@ -132,10 +132,8 @@ public class PaperFieldAnswer implements EntityInterface {
         return (field.isSubjective() ? subjectiveAnswer : fieldOption.getDescription());
     }
 
-    public String getAbbreviatedAnswer(){
-        return (field.isSubjective() ? subjectiveAnswer :
-                (StringUtils.isNotEmpty(fieldOption.getAbbreviation()) ?
-                    fieldOption.getAbbreviation() : fieldOption.getDescription()));
+    public String getAnswer(boolean abbreviated){
+        return (field.isSubjective() ? subjectiveAnswer : fieldOption.getDescription(abbreviated));
     }
 
 }

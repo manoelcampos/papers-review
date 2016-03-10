@@ -30,19 +30,19 @@ public abstract class AbstractTableRow implements TableRow {
 
 
     @Override
-    public TableRow addColumn(List<String> data) {
-        StringBuilder sb = new StringBuilder(data.size());
-        Iterator<String> i = columns.iterator();
+    public TableRow addColumn(List<String> dataList) {
+        StringBuilder sb = new StringBuilder(dataList.size());
+        Iterator<String> i = dataList.iterator();
         while(i.hasNext()){
-            String s = i.next();
+            String data = generator.escape(i.next()), column = data;
             if(i.hasNext())
-                s = String.format("%s, ", s);
-            if(s.contains(" "))
-                s = s + "<br/>";
-            sb.append(s);
+                column = String.format("%s, ", data);
+            if(data.contains(" "))
+                column = String.format("%s<br/>", column);
+            sb.append(column);
         }
 
-        addColumn(sb.toString());
+        addColumnUnescaped(sb.toString());
         return this;
     }
 

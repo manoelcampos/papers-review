@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldDescription", columnNames = {"project_id", "description"}),
     @UniqueConstraint(name = "ix_FieldAbbrev", columnNames = {"project_id", "abbreviation"})    
 })
-public class Field implements EntityInterface {
+public class Field implements EntityInterface,AbbreviableDescription {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -94,20 +94,29 @@ public class Field implements EntityInterface {
         this.id = id;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public String getAbbreviation() {
         return abbreviation;
     }
 
+    @Override
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
+    }
+
+    @Override
+    public String getDescription(boolean abbreviated) {
+        return Util.getDescription(description, abbreviation, abbreviated);
     }
 
     public FieldType getFieldType() {

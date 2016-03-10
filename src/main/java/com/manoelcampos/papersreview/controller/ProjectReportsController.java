@@ -11,11 +11,12 @@ import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.report.CsvReportTableGenerator;
 import com.manoelcampos.papersreview.report.HtmlReportTableGenerator;
 import com.manoelcampos.papersreview.report.LatexReportTableGenerator;
-import com.manoelcampos.papersreview.service.PapersSummaryTableService;
+import com.manoelcampos.papersreview.report.ReportTableGenerator;
+import com.manoelcampos.papersreview.report.databuilder.*;
+import com.manoelcampos.papersreview.service.*;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -53,18 +54,26 @@ public class ProjectReportsController extends BaseController  {
     @Get("/project/reports/papers-summary-table/{project.id}/html")
     @IncludeParameters
     public void papersSummaryTableHtml(@NotNull @Load final Project project) {
-        service.setGenerator(new HtmlReportTableGenerator()).setProject(project);
-        result.include("summaryTable", service.approvedPapersInFinalPhaseSummaryTable(summaryTableId));
-        result.include("legendTable", service.papersSummaryLegendTable(legendTableId));
+        createPaperSummaryTableGenerator(project, new HtmlReportTableGenerator());
         result.of(ProjectReportsController.class).papersSummaryTable(project);
+    }
+
+    private void createPaperSummaryTableGenerator(Project p, ReportTableGenerator gen) {
+        service.setProject(p);
+        PapersSummaryRegularTableDataBuilder builder1 = new PapersSummaryRegularTableDataBuilder(service);
+        builder1.setUseAbreviations(true).setGenerator(gen).setTableId(summaryTableId);
+
+        PapersSummaryLegendTaleDataBuilder builder2 = new PapersSummaryLegendTaleDataBuilder(service);
+        builder2.setGenerator(gen).setTableId(summaryTableId);
+
+        result.include("summaryTable", builder1.generate());
+        result.include("legendTable", builder2.generate());
     }
 
     @Get("/project/reports/papers-summary-table/{project.id}/latex")
     @IncludeParameters
     public void papersSummaryTableLatex(@NotNull @Load final Project project) {
-        service.setGenerator(new LatexReportTableGenerator()).setProject(project);
-        result.include("summaryTable", service.approvedPapersInFinalPhaseSummaryTable(summaryTableId));
-        result.include("legendTable", service.papersSummaryLegendTable(legendTableId));
+        createPaperSummaryTableGenerator(project, new LatexReportTableGenerator());
         result.of(ProjectReportsController.class).papersSummaryTable(project);
     }
 
@@ -99,21 +108,32 @@ public class ProjectReportsController extends BaseController  {
     @Get("/project/reports/paper-count-by-user-fields/{dataFormat}/{project.id}/{field.id}")
     @IncludeParameters
     public void paperCountByFieldOption(@NotNull String dataFormat, @NotNull @Load Project project, @Load Field field) {
-        includeFieldList(project);
+        includeFieldsToBeShownInReports(project);
+        service.setProject(project);
         switch(dataFormat){
             case "html":
-                service.setGenerator(new HtmlReportTableGenerator()).setProject(project);
-                result.include("table", service.generateApprovedPaperCountByFieldOptionRegularTable(paperCountByFieldOptionTableId, field));
+                createPaperCountByFieldOptionDataBuilder(
+                        new PaperCountByFieldOptionRegularTableDataBuilder(),
+                        field, new HtmlReportTableGenerator());
             break;
             case "latex":
-                service.setGenerator(new LatexReportTableGenerator()).setProject(project);
-                result.include("table", service.generateApprovedPaperCountByFieldOptionRegularTable(paperCountByFieldOptionTableId, field));
+                createPaperCountByFieldOptionDataBuilder(
+                        new PaperCountByFieldOptionRegularTableDataBuilder(),
+                        field, new LatexReportTableGenerator());
             break;
             case "csv":
-                service.setGenerator(new CsvReportTableGenerator()).setProject(project);
-                result.include("table", service.generateApprovedPaperCountByFieldOptionPivotTable(paperCountByFieldOptionTableId, field));
+                createPaperCountByFieldOptionDataBuilder(
+                        new PaperCountByFieldOptionPivotTableDataBuilder(),
+                        field, new CsvReportTableGenerator());
             break;
         }
+
+    }
+
+    private void createPaperCountByFieldOptionDataBuilder(
+            PaperCountByFieldOptionTableDataBuilder builder, Field field, ReportTableGenerator gen) {
+        builder.setService(service).setTableId(paperCountByFieldOptionTableId).setGenerator(gen);
+        result.include("table", builder.generate(field));
     }
 
     @Get("/project/reports/paper-count-by-user-fields/{dataFormat}/{project.id}")
@@ -128,8 +148,8 @@ public class ProjectReportsController extends BaseController  {
         result.redirectTo(ProjectReportsController.class).paperCountByFieldOption(dataFormat,project, field);
     }
 
-    private void includeFieldList(@NotNull @Load Project project) {
-        result.include("fields", service.getFields(project));
+    private void includeFieldsToBeShownInReports(@NotNull @Load Project project) {
+        result.include("fields", service.getFieldsToBeShownInReports(project));
     }
 
 }

@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -162,14 +161,12 @@ public class Paper implements EntityInterface {
     }
 
     public List<String> getPaperFieldAnswers(final Field field) {
-        List<String> result = new ArrayList<>();
-        getPaperFieldAnswersInternal(field).forEach(answer -> result.add(answer.getAnswer()));
-        return result;
+        return getPaperFieldAnswers(field, false);
     }
 
-    public List<String> getPaperFieldAbbreviatedAnswers(final Field field) {
+    public List<String> getPaperFieldAnswers(final Field field, boolean abbreviated) {
         List<String> result = new ArrayList<>();
-        getPaperFieldAnswersInternal(field).forEach(answer -> result.add(answer.getAbbreviatedAnswer()));
+        getPaperFieldAnswersInternal(field).forEach(answer -> result.add(answer.getAnswer(abbreviated)));
         return result;
     }
 
