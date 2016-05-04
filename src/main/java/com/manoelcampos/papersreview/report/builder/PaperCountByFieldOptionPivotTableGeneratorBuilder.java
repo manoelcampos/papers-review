@@ -1,22 +1,17 @@
-package com.manoelcampos.papersreview.report.databuilder;
+package com.manoelcampos.papersreview.report.builder;
 
 import com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
-import com.manoelcampos.papersreview.report.ReportTableGenerator;
 import com.manoelcampos.papersreview.report.TableRow;
 
 import java.util.List;
 
-public class PaperCountByFieldOptionPivotTableDataBuilder extends PaperCountByFieldOptionTableDataBuilder {
-    public PaperCountByFieldOptionPivotTableDataBuilder(){
+public class PaperCountByFieldOptionPivotTableGeneratorBuilder extends PaperCountByFieldOptionTableGeneratorBuilder {
+    public PaperCountByFieldOptionPivotTableGeneratorBuilder(){
         super();
     }
 
-    public PaperCountByFieldOptionPivotTableDataBuilder(String tableId){
-        super();
-        setTableId(tableId);
-    }
     /**
      * Each field option of every existin field will be defined as a table column.
      * If there is 3 fields with 2 columns each, they will be created 6 columns.
@@ -26,7 +21,6 @@ public class PaperCountByFieldOptionPivotTableDataBuilder extends PaperCountByFi
     public void addColumnHeaders() {
         getGenerator()
                 .setCaption("Papers Count by User-defined Fields")
-                .setTableId(tableId)
                 .addColumnHeader("Field");
 
         getAnswers().keySet().stream().forEach(f -> addColumnHeader(f));

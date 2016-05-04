@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface PaperFieldAnswerDAO extends DAO<PaperFieldAnswer> {
     List<PaperFieldAnswer> listAnswersByPaperAndField(final Paper paper, final Field field);
-    List<PaperCountByFieldOptionDTO> listAnswersCountOfApprovedPapersGroupedByFieldOption(final Field field);
+    List<PaperCountByFieldOptionDTO> listAnswersCountOfApprovedPapersGroupedByFieldOptionToBeShownInReports(final Field field);
 }

@@ -40,10 +40,14 @@ public class Project implements EntityInterface {
     final private List<Field> fields;
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "project")
+    final private List<FieldGroup> fieldGroups;
+
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "project")
     final private List<SearchSession> searchSessions;
 
     public Project() {
         this.fields = new ArrayList<>();
+        this.fieldGroups = new ArrayList<>();
         this.searchSessions = new ArrayList<>();
     }
 
@@ -136,4 +140,8 @@ public class Project implements EntityInterface {
     }
 
     public static final Project NULL = new Project(0L);
+
+    public List<FieldGroup> getFieldGroups() {
+        return fieldGroups;
+    }
 }

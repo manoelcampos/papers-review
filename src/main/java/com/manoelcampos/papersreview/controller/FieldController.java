@@ -59,6 +59,7 @@ public class FieldController extends BaseController {
     @Get("/project/{project.id}/field/form/")
     @IncludeParameters 
     public void form(@NotNull final Project project) {
+        result.include("fieldGroups", service.listFieldGroups(project));
         result.include("fieldTypes", service.listFieldTypes());
     }
     

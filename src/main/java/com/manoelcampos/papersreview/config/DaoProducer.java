@@ -49,7 +49,12 @@ public class DaoProducer {
     public FieldDAO createFieldDAO() {
         return new FieldJpaDAO(em);
     }
-    
+
+    @Produces
+    public FieldGroupDAO createFieldGroupDAO() {
+        return new FieldGroupJpaDAO(em);
+    }
+
     @Produces
     public SearchSessionDAO createSearchSessionDAO() {
         return new SearchSessionJpaDAO(em);

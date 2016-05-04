@@ -8,7 +8,7 @@
         <select name="field.showInReports">
             <option value="true" <c:if test="${field.showInReports == true}">selected</c:if> >Yes</option>
             <option value="false" <c:if test="${field.showInReports != true}">selected</c:if> >No</option>
-        </select>
+        </select><br/>
 
         Type
         <select name="field.fieldType.id">
@@ -16,6 +16,14 @@
                 <option value="${t.id}" <c:if test="${field.fieldType.id == t.id}">selected</c:if> >${t.description}</option>
             </c:forEach>
         </select>
+
+        Group
+        <select name="field.fieldGroup.id">
+            <c:forEach items="${fieldGroups}" var="g">
+                <option value="${g.id}" <c:if test="${field.fieldGroup.id == g.id}">selected</c:if> >${g.description}</option>
+            </c:forEach>
+        </select>
+
         
         <br/>
         Notes:

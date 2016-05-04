@@ -1,6 +1,8 @@
 package com.manoelcampos.papersreview.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -116,6 +118,10 @@ public class Paper implements EntityInterface {
 
     public int getPublicationYear() {
         return publicationYear;
+    }
+
+    public int yearsSincePublication() {
+        return LocalDate.now().minusYears(publicationYear).getYear();
     }
 
     public void setPublicationYear(int publicationYear) {

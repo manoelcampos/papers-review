@@ -109,7 +109,6 @@
                     <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
-                        <parameters />
                     </compilerArguments>
                 </configuration>
             </plugin>

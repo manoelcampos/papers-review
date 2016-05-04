@@ -1,27 +1,20 @@
-package com.manoelcampos.papersreview.report.databuilder;
+package com.manoelcampos.papersreview.report.builder;
 
 import com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO;
 import com.manoelcampos.papersreview.model.Field;
-import com.manoelcampos.papersreview.report.ReportTableGenerator;
 import com.manoelcampos.papersreview.report.TableRow;
 
 import java.util.List;
 
-public class PaperCountByFieldOptionRegularTableDataBuilder extends PaperCountByFieldOptionTableDataBuilder {
-    public PaperCountByFieldOptionRegularTableDataBuilder(){
+public class PaperCountByFieldOptionRegularTableGeneratorBuilder extends PaperCountByFieldOptionTableGeneratorBuilder {
+    public PaperCountByFieldOptionRegularTableGeneratorBuilder(){
         super();
-    }
-
-    public PaperCountByFieldOptionRegularTableDataBuilder(String tableId){
-        super();
-        setTableId(tableId);
     }
 
     @Override
     public void addColumnHeaders() {
         getGenerator()
                 .setCaption("Papers Count by User-defined Fields")
-                .setTableId(getTableId())
                 .addColumnHeader("Field")
                 .addColumnHeader("Value")
                 .addColumnHeader("Number of classified Papers");

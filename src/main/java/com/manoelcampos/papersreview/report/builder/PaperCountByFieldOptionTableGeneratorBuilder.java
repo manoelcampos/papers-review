@@ -1,9 +1,7 @@
-package com.manoelcampos.papersreview.report.databuilder;
+package com.manoelcampos.papersreview.report.builder;
 
 import com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO;
 import com.manoelcampos.papersreview.model.Field;
-import com.manoelcampos.papersreview.report.ReportTableGenerator;
-import com.manoelcampos.papersreview.report.TableRow;
 import com.manoelcampos.papersreview.service.PapersSummaryTableService;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.Map;
 /**
  * @author <a href="https://about.me/manoelcampos">Manoel Campos da Silva Filho</a>
  */
-public abstract class PaperCountByFieldOptionTableDataBuilder extends AbstractTableDataBuilder {
+public abstract class PaperCountByFieldOptionTableGeneratorBuilder extends AbstractTableGeneratorBuilder {
     private PapersSummaryTableService service;
     private Map<Field, List<PaperCountByFieldOptionDTO>> answers;
 
@@ -36,7 +34,7 @@ public abstract class PaperCountByFieldOptionTableDataBuilder extends AbstractTa
         return service;
     }
 
-    public PaperCountByFieldOptionTableDataBuilder setService(PapersSummaryTableService service) {
+    public PaperCountByFieldOptionTableGeneratorBuilder setService(PapersSummaryTableService service) {
         this.service = service;
         return this;
     }

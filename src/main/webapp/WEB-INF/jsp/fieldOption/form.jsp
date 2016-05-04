@@ -11,6 +11,11 @@
                 <option value="${i.id}">${i.description}</option>
             </c:forEach>
         </select>
+        Show in Reports
+        <select name="fieldOption.showInReports">
+            <option value="true" <c:if test="${field.showInReports == true}">selected</c:if> >Yes</option>
+            <option value="false" <c:if test="${field.showInReports != true}">selected</c:if> >No</option>
+        </select><br/>
         <br/>
         Notes:
         <textarea name="fieldOption.notes" rows="15" style="width: 100%">${fieldOption.notes}</textarea>

@@ -7,12 +7,10 @@ import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.model.Field;
+import com.manoelcampos.papersreview.model.FieldGroup;
 import com.manoelcampos.papersreview.model.Project;
-import com.manoelcampos.papersreview.report.CsvReportTableGenerator;
-import com.manoelcampos.papersreview.report.HtmlReportTableGenerator;
-import com.manoelcampos.papersreview.report.LatexReportTableGenerator;
-import com.manoelcampos.papersreview.report.ReportTableGenerator;
-import com.manoelcampos.papersreview.report.databuilder.*;
+import com.manoelcampos.papersreview.report.*;
+import com.manoelcampos.papersreview.report.builder.*;
 import com.manoelcampos.papersreview.service.*;
 
 import javax.inject.Inject;
@@ -26,7 +24,6 @@ import java.util.ResourceBundle;
  */
 @Controller()
 public class ProjectReportsController extends BaseController  {
-    public static final String summaryTableId = "tab:papers-summary";
     public static final String legendTableId = "tab:papers-summary-legend";
     public static final String paperCountByFieldOptionTableId = "tab:paper-count-by-field-option";
 
@@ -51,36 +48,43 @@ public class ProjectReportsController extends BaseController  {
 
     }
 
-    @Get("/project/reports/papers-summary-table/{project.id}/html")
-    @IncludeParameters
-    public void papersSummaryTableHtml(@NotNull @Load final Project project) {
-        createPaperSummaryTableGenerator(project, new HtmlReportTableGenerator());
-        result.of(ProjectReportsController.class).papersSummaryTable(project);
-    }
-
-    private void createPaperSummaryTableGenerator(Project p, ReportTableGenerator gen) {
+    private void createPaperSummaryTableGenerator(Project p, TableGenerator gen, FieldGroup fieldGroup) {
         service.setProject(p);
-        PapersSummaryRegularTableDataBuilder builder1 = new PapersSummaryRegularTableDataBuilder(service);
-        builder1.setUseAbreviations(true).setGenerator(gen).setTableId(summaryTableId);
+        PapersSummaryMultColumnTableGeneratorBuilder builder1 =
+                new PapersSummaryMultColumnTableGeneratorBuilder(service, fieldGroup);
+        gen.setCaption(fieldGroup.getNotes()).setTableId(fieldGroup.getTableId());
+        builder1.setGenerator(gen);
 
-        PapersSummaryLegendTaleDataBuilder builder2 = new PapersSummaryLegendTaleDataBuilder(service);
-        builder2.setGenerator(gen).setTableId(summaryTableId);
+        //PapersSummaryLegendTaleGeneratorBuilder builder2 = new PapersSummaryLegendTaleGeneratorBuilder(service);
+        //builder2.setGenerator(gen).setTableId(summaryTableId);
 
         result.include("summaryTable", builder1.generate());
-        result.include("legendTable", builder2.generate());
+        //result.include("legendTable",  builder2.generate());
     }
 
-    @Get("/project/reports/papers-summary-table/{project.id}/latex")
+    @Get("/project/reports/papers-summary-table/{project.id}/{dataFormat}")
     @IncludeParameters
-    public void papersSummaryTableLatex(@NotNull @Load final Project project) {
-        createPaperSummaryTableGenerator(project, new LatexReportTableGenerator());
-        result.of(ProjectReportsController.class).papersSummaryTable(project);
+    public void papersSummaryTable(@NotNull String dataFormat, @NotNull @Load Project project) {
+        papersSummaryTable(dataFormat, project, FieldGroup.NULL);
     }
 
-    @Get("/project/reports/papers-summary-table/{project.id}")
+    @Get("/project/reports/papers-summary-table/{project.id}/{fieldGroup.id}/{dataFormat}")
     @IncludeParameters
-    public void papersSummaryTable(@NotNull @Load final Project project) {
-        papersSummaryTableHtml(project);
+    public void papersSummaryTable(@NotNull String dataFormat, @NotNull @Load Project project, @NotNull @Load FieldGroup fieldGroup) {
+        result.include("fieldGroups", service.listFieldGroups(project));
+        switch (dataFormat){
+            case "latex":
+                createPaperSummaryTableGenerator(project, new LatexTableGenerator(), fieldGroup);
+                break;
+            default:
+                createPaperSummaryTableGenerator(project, new HtmlTableGenerator(), fieldGroup);
+                break;
+        }
+    }
+
+    @Post()
+    public void filterSummary(@NotNull String dataFormat, @NotNull @Load Project project, @NotNull @Load FieldGroup fieldGroup){
+        result.redirectTo(ProjectReportsController.class).papersSummaryTable(dataFormat, project, fieldGroup);
     }
 
     @Get("/project/reports/paper-count-by-status/{project.id}")
@@ -113,26 +117,27 @@ public class ProjectReportsController extends BaseController  {
         switch(dataFormat){
             case "html":
                 createPaperCountByFieldOptionDataBuilder(
-                        new PaperCountByFieldOptionRegularTableDataBuilder(),
-                        field, new HtmlReportTableGenerator());
+                        new PaperCountByFieldOptionRegularTableGeneratorBuilder(),
+                        field, new HtmlTableGenerator());
             break;
             case "latex":
                 createPaperCountByFieldOptionDataBuilder(
-                        new PaperCountByFieldOptionRegularTableDataBuilder(),
-                        field, new LatexReportTableGenerator());
+                        new PaperCountByFieldOptionRegularTableGeneratorBuilder(),
+                        field, new LatexTableGenerator());
             break;
             case "csv":
                 createPaperCountByFieldOptionDataBuilder(
-                        new PaperCountByFieldOptionPivotTableDataBuilder(),
-                        field, new CsvReportTableGenerator());
+                        new PaperCountByFieldOptionPivotTableGeneratorBuilder(),
+                        field, new CsvTableGenerator());
             break;
         }
 
     }
 
     private void createPaperCountByFieldOptionDataBuilder(
-            PaperCountByFieldOptionTableDataBuilder builder, Field field, ReportTableGenerator gen) {
-        builder.setService(service).setTableId(paperCountByFieldOptionTableId).setGenerator(gen);
+            PaperCountByFieldOptionTableGeneratorBuilder builder, Field field, TableGenerator gen) {
+        gen.setTableId(paperCountByFieldOptionTableId);
+        builder.setService(service).setGenerator(gen);
         result.include("table", builder.generate(field));
     }
 

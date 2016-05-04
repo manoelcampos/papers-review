@@ -9,6 +9,7 @@
         <th>#</th>
         <th>Description</th>
         <th>Abbreviation</th>
+        <th>Group</th>
         <th>Type</th>
         <th width="30%">Options</th>
         <th>Field Actions</th>
@@ -19,11 +20,12 @@
             <c:forEach items="${project.fields}" var="f" varStatus="status">
                 <tr>
                     <td>${status.index+1}</td>
-                    <td><a href="${linkTo[FieldController].view(f)}">
-                        ${f.description}</a>
+                    <td>
+                        <a href="${linkTo[FieldController].view(f)}">${f.description}</a>
                         <c:if test="${not f.showInReports}"><br/>Set to not to be shown in reports</c:if>
                     </td>
                     <td>${f.abbreviation}</td>
+                    <td>${f.fieldGroup.description}</td>
                     <td>${f.fieldType.description}</td>
                     <td>
                         <table class="table-striped table-bordered"  width="100%">
@@ -31,6 +33,7 @@
                             <tr>
                                 <td>
                                     <a href="${linkTo[FieldOptionController].edit(fo)}">${fo.description}</a>
+                                    <c:if test="${not fo.showInReports}">&nbsp;<i>(Not shown in reports)</i></c:if>
                                 </td>
                                 <td width="8%">                                    
                                     <a href="${linkTo[FieldOptionController].remove(fo)}" onclick="return window.confirm('Are you sure you want to remove the option ${fo.description}?')">Remove</a>

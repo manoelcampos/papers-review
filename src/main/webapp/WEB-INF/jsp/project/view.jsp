@@ -59,7 +59,8 @@
 <hr/>
 
 <a href="${linkTo[PaperController].search(project)}" class="btn btn-primary">Search Paper</a>
-<a href="${linkTo[ProjectController].fields(project)}" class="btn btn-primary">View Fields</a>
+<a href="${linkTo[ProjectController].fieldGroups(project)}" class="btn btn-primary">Fields Groups</a>
+<a href="${linkTo[ProjectController].fields(project)}" class="btn btn-primary">Fields</a>
 <a href="${linkTo[SearchSessionController].index(project)}" class="btn btn-primary">Search Sessions</a>
 <a href="${linkTo[ProjectController].index}" class="btn btn-default">Back</a>
 

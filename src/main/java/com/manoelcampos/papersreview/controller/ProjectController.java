@@ -66,6 +66,11 @@ public class ProjectController extends BaseController  {
         return project;
     }
 
+    @Get("/project/{project.id}/field-groups")
+    public Project fieldGroups(@NotNull @Load Project project) {
+        return project;
+    }
+
     @Get("/project/{project.id}")
     public Project view(@NotNull @Load Project project) {
         final Map<Repository, Map<SearchSession, List<Paper>>> repositoriesMap =

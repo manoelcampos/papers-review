@@ -27,6 +27,9 @@ public class PapersSummaryTableService {
     private PaperDAO paperDao;
 
     @Inject
+    private FieldGroupDAO fieldGroupDao;
+
+    @Inject
     private PaperFieldAnswerDAO paperFieldAnswerDao;
 
     @Inject
@@ -55,7 +58,7 @@ public class PapersSummaryTableService {
         Map<Field, List<PaperCountByFieldOptionDTO>> map = new HashMap<>();
 
         getFieldDao().getNonSubjectiveFieldsToBeShownInReports(getProject(), field)
-                .forEach(f -> map.put(f, getPaperFieldAnswerDao().listAnswersCountOfApprovedPapersGroupedByFieldOption(f)));
+                .forEach(f -> map.put(f, getPaperFieldAnswerDao().listAnswersCountOfApprovedPapersGroupedByFieldOptionToBeShownInReports(f)));
 
         return map;
     }
@@ -106,5 +109,9 @@ public class PapersSummaryTableService {
     }
     public Project getProject() {
         return project;
+    }
+
+    public List<FieldGroup> listFieldGroups(Project project){
+        return fieldGroupDao.listByProject(project);
     }
 }

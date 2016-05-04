@@ -1,14 +1,14 @@
-package com.manoelcampos.papersreview.report.databuilder;
+package com.manoelcampos.papersreview.report.builder;
 
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.report.TableRow;
 import com.manoelcampos.papersreview.service.PapersSummaryTableService;
 
-public class PapersSummaryLegendTaleDataBuilder extends AbstractTableDataBuilder {
+public class PapersSummaryLegendTaleGeneratorBuilder extends AbstractTableGeneratorBuilder {
     private PapersSummaryTableService service;
     private Field field = Field.NULL;
 
-    public PapersSummaryLegendTaleDataBuilder(PapersSummaryTableService service) {
+    public PapersSummaryLegendTaleGeneratorBuilder(PapersSummaryTableService service) {
         super();
         this.service = service;
     }

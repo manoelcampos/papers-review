@@ -1,6 +1,7 @@
 package com.manoelcampos.papersreview.dao;
 
 import com.manoelcampos.papersreview.model.Field;
+import com.manoelcampos.papersreview.model.FieldGroup;
 import com.manoelcampos.papersreview.model.Project;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -47,6 +48,22 @@ public class FieldJpaDAO extends JpaDAO<Field> implements FieldDAO {
         TypedQuery<Field> query = createQuery(jpql).setParameter("project", project);
         if(!where.isEmpty())
             query.setParameter("field", field);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Field> getNonSubjectiveFieldsToBeShownInReports(Project project, FieldGroup fieldGroup) {
+        String where = "";
+        if(!fieldGroup.equals(FieldGroup.NULL))
+            where = " and f.fieldGroup = :fieldGroup ";
+
+        final String jpql =
+                " select f from Field f where f.project = :project and " +
+                        " f.fieldType.abbreviation <> 'S' and f.showInReports=true " +
+                        where + " order by f.description ";
+        TypedQuery<Field> query = createQuery(jpql).setParameter("project", project);
+        if(!where.isEmpty())
+            query.setParameter("fieldGroup", fieldGroup);
         return query.getResultList();
     }
 

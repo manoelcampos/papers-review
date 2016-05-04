@@ -8,10 +8,10 @@ import java.util.List;
  * @author <a href="https://about.me/manoelcampos">Manoel Campos da Silva Filho</a>
  */
 public abstract class AbstractTableRow implements TableRow {
-    private final ReportTableGenerator generator;
+    private final TableGenerator generator;
     private List<String> columns;
 
-    public AbstractTableRow(ReportTableGenerator generator){
+    public AbstractTableRow(TableGenerator generator){
         this.generator = generator;
         this.columns = new ArrayList<>();
     }

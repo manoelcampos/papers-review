@@ -46,6 +46,9 @@ public class FieldOption implements EntityInterface, AbbreviableDescription {
         this.parentFieldOption = null;
     }
 
+    @NotNull
+    private boolean showInReports = true;
+
     public FieldOption(Long id) {
         this();
         this.id = id;
@@ -151,5 +154,12 @@ public class FieldOption implements EntityInterface, AbbreviableDescription {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-    
+
+    public boolean isShowInReports() {
+        return showInReports;
+    }
+
+    public void setShowInReports(boolean showInReports) {
+        this.showInReports = showInReports;
+    }
 }

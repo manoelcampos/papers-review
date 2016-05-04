@@ -2,7 +2,9 @@ package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.DAO;
 import com.manoelcampos.papersreview.dao.FieldDAO;
+import com.manoelcampos.papersreview.dao.FieldGroupDAO;
 import com.manoelcampos.papersreview.dao.ProjectDAO;
+import com.manoelcampos.papersreview.model.FieldGroup;
 import com.manoelcampos.papersreview.model.FieldType;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.Project;
@@ -21,6 +23,9 @@ public class FieldService {
     
     @Inject
     private DAO<FieldType> fieldTypeDao;
+
+    @Inject
+    private FieldGroupDAO fieldGroupDao;
 
     @Inject
     private ProjectDAO projectDao;
@@ -52,5 +57,9 @@ public class FieldService {
     
     public List<Field> listByProject(final Project project){
         return dao.listByProject(project);
+    }
+
+    public List<FieldGroup> listFieldGroups(final Project project){
+        return fieldGroupDao.listByProject(project);
     }
 }

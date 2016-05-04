@@ -5,6 +5,7 @@
     <class>com.manoelcampos.papersreview.model.EndUser</class>
     <class>com.manoelcampos.papersreview.model.Field</class>
     <class>com.manoelcampos.papersreview.model.FieldOption</class>
+    <class>com.manoelcampos.papersreview.model.FieldGroup</class>
     <class>com.manoelcampos.papersreview.model.FieldType</class>
     <class>com.manoelcampos.papersreview.model.Paper</class>
     <class>com.manoelcampos.papersreview.model.PaperFieldAnswer</class>

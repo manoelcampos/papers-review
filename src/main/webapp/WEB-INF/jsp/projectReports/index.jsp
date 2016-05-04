@@ -1,6 +1,6 @@
 <%@ include file="/header.jsp" %>
 
-<a href="${linkTo[ProjectReportsController].papersSummaryTable(project)}" class="btn btn-default">Papers Summary Table</a> |
+<a href="${linkTo[ProjectReportsController].papersSummaryTable('html', project)}" class="btn btn-default">Papers Summary Table</a> |
 <a href="${linkTo[ProjectReportsController].paperCountByFieldOption('html', project)}" class="btn btn-default">Paper Count by User-defined Fields</a> |
 
 <a href="${linkTo[ProjectReportsController].paperCountByStatus(project)}" class="btn btn-default">Paper Count by Status</a>

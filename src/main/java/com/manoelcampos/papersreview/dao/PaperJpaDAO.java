@@ -44,12 +44,12 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
     }
 
     @Override
-    public List<Paper> listApprovedPapersInFinalPhaseWithDefinedTypeByProject(final Project project) {
+    public List<Paper> listApprovedNonSurveyPapersInFinalPhaseWithDefinedTypeByProject(final Project project) {
         final String jpql =
             String.format(
             " select p from Paper p join p.paperType " +
             " where p.searchSession.project = :project" +
-            " and p.status = (%s)", PaperStatusJpaDAO.LAST_ACCEPTED_STATUS_PHASE_JPQL);
+            " and p.survey <> 1 and p.status = (%s)", PaperStatusJpaDAO.LAST_ACCEPTED_STATUS_PHASE_JPQL);
 
         return createQuery(jpql).setParameter("project", project).getResultList();
     }
