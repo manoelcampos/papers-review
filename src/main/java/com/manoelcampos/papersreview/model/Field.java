@@ -31,6 +31,8 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldAbbrev", columnNames = {"project_id", "abbreviation"})    
 })
 public class Field implements EntityInterface,AbbreviableDescription {
+    public static final Field NULL = new Field(-1L);
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -48,21 +50,23 @@ public class Field implements EntityInterface,AbbreviableDescription {
 
     @ManyToOne(optional = true)
     private FieldGroup fieldGroup;
-    
+
     @Column(nullable = true)
-    private String notes;        
+    private String notes;
+
+    @ManyToOne(optional = false)
+    private Project project;
 
     @OneToMany(orphanRemoval = true, mappedBy = "field")
     private final List<PaperFieldAnswer> paperFieldAnswers;
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "field", fetch = FetchType.EAGER)
     private final List<FieldOption> fieldOptions;
-    
-    @ManyToOne(optional = false)
-    private Project project;
 
     public Field() {
-        this.project = new Project();
+        this.fieldType = FieldType.NULL;
+        this.fieldGroup = FieldGroup.NULL;
+        this.project = Project.NULL;
         this.paperFieldAnswers = new ArrayList<>();
         this.fieldOptions = new ArrayList<>();
     }
@@ -91,7 +95,7 @@ public class Field implements EntityInterface,AbbreviableDescription {
         this();
         this.setProject(project);
     }
-    
+
     @Override
     public Long getId() {
         return id;
@@ -173,7 +177,7 @@ public class Field implements EntityInterface,AbbreviableDescription {
     @Override
     public String toString() {
         String proj = (project != null ? project.getDescription() : "");
-        return String.format("%s[id=%d, project=%s, description=%s]", 
+        return String.format("%s[id=%d, project=%s, description=%s]",
                 getClass().getSimpleName(), id, proj, description);
     }
 
@@ -190,7 +194,7 @@ public class Field implements EntityInterface,AbbreviableDescription {
     public final void setProject(Project project) {
         this.project = project;
     }
-    
+
     public boolean isNotSubjective(){
         return !isSubjective();
     }
@@ -202,7 +206,7 @@ public class Field implements EntityInterface,AbbreviableDescription {
     public boolean isMultiple(){
         return "M".equalsIgnoreCase(fieldType.getAbbreviation());
     }
-    
+
     public boolean isNotMultiple(){
         return !isMultiple();
     }
@@ -240,8 +244,6 @@ public class Field implements EntityInterface,AbbreviableDescription {
                 .forEach(o -> list.add(String.format("%s = %s", o.getAbbreviation(), o.getDescription())));
         return list;
     }
-
-    public static final Field NULL = new Field(0L, Project.NULL);
 
     public FieldGroup getFieldGroup() {
         return fieldGroup;

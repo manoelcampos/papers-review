@@ -2,6 +2,7 @@ package com.manoelcampos.papersreview.dao;
 
 import com.manoelcampos.papersreview.dto.PaperCountByFieldOptionDTO;
 import com.manoelcampos.papersreview.model.Field;
+import com.manoelcampos.papersreview.model.FieldOption;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.PaperFieldAnswer;
 import java.util.List;
@@ -37,5 +38,13 @@ public class PaperFieldAnswerJpaDAO extends JpaDAO<PaperFieldAnswer> implements 
         return getEm().createQuery(jpql, PaperCountByFieldOptionDTO.class)
                 .setParameter("field", field)
                 .getResultList();
+    }
+
+    @Override
+    public boolean save(PaperFieldAnswer o) {
+        if(o.getFieldOption() == FieldOption.NULL){
+            o.setFieldOption(null);
+        }
+        return super.save(o);
     }
 }

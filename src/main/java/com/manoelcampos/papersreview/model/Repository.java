@@ -19,6 +19,8 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_Repository", columnNames = {"description"})
 })
 public class Repository implements EntityInterface {
+    public static final Repository NULL = new Repository(-1);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,7 +36,7 @@ public class Repository implements EntityInterface {
     
     public Repository(){}
     
-    public Repository(final Long id){ this.id = id; }
+    public Repository(final long id){ this.id = id; }
 
     public void setId(Long id) {
         this.id = id;

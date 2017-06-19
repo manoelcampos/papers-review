@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_EnduserEmail", columnNames = {"email"})
 })
 public class EndUser implements EntityInterface {
+    public static final EndUser NULL = new EndUser(-1);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,6 +44,12 @@ public class EndUser implements EntityInterface {
     }
 
     public void setId(Long id) {
+        this.id = id;
+    }
+
+    public EndUser(){}
+
+    public EndUser(final long id){
         this.id = id;
     }
 

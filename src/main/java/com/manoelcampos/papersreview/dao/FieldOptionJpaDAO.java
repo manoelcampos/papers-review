@@ -24,5 +24,12 @@ public class FieldOptionJpaDAO extends JpaDAO<FieldOption> implements FieldOptio
         qry.setParameter("field", field);
         return qry.getResultList();
     }
-    
+
+    @Override
+    public boolean save(FieldOption o) {
+        if(o.getParentFieldOption() == FieldOption.NULL){
+            o.setParentFieldOption(null);
+        }
+        return super.save(o);
+    }
 }

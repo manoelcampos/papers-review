@@ -20,6 +20,8 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_PaperTypeAbbrev", columnNames = {"abbreviation"})
 })
 public class PaperType implements EntityInterface {
+    public static final PaperType NULL = new PaperType(-1);
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,7 +35,7 @@ public class PaperType implements EntityInterface {
     public PaperType() {
     }
 
-    public PaperType(Long id) {
+    public PaperType(long id) {
         this.id = id;
     }
 

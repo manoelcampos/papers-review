@@ -18,6 +18,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 public class SearchSession implements EntityInterface {
+    public static final SearchSession NULL = new SearchSession(-1);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,17 +39,14 @@ public class SearchSession implements EntityInterface {
     @Temporal(TemporalType.DATE)
     private Date searchDate;
 
-    @Override
-    public Long getId() {
-        return id;
+    public SearchSession(){
+        this.project = Project.NULL;
+        this.repository = Repository.NULL;
     }
 
-    public void setId(Long id) {
+    public SearchSession(long id){
+        this();
         this.id = id;
-    }
-    
-    public SearchSession(){
-        this.project = new Project();
     }
     
     public SearchSession(final Project project){
@@ -56,19 +55,12 @@ public class SearchSession implements EntityInterface {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof SearchSession)) {
-            return false;
-        }
-        SearchSession other = (SearchSession) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -131,5 +123,21 @@ public class SearchSession implements EntityInterface {
     public void setSearchDate(Date searchDate) {
         this.searchDate = searchDate;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof SearchSession)) {
+            return false;
+        }
+        SearchSession other = (SearchSession) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
 }

@@ -23,6 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldOptionAbbrev", columnNames = {"field_id", "abbreviation"})
 })
 public class FieldOption implements EntityInterface, AbbreviableDescription {
+    public static final FieldOption NULL = new FieldOption(-1L);
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -40,14 +41,15 @@ public class FieldOption implements EntityInterface, AbbreviableDescription {
     private FieldOption parentFieldOption;
     
     @Column(nullable = true)
-    private String notes;    
-    
-    public FieldOption() {
-        this.parentFieldOption = null;
-    }
+    private String notes;
 
     @NotNull
     private boolean showInReports = true;
+
+    public FieldOption() {
+        this.field = Field.NULL;
+        this.parentFieldOption = NULL;
+    }
 
     public FieldOption(Long id) {
         this();
@@ -106,27 +108,6 @@ public class FieldOption implements EntityInterface, AbbreviableDescription {
         this.field = field;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof FieldOption)) {
-            return false;
-        }
-        FieldOption other = (FieldOption) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s[id=%d, field=%s, description=%s]", getClass().getSimpleName(), id, field.getDescription(), description);
-    }
-
     /**
      * @return the parentFieldOption
      */
@@ -161,5 +142,26 @@ public class FieldOption implements EntityInterface, AbbreviableDescription {
 
     public void setShowInReports(boolean showInReports) {
         this.showInReports = showInReports;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof FieldOption)) {
+            return false;
+        }
+        FieldOption other = (FieldOption) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s[id=%d, field=%s, description=%s]", getClass().getSimpleName(), id, field.getDescription(), description);
     }
 }

@@ -1,8 +1,7 @@
 package com.manoelcampos.papersreview.dao;
 
-import com.manoelcampos.papersreview.model.Paper;
-import com.manoelcampos.papersreview.model.Project;
-import com.manoelcampos.papersreview.model.SearchSession;
+import com.manoelcampos.papersreview.model.*;
+
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -18,8 +17,16 @@ public class PaperJpaDAO extends JpaDAO<Paper> implements PaperDAO {
     }
 
     @Override
-    public boolean saveWithoutFlush(Paper o) {
-        return super.saveWithoutFlush(o); 
+    public boolean save(Paper o) {
+        if(o.getPaperType() == PaperType.NULL){
+            o.setPaperType(null);
+        }
+
+        if(o.getStatus() == PaperStatus.NULL){
+            o.setStatus(null);
+        }
+
+        return super.save(o);
     }
 
     @Override

@@ -32,6 +32,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_PaperCitationKey", columnNames = {"searchSession_id", "citationKey"})
 })
 public class Paper implements EntityInterface {
+    public static final Paper NULL = new Paper(-1);
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -80,13 +81,13 @@ public class Paper implements EntityInterface {
     private final List<PaperFieldAnswer> paperFieldAnswers;
 
     public Paper() {
-        this.paperType = new PaperType();
-        this.searchSession = new SearchSession();
-        this.status = new PaperStatus();
+        this.paperType = PaperType.NULL;
+        this.searchSession = SearchSession.NULL;
+        this.status = PaperStatus.NULL;
         this.paperFieldAnswers = new ArrayList<>();
     }
 
-    public Paper(Long id) {
+    public Paper(long id) {
         this();
         this.id = id;
     }

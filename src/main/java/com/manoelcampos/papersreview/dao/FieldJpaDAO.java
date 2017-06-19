@@ -67,4 +67,11 @@ public class FieldJpaDAO extends JpaDAO<Field> implements FieldDAO {
         return query.getResultList();
     }
 
+    @Override
+    public boolean save(Field o) {
+        if(o.getFieldGroup() == FieldGroup.NULL){
+            o.setFieldGroup(null);
+        }
+        return super.save(o);
+    }
 }

@@ -20,6 +20,8 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_FieldTypeAbbrev", columnNames = {"abbreviation"})
 })
 public class FieldType implements EntityInterface {
+    public static final FieldType NULL = new FieldType(-1L);
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,8 +32,7 @@ public class FieldType implements EntityInterface {
     @Size(max = 2)
     private String abbreviation;
 
-    public FieldType() {
-    }
+    public FieldType() {}
 
     public FieldType(Long id) {
         this.id = id;
