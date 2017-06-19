@@ -16,7 +16,6 @@ public class PaperStatusJpaDAO extends JpaDAO<PaperStatus> implements PaperStatu
         super(PaperStatus.class, em);
     }
 
-
     @Override
     public PaperStatus getLastAcceptedStatusPhase() {
         return createQuery(LAST_ACCEPTED_STATUS_PHASE_JPQL).getSingleResult();

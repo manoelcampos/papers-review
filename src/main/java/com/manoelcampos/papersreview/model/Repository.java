@@ -19,25 +19,40 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_Repository", columnNames = {"description"})
 })
 public class Repository implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull() @NotEmpty
-    @Size(max = 50)
+    @NotNull() @NotEmpty @Size(max = 50)
     private String description;
     
+    public Repository(){}
+
+    public Repository(final long id){
+        this();
+        this.id = id;
+    }
+
     @Override
     public Long getId() {
         return id;
     }
-    
-    public Repository(){}
-    
-    public Repository(final Long id){ this.id = id; }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -61,18 +76,4 @@ public class Repository implements EntityInterface {
         return String.format("%s[id=%d, description=%s]", getClass().getSimpleName(), id, description);
     }
 
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
 }

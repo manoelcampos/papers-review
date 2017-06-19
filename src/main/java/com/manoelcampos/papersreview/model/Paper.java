@@ -32,15 +32,14 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_PaperCitationKey", columnNames = {"searchSession_id", "citationKey"})
 })
 public class Paper implements EntityInterface {
+    public static Paper NULL = new Paper(-1);
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 240)
+    @NotNull @Size(min = 1, max = 240)
     private String title;
     
-    @NotNull @NotEmpty
-    @Size(max = 400)
+    @NotNull @NotEmpty @Size(max = 400)
     private String authors;
     
     @NotNull
@@ -52,15 +51,13 @@ public class Paper implements EntityInterface {
     @Size(max = 300)
     private String url;
 
-    @NotNull @NotEmpty
-    @Size(max = 50)
+    @NotNull @NotEmpty @Size(max = 50)
     private String citationKey;
 
     @ManyToOne(optional = true)
     private PaperType paperType;
     
-    @NotNull
-    @ManyToOne(optional = false)
+    @NotNull @ManyToOne(optional = false)
     private SearchSession searchSession;
 
     @Column(nullable = true)
@@ -86,7 +83,7 @@ public class Paper implements EntityInterface {
         this.paperFieldAnswers = new ArrayList<>();
     }
 
-    public Paper(Long id) {
+    public Paper(long id) {
         this();
         this.id = id;
     }

@@ -1,5 +1,6 @@
 package com.manoelcampos.papersreview.dao;
 
+import com.manoelcampos.papersreview.model.EntityInterface;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldGroup;
 import com.manoelcampos.papersreview.model.Project;
@@ -38,7 +39,7 @@ public class FieldJpaDAO extends JpaDAO<Field> implements FieldDAO {
     @Override
     public List<Field> getNonSubjectiveFieldsToBeShownInReports(final Project project, final Field field) {
         String where = "";
-        if(!field.equals(Field.NULL))
+        if(field.equals(Field.NULL))
             where = " and f = :field ";
 
         final String jpql =
@@ -67,4 +68,11 @@ public class FieldJpaDAO extends JpaDAO<Field> implements FieldDAO {
         return query.getResultList();
     }
 
+    @Override
+    public boolean saveWithoutFlush(Field o) {
+        if(EntityInterface.isNull(o.getFieldGroup())){
+            o.setFieldGroup(null);
+        }
+        return super.saveWithoutFlush(o);
+    }
 }

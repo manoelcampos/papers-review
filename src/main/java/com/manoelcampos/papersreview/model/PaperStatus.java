@@ -12,12 +12,10 @@ import javax.validation.constraints.NotNull;
     @UniqueConstraint(name = "ix_PaperStatus", columnNames = {"reviewPhase_id", "accepted"})
 })
 public class PaperStatus implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull
-    @ManyToOne()
+    @NotNull @ManyToOne()
     private ReviewPhase reviewPhase;
     
     @NotNull
@@ -26,7 +24,11 @@ public class PaperStatus implements EntityInterface {
     public PaperStatus() {
         this.reviewPhase = new ReviewPhase();
     }
-    
+
+    public PaperStatus(long id) {
+        this();
+        this.id = id;
+    }
     
     @Override
     public Long getId() {

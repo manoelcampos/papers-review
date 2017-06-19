@@ -24,18 +24,17 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_Project", columnNames = {"description", "endUser_id"})
 })
 public class Project implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public static final Project NULL = new Project(-1);
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @NotNull @NotEmpty
-    @Size(max = 100)
-    private String description;   
-    
-    @NotNull
-    @ManyToOne(optional = false)
+
+    @NotNull @NotEmpty @Size(max = 100)
+    private String description;
+
+    @NotNull @ManyToOne(optional = false)
     private EndUser endUser;
-    
+
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "project")
     final private List<Field> fields;
 
@@ -46,12 +45,13 @@ public class Project implements EntityInterface {
     final private List<SearchSession> searchSessions;
 
     public Project() {
+        this.endUser = new EndUser();
         this.fields = new ArrayList<>();
         this.fieldGroups = new ArrayList<>();
         this.searchSessions = new ArrayList<>();
     }
 
-    public Project(final Long id) {
+    public Project(final long id) {
         this();
         this.id = id;
     }
@@ -134,12 +134,10 @@ public class Project implements EntityInterface {
     public List<SearchSession> getSearchSessions() {
         return searchSessions;
     }
-    
+
     public void addSearchSession(final SearchSession searchSession){
         searchSessions.add(searchSession);
     }
-
-    public static final Project NULL = new Project(0L);
 
     public List<FieldGroup> getFieldGroups() {
         return fieldGroups;

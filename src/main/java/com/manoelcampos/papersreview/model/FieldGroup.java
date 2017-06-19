@@ -14,8 +14,9 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(name = "ix_description", columnNames = {"project_id", "description"}),
 })
 public class FieldGroup implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public static final FieldGroup NULL = new FieldGroup(-1);
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull @NotEmpty @Size(max = 120)
@@ -36,6 +37,11 @@ public class FieldGroup implements EntityInterface {
         this.description = "";
         this.notes = "";
         this.tableId = "";
+    }
+
+    public FieldGroup(long id){
+        this();
+        this.id = id;
     }
 
     @Override
@@ -62,8 +68,6 @@ public class FieldGroup implements EntityInterface {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public static final FieldGroup NULL = new FieldGroup();
 
     public String getNotes() {
         return notes;

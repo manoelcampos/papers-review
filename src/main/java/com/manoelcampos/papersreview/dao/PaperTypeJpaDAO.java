@@ -17,7 +17,7 @@ public class PaperTypeJpaDAO extends JpaDAO<PaperType> implements PaperTypeDAO {
 
     @Override
     public List<String> listAsString() {
-        List<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         list().forEach(t -> list.add(String.format("%s = %s", t.getAbbreviation(), t.getDescription())));
         return list;
     }

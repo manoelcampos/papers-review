@@ -18,8 +18,8 @@ public class PaperFieldAnswerDTO {
     private List<Long> fieldOptions;
 
     public PaperFieldAnswerDTO(){
-        this.paper = new Paper();
-        this.field = new Field();
+        this.paper = Paper.NULL;
+        this.field = Field.NULL;
         this.subjectiveAnswer = "";
         this.fieldOptions = new ArrayList<>();
     }

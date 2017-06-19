@@ -18,36 +18,29 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 public class SearchSession implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @NotNull @NotEmpty @Size(max = 200)
     private String searchString;
     
-    @NotNull
-    @ManyToOne(optional = false)
+    @NotNull @ManyToOne(optional = false)
     private Project project;
     
-    @NotNull
-    @ManyToOne(optional = false)
+    @NotNull @ManyToOne(optional = false)
     private Repository repository;
     
-    @NotNull
-    @Temporal(TemporalType.DATE)
+    @NotNull @Temporal(TemporalType.DATE)
     private Date searchDate;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
     public SearchSession(){
         this.project = new Project();
+        this.repository = new Repository();
+    }
+
+    public SearchSession(long id){
+        this();
+        this.id = id;
     }
     
     public SearchSession(final Project project){
@@ -56,19 +49,12 @@ public class SearchSession implements EntityInterface {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof SearchSession)) {
-            return false;
-        }
-        SearchSession other = (SearchSession) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -131,5 +117,21 @@ public class SearchSession implements EntityInterface {
     public void setSearchDate(Date searchDate) {
         this.searchDate = searchDate;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof SearchSession)) {
+            return false;
+        }
+        SearchSession other = (SearchSession) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
 }

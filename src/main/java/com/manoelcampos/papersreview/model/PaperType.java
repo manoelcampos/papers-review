@@ -23,17 +23,16 @@ public class PaperType implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull @NotEmpty
-    @Size(max = 50)
+    @NotNull @NotEmpty @Size(max = 50)
     private String description;
 
     @Size(max = 2)
     private String abbreviation;
 
-    public PaperType() {
-    }
+    public PaperType() {}
 
-    public PaperType(Long id) {
+    public PaperType(long id) {
+        this();
         this.id = id;
     }
 

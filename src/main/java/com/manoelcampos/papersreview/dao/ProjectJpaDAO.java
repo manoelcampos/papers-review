@@ -64,6 +64,4 @@ public class ProjectJpaDAO extends JpaDAO<Project> implements ProjectDAO {
                         .getResultList();
 
     }
-
-
 }

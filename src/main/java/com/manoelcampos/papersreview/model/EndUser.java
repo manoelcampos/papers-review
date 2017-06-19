@@ -19,23 +19,25 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_EnduserEmail", columnNames = {"email"})
 })
 public class EndUser implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull @NotEmpty
-    @Size(max = 50)
+    @NotNull @NotEmpty @Size(max = 50)
     private String name;
     
-    @NotNull @NotEmpty
-    @Size(max = 50)
+    @NotNull @NotEmpty @Size(max = 50)
     private String email;
 
-    @NotNull @NotEmpty
-    @Size(min=5, max = 100)
+    @NotNull @NotEmpty @Size(min=5, max = 100)
     private String password;
     
     private boolean active;
+
+    public EndUser(){}
+
+    public EndUser(final long id){
+        this.id = id;
+    }
 
     @Override
     public Long getId() {
@@ -44,27 +46,6 @@ public class EndUser implements EntityInterface {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof EndUser)) {
-            return false;
-        }
-        EndUser other = (EndUser) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s[id=%d, email=%s]", getClass().getSimpleName(), id, email);
     }
 
     /**
@@ -122,5 +103,26 @@ public class EndUser implements EntityInterface {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof EndUser)) {
+            return false;
+        }
+        EndUser other = (EndUser) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s[id=%d, email=%s]", getClass().getSimpleName(), id, email);
+    }
+
 }

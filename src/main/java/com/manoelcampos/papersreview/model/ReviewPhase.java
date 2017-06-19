@@ -19,12 +19,10 @@ import org.hibernate.validator.constraints.NotEmpty;
     @UniqueConstraint(name = "ix_ReviewPhaseDesc", columnNames = {"description"})
 })
 public class ReviewPhase implements EntityInterface {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull @NotEmpty
-    @Size(min = 1, max = 60)
+    @NotNull @NotEmpty @Size(min = 1, max = 60)
     private String description;
     
     @Override

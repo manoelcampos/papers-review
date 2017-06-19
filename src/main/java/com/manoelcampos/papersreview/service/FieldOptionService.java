@@ -2,6 +2,7 @@ package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.FieldDAO;
 import com.manoelcampos.papersreview.dao.FieldOptionDAO;
+import com.manoelcampos.papersreview.model.EntityInterface;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
 import java.util.List;
@@ -35,9 +36,9 @@ public class FieldOptionService {
 
     public boolean save(final FieldOption o){
         o.setField(fieldDao.findById(o.getField().getId()));
-        if(o.getParentFieldOption().getId() <= 0)
-            o.setParentFieldOption(null);
-        else o.setParentFieldOption(findById(o.getParentFieldOption().getId()));
+        if(!EntityInterface.isNull(o.getParentFieldOption())) {
+            o.setParentFieldOption(findById(o.getParentFieldOption().getId()));
+        }
         return dao.save(o);
     }
     

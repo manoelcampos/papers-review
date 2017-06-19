@@ -1,5 +1,6 @@
 package com.manoelcampos.papersreview.dao;
 
+import com.manoelcampos.papersreview.model.EntityInterface;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldOption;
 import java.util.List;
@@ -24,5 +25,12 @@ public class FieldOptionJpaDAO extends JpaDAO<FieldOption> implements FieldOptio
         qry.setParameter("field", field);
         return qry.getResultList();
     }
-    
+
+    @Override
+    public boolean saveWithoutFlush(FieldOption o) {
+        if(EntityInterface.isNull(o.getParentFieldOption())){
+            o.setParentFieldOption(null);
+        }
+        return super.saveWithoutFlush(o);
+    }
 }
