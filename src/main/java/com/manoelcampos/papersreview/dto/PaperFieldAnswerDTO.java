@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Classe auxiliar para obter dados enviados 
- * para a action {@link PaperController#saveAnswers(java.util.List) }
+ * para a action {@link PaperController#saveAnswers(Paper, List)}  }
  * @author Manoel Campos da Silva Filho <manoelcampos at gmail.com>
  */
 public class PaperFieldAnswerDTO {
@@ -16,9 +16,12 @@ public class PaperFieldAnswerDTO {
     private Field field;
     private String subjectiveAnswer;
     private List<Long> fieldOptions;
-    
+
     public PaperFieldAnswerDTO(){
-        fieldOptions = new ArrayList<>();
+        this.paper = new Paper();
+        this.field = new Field();
+        this.subjectiveAnswer = "";
+        this.fieldOptions = new ArrayList<>();
     }
     
     @Override

@@ -11,6 +11,8 @@ import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.PaperFieldAnswer;
 import com.manoelcampos.papersreview.model.Project;
 import com.manoelcampos.papersreview.service.PaperService;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;

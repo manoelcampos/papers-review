@@ -53,16 +53,18 @@ public class Field implements EntityInterface,AbbreviableDescription {
     private String notes;        
 
     @OneToMany(orphanRemoval = true, mappedBy = "field")
-    final private List<PaperFieldAnswer> paperFieldAnswers = new ArrayList<>();
+    private final List<PaperFieldAnswer> paperFieldAnswers;
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "field", fetch = FetchType.EAGER)
-    final private List<FieldOption> fieldOptions = new ArrayList<>();
+    private final List<FieldOption> fieldOptions;
     
     @ManyToOne(optional = false)
     private Project project;
 
     public Field() {
         this.project = new Project();
+        this.paperFieldAnswers = new ArrayList<>();
+        this.fieldOptions = new ArrayList<>();
     }
 
     public Field(Long id) {

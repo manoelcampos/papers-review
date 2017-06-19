@@ -77,12 +77,13 @@ public class Paper implements EntityInterface {
 
     @OrderBy(value = "field")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paper", fetch = FetchType.EAGER)
-    final private List<PaperFieldAnswer> paperFieldAnswers = new ArrayList<>();
+    private final List<PaperFieldAnswer> paperFieldAnswers;
 
     public Paper() {
-        this.searchSession = new SearchSession();
         this.paperType = new PaperType();
+        this.searchSession = new SearchSession();
         this.status = new PaperStatus();
+        this.paperFieldAnswers = new ArrayList<>();
     }
 
     public Paper(Long id) {

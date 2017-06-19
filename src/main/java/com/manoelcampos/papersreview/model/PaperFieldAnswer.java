@@ -40,6 +40,7 @@ public class PaperFieldAnswer implements EntityInterface {
     private FieldOption fieldOption;
 
     public PaperFieldAnswer() {
+        this.field = new Field();
     }
     
     public PaperFieldAnswer(final Paper paper, final Field field) {
