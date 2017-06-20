@@ -2,15 +2,8 @@ package com.manoelcampos.papersreview.service;
 
 import com.manoelcampos.papersreview.dao.*;
 import com.manoelcampos.papersreview.dto.PaperFieldAnswerDTO;
-import com.manoelcampos.papersreview.model.EndUser;
-import com.manoelcampos.papersreview.model.Field;
-import com.manoelcampos.papersreview.model.FieldOption;
-import com.manoelcampos.papersreview.model.PaperType;
-import com.manoelcampos.papersreview.model.Paper;
-import com.manoelcampos.papersreview.model.PaperFieldAnswer;
-import com.manoelcampos.papersreview.model.PaperStatus;
-import com.manoelcampos.papersreview.model.Project;
-import com.manoelcampos.papersreview.model.Repository;
+import com.manoelcampos.papersreview.model.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,17 +186,23 @@ public class PaperService {
     }
     
     public List<Paper> search(final Paper searchCriteria){
-        if(searchCriteria.getPaperType()!=null)
+        if(!EntityInterface.isNull(searchCriteria.getPaperType())) {
             searchCriteria.setPaperType(paperTypeDao.findById(searchCriteria.getPaperType().getId()));
-        if(searchCriteria.getSearchSession()!=null){
-            if(searchCriteria.getSearchSession().getProject()!=null)
-                searchCriteria.getSearchSession().setProject(
-                        projectDao.findById(searchCriteria.getSearchSession().getProject().getId()));
-            if(searchCriteria.getSearchSession().getRepository()!=null)
-                searchCriteria.getSearchSession().setRepository(
-                        repositoryDao.findById(searchCriteria.getSearchSession().getRepository().getId()));
         }
-        
+
+        final SearchSession ss = searchCriteria.getSearchSession();
+        if(ss == null) {
+            return dao.search(searchCriteria);
+        }
+
+        if(!EntityInterface.isNull(ss.getProject())) {
+            ss.setProject(projectDao.findById(ss.getProject().getId()));
+        }
+
+        if(!EntityInterface.isNull(ss.getRepository())) {
+            ss.setRepository(repositoryDao.findById(ss.getRepository().getId()));
+        }
+
         return dao.search(searchCriteria);
     }
     

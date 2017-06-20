@@ -6,6 +6,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
+import com.manoelcampos.papersreview.model.EntityInterface;
 import com.manoelcampos.papersreview.model.Field;
 import com.manoelcampos.papersreview.model.FieldGroup;
 import com.manoelcampos.papersreview.model.Project;
@@ -15,6 +16,7 @@ import com.manoelcampos.papersreview.service.*;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -48,7 +50,7 @@ public class ProjectReportsController extends BaseController  {
 
     }
 
-    private void createPaperSummaryTableGenerator(Project p, TableGenerator gen, FieldGroup fieldGroup) {
+    private void createPaperSummaryTableGenerator(final Project p, final TableGenerator gen, final FieldGroup fieldGroup) {
         service.setProject(p);
         PapersSummaryMultColumnTableGeneratorBuilder builder1 =
                 new PapersSummaryMultColumnTableGeneratorBuilder(service, fieldGroup);
@@ -71,7 +73,12 @@ public class ProjectReportsController extends BaseController  {
     @Get("/project/reports/papers-summary-table/{project.id}/{fieldGroup.id}/{dataFormat}")
     @IncludeParameters
     public void papersSummaryTable(@NotNull String dataFormat, @NotNull @Load Project project, @NotNull @Load FieldGroup fieldGroup) {
-        result.include("fieldGroups", service.listFieldGroups(project));
+        final List<FieldGroup> fieldGroups = service.listFieldGroups(project);
+        result.include("fieldGroups", fieldGroups);
+        if(EntityInterface.isNull(fieldGroup) && !fieldGroups.isEmpty()){
+            fieldGroup = fieldGroups.get(0);
+        }
+
         switch (dataFormat){
             case "latex":
                 createPaperSummaryTableGenerator(project, new LatexTableGenerator(), fieldGroup);

@@ -10,6 +10,6 @@ public interface EntityInterface extends Serializable {
      Long getId();
      void setId(Long id);
      static boolean isNull(EntityInterface obj){
-         return obj == null || obj.getId() <= 0;
+         return obj == null || obj.getId() == null || obj.getId() <= 0;
      }
 }

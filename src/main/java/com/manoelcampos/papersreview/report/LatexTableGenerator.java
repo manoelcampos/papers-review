@@ -16,17 +16,22 @@ public final class LatexTableGenerator extends AbstractTableGenerator {
     }
 
     protected void openTable() {
-        append("\\begin{longtable}{|");
+        appendLine("\\begin{minipage}[t]{\\textwidth}\\begin{center}\\begin{adjustbox}{width=1.0\\textwidth} %requires packages: adjustbox, caption");
+        append("\\begin{tabular}{|");
         getColumnHeaders().forEach(c -> append("l|"));
         appendLine("}");
     }
 
     protected void closeTable() {
-        appendLine("\\end{longtable}");
+        appendLine("\\end{tabular}");
+        appendLine("\\end{adjustbox}");
+        insertCaption();
+        appendLine("\\end{center}\\end{minipage}");
     }
 
     protected void insertCaption(){
-        appendLine(String.format("\t\\caption{%s\\label{%s}}\\\\", getCaption(), getTableId()));
+        appendLine(String.format("\\captionof{table}{%s}", getCaption()));
+        appendLine(String.format("\\label{%s}", getTableId()));
     }
 
     @Override

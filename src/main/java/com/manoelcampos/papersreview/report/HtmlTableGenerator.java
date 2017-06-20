@@ -13,6 +13,7 @@ public final class HtmlTableGenerator extends AbstractTableGenerator {
 
     protected void openTable() {
         appendLine(String.format("<table id='%s' class='table-striped table-bordered'>", getTableId()));
+        insertCaption();
     }
 
     protected void closeTable() {

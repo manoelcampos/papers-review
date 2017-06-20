@@ -50,7 +50,6 @@
             </c:forEach>
         </select>
 
-        
         <hr/>
 
         <input type="submit" value="Search" class="btn btn-primary"/>

@@ -52,6 +52,12 @@ public abstract class AbstractTableGenerator implements TableGenerator {
     }
 
     @Override
+    public TableGenerator setCaption(final String caption) {
+        this.caption = caption;
+        return this;
+    }
+
+    @Override
     public void clear() {
         this.caption = "";
         this.columnHeaders = new ArrayList<>();
@@ -112,12 +118,6 @@ public abstract class AbstractTableGenerator implements TableGenerator {
     protected abstract String generateGroupHeaders();
 
     @Override
-    public TableGenerator setCaption(final String caption) {
-        this.caption = caption;
-        return this;
-    }
-
-    @Override
     public TableGenerator addRow(TableRow row) {
         this.rows.add(row);
         return this;
@@ -127,7 +127,6 @@ public abstract class AbstractTableGenerator implements TableGenerator {
     public String build() {
         this.sb = new StringBuilder();
         openTable();
-        insertCaption();
         insertColumnHeaders(generateGroupHeaders());
         insertRows();
         closeTable();

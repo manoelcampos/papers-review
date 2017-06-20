@@ -11,7 +11,7 @@
     <input type="hidden" name="dataFormat" value="${dataFormat}" />
 
     Group
-    <select name="fieldGroup.id"  onchange="$('#frm').submit();">
+    <select name="fieldGroup.id" onchange="$('#frm').submit();">
         <c:forEach items="${fieldGroups}" var="g">
             <option value="${g.id}" <c:if test="${fieldGroup.id == g.id}">selected</c:if> >${g.description}</option>
         </c:forEach>

@@ -13,7 +13,7 @@ public class PapersSummaryMultColumnTableGeneratorBuilder extends AbstractTableG
     private final List<Field> nonSubjectiveFields;
     private PapersSummaryTableService service;
 
-    public PapersSummaryMultColumnTableGeneratorBuilder(PapersSummaryTableService service, FieldGroup fieldGroup) {
+    public PapersSummaryMultColumnTableGeneratorBuilder(final PapersSummaryTableService service, final FieldGroup fieldGroup) {
         super();
         this.service = service;
         this.nonSubjectiveFields =
@@ -66,11 +66,13 @@ public class PapersSummaryMultColumnTableGeneratorBuilder extends AbstractTableG
 
     @Override
     public TableGeneratorBuilder setGenerator(TableGenerator generator) {
-        if(generator.getTableId().isEmpty())
+        if(generator.getTableId().isEmpty()) {
             generator.setTableId(summaryTableId);
+        }
 
-        if(generator.getCaption().isEmpty())
+        if(generator.getCaption().isEmpty()) {
             generator.setCaption("Comparison of Proposals for Virtual Machine Placement and Migration");
+        }
 
         return super.setGenerator(generator);
     }

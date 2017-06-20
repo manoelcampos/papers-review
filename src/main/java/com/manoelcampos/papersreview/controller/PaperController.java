@@ -7,6 +7,7 @@ import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.dto.PaperFieldAnswerDTO;
+import com.manoelcampos.papersreview.model.EntityInterface;
 import com.manoelcampos.papersreview.model.Paper;
 import com.manoelcampos.papersreview.model.PaperFieldAnswer;
 import com.manoelcampos.papersreview.model.Project;
@@ -100,26 +101,27 @@ public class PaperController extends BaseController {
     }    
     
     
+    @Get("/project/{project.id}/paper/search")
+    public void search(final Project project) {
+        includePaperTypeAndStatusLists();
+        result.include("projects", service.listProjects());
+        result.include("repositories", service.listRepositories());
+        if(!EntityInterface.isNull(project)) {
+            result.include("project", project);
+        }
+    }
+
+    @Get("/paper/search")
+    public void search() {
+        search(null);
+    }
+
     @Post()
-    public void doSearch(Paper paper) {
+    public void doSearch(final Paper paper) {
         result.include("list", service.search(paper));
         result.include("paper", paper);
         Project project = paper.getSearchSession().getProject();
         result.redirectTo(this).search(project);
     }
-    
-    @Get("/project/{project.id}/paper/search")
-    public void search(@Load Project project) {
-        includePaperTypeAndStatusLists();
-        result.include("projects", service.listProjects());
-        result.include("repositories", service.listRepositories());
-        if(project != null && project.getId() > 0)
-            result.include("project", project);
-    }    
 
-    @Get("/paper/search")
-    public void search() {
-        search(null);
-    }    
-    
 }

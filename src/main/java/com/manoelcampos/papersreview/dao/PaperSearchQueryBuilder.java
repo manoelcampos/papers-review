@@ -60,7 +60,7 @@ public class PaperSearchQueryBuilder {
     }
 
     private void addEntitySearchParam(String fieldName, EntityInterface entity) {
-        if(entity != null && entity.getId() > 0) 
+        if(!EntityInterface.isNull(entity))
             addSearchParam(fieldName, entity);
     }    
 
