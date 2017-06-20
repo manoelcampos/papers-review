@@ -20,8 +20,9 @@
                 <td>${searchSession.repository.description}</td>
                 <td>${searchSession.searchDate}</td>
                 <td>
-                    <a href="${linkTo[SearchSessionController].importPapers(searchSession)}">Import Papers</a>
-                    <a href="${linkTo[SearchSessionController].edit(searchSession)}">Edit</a>
+                    <a href="${linkTo[SearchSessionController].importPapers(searchSession)}">Import Papers</a> |
+                    <a href="${linkTo[PaperController].form(searchSession)}">Add Paper Manually</a> |
+                    <a href="${linkTo[SearchSessionController].edit(searchSession)}">Edit</a> |
                     <a href="${linkTo[SearchSessionController].remove(searchSession)}" onclick="return window.confirm('Are you sure you want to remove the search session ${searchSession.id}?')">Remove</a>
                 </td>
             </tr>

@@ -4,6 +4,7 @@ import com.manoelcampos.papersreview.model.*;
 import com.manoelcampos.papersreview.report.TableGenerator;
 import com.manoelcampos.papersreview.report.TableRow;
 import com.manoelcampos.papersreview.service.PapersSummaryTableService;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,9 +44,10 @@ public class PapersSummaryMultColumnTableGeneratorBuilder extends AbstractTableG
         papers.sort((p1, p2) -> Integer.compare(p1.yearsSincePublication(), p2.yearsSincePublication()));
         for (Paper p : papers) {
             TableRow row = getGenerator().newRow();
+            final String proposalName = StringUtils.isEmpty(p.getProposalName()) ? "" : p.getProposalName() + ".";
             row
                 //.addColumn((++i).toString()).addColumn(p.getTitle())
-                .addColumnUnescaped(String.format("\\cite{%s}", p.getCitationKey()));
+                .addColumnUnescaped(String.format("%s %s \\cite{%s}", proposalName, p.getBibliographicAuthorNamesAndYear(), p.getCitationKey()));
                 //.addColumn(p.getPaperType().getAbbreviation());
 
             for (Field f : nonSubjectiveFields) {

@@ -264,4 +264,8 @@ public class PaperService {
         loadEntityAttibutesFromDB(p);
         dao.saveWithoutFlush(p);
     }
+
+    public List<SearchSession> listSearchSessions(Project p) {
+        return searchSessionDao.listByProject(p);
+    }
 }

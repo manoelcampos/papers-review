@@ -16,6 +16,7 @@ public final class LatexTableGenerator extends AbstractTableGenerator {
     }
 
     protected void openTable() {
+        //http://tex.stackexchange.com/questions/94078/resize-table-and-caption
         appendLine("\\begin{minipage}[t]{\\textwidth}\\begin{center}\\begin{adjustbox}{width=1.0\\textwidth} %requires packages: adjustbox, caption");
         append("\\begin{tabular}{|");
         getColumnHeaders().forEach(c -> append("l|"));
@@ -43,7 +44,7 @@ public final class LatexTableGenerator extends AbstractTableGenerator {
                 fmt = "c";
             else fmt = (index < getColumnGroups().size()-1 ? "|c" : "|c|");
 
-            return String.format(" \\multicolumn{%d}{%s}{%s} ", groupSize, fmt, group);
+            return String.format(" \\multicolumn{%d}{%s}{\\textbf{%s}} ", groupSize, fmt, group);
         }
 
         return group;
@@ -55,7 +56,7 @@ public final class LatexTableGenerator extends AbstractTableGenerator {
 
         appendLine("%Column Headers");
         appendLine(String.format("\t\\hline %s \\\\", getListAsString(getFormattedColumnHeaders(), " &amp; ")));
-        appendLine("\t\\hline").appendLine("\t\\endhead");
+        appendLine("\t\\hline");
     }
 
     protected String generateGroupHeaders() {

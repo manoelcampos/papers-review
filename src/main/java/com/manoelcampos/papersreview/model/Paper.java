@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -36,12 +38,18 @@ public class Paper implements EntityInterface {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull @Size(min = 1, max = 240)
+    @NotNull @NotEmpty @Size(max = 240)
     private String title;
-    
+
+    @Size(min = 0, max = 100)
+    private String proposalName;
+
     @NotNull @NotEmpty @Size(max = 400)
     private String authors;
-    
+
+    @Size(max = 100)
+    private String bibliographicAuthorNames;
+
     @NotNull
     private int publicationYear;
 
@@ -331,7 +339,30 @@ public class Paper implements EntityInterface {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-    
 
-    
+
+    public String getProposalName() {
+        return proposalName;
+    }
+
+    public void setProposalName(String proposalName) {
+        this.proposalName = proposalName;
+    }
+
+    public String getBibliographicAuthorNames() {
+        if(StringUtils.isEmpty(bibliographicAuthorNames)){
+            return "";
+        }
+
+        return  bibliographicAuthorNames.endsWith(".") ? bibliographicAuthorNames : bibliographicAuthorNames + ".";
+    }
+
+    public String getBibliographicAuthorNamesAndYear() {
+        return getBibliographicAuthorNames().isEmpty() ? "" : String.format("%s (%d)", getBibliographicAuthorNames(), publicationYear);
+    }
+
+
+    public void setBibliographicAuthorNames(String bibliographicAuthorNames) {
+        this.bibliographicAuthorNames = bibliographicAuthorNames;
+    }
 }

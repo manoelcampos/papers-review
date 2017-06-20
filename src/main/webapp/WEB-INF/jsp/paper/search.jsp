@@ -79,7 +79,12 @@
         <tbody>     
             <c:forEach items="${list}" var="p">
                 <tr>
-                  <td><a href="${linkTo[PaperController].view(p)}">${p.title}</a></td>
+                  <td>
+                      <a href="${linkTo[PaperController].view(p)}">${p.title}.</a>
+                      <c:if test="${not empty p.proposalName}">
+                          <br/>${p.proposalName}
+                      </c:if>
+                  </td>
                   <td>${p.publicationYear}</td>
                   <td>${p.citationKey}</td>
                   <td>${p.authors}</td>

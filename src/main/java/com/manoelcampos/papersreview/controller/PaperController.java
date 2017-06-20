@@ -7,13 +7,9 @@ import br.com.caelum.vraptor.interceptor.IncludeParameters;
 import br.com.caelum.vraptor.jpa.extra.Load;
 import br.com.caelum.vraptor.validator.Validator;
 import com.manoelcampos.papersreview.dto.PaperFieldAnswerDTO;
-import com.manoelcampos.papersreview.model.EntityInterface;
-import com.manoelcampos.papersreview.model.Paper;
-import com.manoelcampos.papersreview.model.PaperFieldAnswer;
-import com.manoelcampos.papersreview.model.Project;
+import com.manoelcampos.papersreview.model.*;
 import com.manoelcampos.papersreview.service.PaperService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -43,11 +39,6 @@ public class PaperController extends BaseController {
     @Inject
     private ResourceBundle bundle;  
 
-    @Get("/paper/{paper.id}")
-    public Paper view(@NotNull @Load final Paper paper) {
-        return paper;
-    }
-    
     @Get("/paper/remove/{paper.id}")
     public void remove(@NotNull @Load final Paper paper) {
         service.remove(paper);
@@ -58,15 +49,9 @@ public class PaperController extends BaseController {
     @Get("/paper/removeAnswer/{paperFieldAnswer.id}")
     public void removeAnswer(@NotNull @Load PaperFieldAnswer paperFieldAnswer) {
         service.removeAnswer(paperFieldAnswer);
-        
+
         result.include("msg", "form.removed");
         result.redirectTo(this).view(paperFieldAnswer.getPaper());
-    }
-
-    @Get("/paper/edit/{paper.id}")
-    @IncludeParameters
-    public void edit(@NotNull @Load final Paper paper) {
-        result.redirectTo(this).form();
     }
 
     @Get("/paper/answers/{paper.id}")
@@ -74,20 +59,41 @@ public class PaperController extends BaseController {
         result.include("answersMap", service.listAnswersForAllFields(paper));
         return paper;
     }
-    
+
     @Post()
     public void saveAnswers(@NotNull @Load final Paper paper, final List<PaperFieldAnswerDTO> answers) {
         service.saveAnswers(paper, answers);
         //result.include("msg", answers.toString());
         result.redirectTo(this).view(paper);
-    }     
+    }
+
+    @Get("/paper/{paper.id}")
+    public Paper view(@NotNull @Load final Paper paper) {
+        return paper;
+    }
 
     @Get()
     public void form() {
-        includePaperTypeAndStatusLists();
+        includeLists();
     }
 
-    private void includePaperTypeAndStatusLists() {
+    @Get("/searchSession/{searchSession.id}/paper/")
+    public void form(@NotNull @Load final SearchSession searchSession) {
+        final Paper paper = new Paper();
+        paper.setSearchSession(searchSession);
+        result.include("paper", paper);
+        result.include("searchSessions", service.listSearchSessions(searchSession.getProject()));
+        includeLists();
+    }
+
+    @Get("/paper/edit/{paper.id}")
+    @IncludeParameters
+    public void edit(@NotNull @Load final Paper paper) {
+        result.include("searchSessions", service.listSearchSessions(paper.getSearchSession().getProject()));
+        result.redirectTo(this).form();
+    }
+
+    private void includeLists() {
         result.include("paperTypes", service.listPaperTypes());
         result.include("status", service.listStatus());
     }
@@ -103,7 +109,7 @@ public class PaperController extends BaseController {
     
     @Get("/project/{project.id}/paper/search")
     public void search(final Project project) {
-        includePaperTypeAndStatusLists();
+        includeLists();
         result.include("projects", service.listProjects());
         result.include("repositories", service.listRepositories());
         if(!EntityInterface.isNull(project)) {
