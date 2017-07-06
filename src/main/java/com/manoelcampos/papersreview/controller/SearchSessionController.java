@@ -86,7 +86,7 @@ public class SearchSessionController  {
             p.setTitle(bibTexReader.getFieldValue(b, BibTeXEntry.KEY_TITLE));
             p.setUrl(bibTexReader.getFieldValue(b, BibTeXEntry.KEY_URL));
             p.setSearchSession(o);
-            p.setPaperAbstract(bibTexReader.getFieldValue(b, BibTeXEntry.KEY_ABSTRACT));
+            //p.setPaperAbstract(bibTexReader.getFieldValue(b, BibTeXEntry.KEY_ABSTRACT));
             list.add(p);
         }
         return list;
