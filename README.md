@@ -24,6 +24,12 @@ However, this appears to be an [anti-pattern](https://vladmihalcea.com/2016/05/3
 
 The WildFly web console usually is accessed at [http://localhost:9990](http://localhost:9990).
 
+The application uses the [vraptor-java8 plugin](http://www.vraptor.org/en/docs/plugins/#vraptor-java-8) to natively
+discovery URL parameters without requiring an external runtime library. 
+However, that requires passing the argument `-parameters` to the Java compiler. 
+This has to be configured inside your IDE. Just including this parameter
+into the argument list of the `maven-compiler-plugin` doesn't seem to be enough.
+
 # Structure
 
 The server side code is into the [src/main/java](/src/main/java) directory where:
