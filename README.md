@@ -11,6 +11,8 @@ It also allows the generation of reports in different formats such as HTML and L
 It's an MVC application built in the server side with [VRaptor 4 web framework](http://vraptor.org), JPA 2.1 with Hibernate 4.
 Views are generated using JSP and the client side uses [Bootstrap](http://getbootstrap.com) and JQuery.
 
+The application was developed to help me in my PhD and I hope it helps other researchers.
+
 # Configuration
 
 ## Some dependencies
