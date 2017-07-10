@@ -30,7 +30,7 @@ You can use any JPA supported database. Since the persistence.xml is configure t
 you only need to create an empty database before creating the data source.
 
 ## Running
-The application was tested in [Wildfly Swarm](http://wildfly-swarm.io) 2017 and [Wildfly](http://wildfly.org) 8 and 10 Applicaiton Server (AS).
+The application was tested in [Wildfly Swarm](http://wildfly-swarm.io) 2017 and [Wildfly](http://wildfly.org) Applicaiton Server (versions 8 and 10).
 The pom.xml file has a profile to enable running the application in either of them. 
 
 ### Running in Wildfly Swarm
@@ -47,7 +47,7 @@ To run the application using the regular Wildfly AS, you may configure the AS in
 and create a data source with the database connection configuration should be created in the AS
 using the exact same name defined inside the `<non-jta-data-source>` tag of the [persistence.xml](/src/main/resources/META-INF/persistence.xml) file.
 
-As the `wildfly-as` maven profile is set as default, you don't need to select it.
+Since the `wildfly-as` maven profile is set as default, you don't need to select it.
 Just use your IDE to run the application.
 
 # Structure
