@@ -1,0 +1,14 @@
+swarm:
+  datasources:
+    jdbc-drivers:
+      com.mysql:
+        driver-class-name: com.mysql.jdbc.Driver
+        xa-datasource-class-name: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+        datasource-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+        driver-module-name: com.mysql
+    data-sources:
+        PapersReviewDS:
+          driver-name: com.mysql
+          connection-url: jdbc:mysql://localhost:3306/papers_review
+          user-name: root
+          password: root

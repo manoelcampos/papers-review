@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <display-name>Papers Review</display-name>
-    <!--Apenas para Servelet Containers (como TomCat e Jetty) e não para Application Servers (como Wildfly e GlassFish)
-    <listener>
-        <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-    </listener>    
+    <display-name>papers-review</display-name>
+
+    <!--Used only for Servelet Containers (such as TomCat and Jetty)
+    and not for Application Servers (like Wildfly AS e GlassFish).
+    For WildFly Swarm, org.wildfly.swarm.cdi and org.wildfly.swarm.cdi-config dependencies.
     -->
+    <!--
+    <listener>
+         <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+    </listener>
+    -->
+
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

@@ -40,7 +40,6 @@ public class SearchSessionController  {
     @Inject 
     private Result result;
     
-    
     @Inject
     private Validator validator;
     

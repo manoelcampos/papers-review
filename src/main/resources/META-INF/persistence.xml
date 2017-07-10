@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
-    <non-jta-data-source>java:/jboss/datasources/PapersReviewDS</non-jta-data-source>
-    <class>com.manoelcampos.papersreview.model.EndUser</class>
-    <class>com.manoelcampos.papersreview.model.Field</class>
-    <class>com.manoelcampos.papersreview.model.FieldOption</class>
-    <class>com.manoelcampos.papersreview.model.FieldGroup</class>
-    <class>com.manoelcampos.papersreview.model.FieldType</class>
-    <class>com.manoelcampos.papersreview.model.Paper</class>
-    <class>com.manoelcampos.papersreview.model.PaperFieldAnswer</class>
-    <class>com.manoelcampos.papersreview.model.PaperType</class>
-    <class>com.manoelcampos.papersreview.model.Project</class>
-    <class>com.manoelcampos.papersreview.model.Repository</class>
-    <class>com.manoelcampos.papersreview.model.SearchSession</class>
-    <class>com.manoelcampos.papersreview.model.PaperStatus</class>
-    <class>com.manoelcampos.papersreview.model.ReviewPhase</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <properties>
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
-    </properties>
+      <non-jta-data-source>java:jboss/datasources/PapersReviewDS</non-jta-data-source>
+      <class>com.manoelcampos.papersreview.model.EndUser</class>
+      <class>com.manoelcampos.papersreview.model.Field</class>
+      <class>com.manoelcampos.papersreview.model.FieldOption</class>
+      <class>com.manoelcampos.papersreview.model.FieldGroup</class>
+      <class>com.manoelcampos.papersreview.model.FieldType</class>
+      <class>com.manoelcampos.papersreview.model.Paper</class>
+      <class>com.manoelcampos.papersreview.model.PaperFieldAnswer</class>
+      <class>com.manoelcampos.papersreview.model.PaperType</class>
+      <class>com.manoelcampos.papersreview.model.Project</class>
+      <class>com.manoelcampos.papersreview.model.Repository</class>
+      <class>com.manoelcampos.papersreview.model.SearchSession</class>
+      <class>com.manoelcampos.papersreview.model.PaperStatus</class>
+      <class>com.manoelcampos.papersreview.model.ReviewPhase</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="hibernate.hbm2ddl.auto" value="update"/>
+      </properties>
   </persistence-unit>
 </persistence>
