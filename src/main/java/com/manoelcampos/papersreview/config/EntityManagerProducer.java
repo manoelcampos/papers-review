@@ -23,7 +23,7 @@ public class EntityManagerProducer {
     //Desabilitado pois agora está usando o plugin vraptor-jpa que já faz isso tudo
     /*
     @Produces
-    @PersistenceUnit(unitName = "default")
+    @PersistenceUnit()
     private EntityManagerFactory entityManagerFactory;
 
    
